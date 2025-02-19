@@ -1,0 +1,88 @@
+.teamNameBox {
+    position: absolute;
+	top: $mainHeaderHeight;
+    z-index: 25;
+    width: $teamNameWidth;
+    height: $mainBarHeight;
+    vertical-align: top;
+    white-space: nowrap;
+    overflow: hidden;
+	color: $textColor;
+    text-transform: uppercase;
+
+	&.team0 {
+		left: 0;
+		text-align: right;
+	}
+
+	&.team1 {
+		right: 0;
+		text-align: left;
+	}
+
+	.teamName {
+		font-family: var(--fontUltimatum);
+		font-weight: bold;
+		font-size: 26px;
+		color: $textColor;
+		margin-top: 1px;
+	}
+
+	.franchiseName {
+		font-family: var(--fontCooper);
+		font-size: 14px;
+		color: $secondaryTextColor;
+	}
+
+	.goal {
+		position: absolute;
+		top: -8px;
+		left: 0;
+		z-index: 55;
+		width: $teamNameWidth;
+		height: $mainBarHeight;
+		font-family: var(--fontUltimatum);
+		font-weight: bold;
+		font-style: italic;
+		font-size: 2px;
+		color: $highlightColor;
+		text-align: center;
+		vertical-align: middle;
+		line-height: $mainBarHeight;
+		text-transform: uppercase;
+		letter-spacing: 0;
+		text-shadow: 4px 4px 2px $backgroundColor;
+		white-space: nowrap;
+		margin-left: .08em;
+		padding: 0;
+		animation: goalText;
+		animation-duration: .25s;
+		animation-fill-mode: forwards;
+		animation-delay: 0s;
+		animation-timing-function: linear;
+	}
+
+	&:has(.goal) {
+
+		.teamName, .franchiseName {
+			display: none;
+		}
+
+	}
+
+}
+
+@keyframes goalText {
+
+	0% {
+		font-size: 2px;
+		letter-spacing: 0;
+	}
+
+	100% {
+		font-size: 65px;
+		letter-spacing: .2em;
+	}
+
+
+}

@@ -1,0 +1,38 @@
+{
+	"general": {
+		"theme": "default",
+		"streamType": "RSC3-regular",
+		"season": 22,
+		"matchday": 1,
+		"tier": "",
+		"headers": [""],
+		"brandLogo": "",
+		"transition": "",
+		"show": {
+			"players": true,
+			"playerStats": true,
+			"ball": false
+		}
+	},
+    "series": {
+		"show": false,
+        "type": "unlimited",
+		"display": "",
+        "maxGames": 1,
+		"override": ""
+    },
+    "teams": [
+        {
+			"name": "",
+            "franchise": "",
+            "logo": "",
+			"color": ""
+        },
+        {
+			"name": "",
+            "franchise": "",
+            "logo": "",
+			"color": ""
+        }
+    ]
+}

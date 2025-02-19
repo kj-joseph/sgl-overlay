@@ -1,0 +1,303 @@
+body:has(#Statboard) {
+	height: auto;
+	overflow: auto;
+	background: black;
+}
+
+#Statboard {
+	--pageBackground: #000000;
+
+	font-family: var(--fontRoboto);
+	color: #ffffff;
+	background: var(--pageBackground);
+	// min-height: 100vh;
+
+	.statboardHeader {
+
+		.MuiButton-root {
+			margin: 5px;
+		}
+
+		padding: 5px;
+		background: #222222;
+		border-bottom: 1px solid white;
+
+	}
+
+	.header0 {
+		display: inline;
+		text-align: center;
+		font-size: 1.4rem;
+		font-weight: bold;
+		padding-left: .3em;
+
+		&.pipes {
+
+			span {
+				&:not(:last-child) {
+					margin-right: .3em;
+
+					&:after {
+						content: "|";
+						color: #999999;
+						font-family: var(--fontSans);
+						font-weight: bold;
+						margin: 0 .3em 0 .6em;
+					}
+				}
+
+			}
+
+		}
+
+	}
+
+
+	.clock {
+		font-family: var(--fontOxanium);
+		font-weight: 700;
+		text-align: center;
+		margin-top: 30px;
+
+		// fix colon being at bottom in Oxanium
+		.colon {
+			font-size: .9em;
+			vertical-align: top;
+		}
+
+		.plus {
+			color: #ff0000;
+			font-size: .7em;
+			vertical-align: middle;
+			margin-right: 2px;
+		}
+
+		.time {
+			font-size: 4.5rem;
+		}
+
+		.overtimeText {
+			color: red;
+			display: none;
+		}
+	}
+
+	.splashCount {
+		font-size: 1.2rem;
+		text-align: center;
+		color: #49dcee;
+	}
+
+	.seriesInfo {
+		position: static;
+		transform: none;
+		width: auto;
+		margin: 0;
+		padding: 0;
+		font-size: 1.3rem;
+		text-align: center;
+		font-weight: bold;
+	}
+
+	.statboardLiveStatsTable {
+		font-size: 1.4em;
+		width: 75%;
+		margin: 50px auto;
+		padding: 0;
+		border-collapse: collapse;
+
+		th, td {
+			padding: 2px 8px;
+			font-weight: bold;
+			text-align: right;
+			border-left: 8px solid var(--pageBackground);
+			border-bottom: 8px solid var(--pageBackground);
+
+			&.tableAlignText {
+				text-align: left;
+			}
+
+			&.playerName {
+				font-family: var(--fontOxanium);
+				text-transform: uppercase;
+			}
+
+			&.playerBoost {
+				width: 8%;
+				min-width: 80px;
+				font-family: var(--fontOxanium);
+				font-weight: 600;
+				font-size: 2rem;
+				line-height: 1rem;
+			}
+		}
+
+		td {
+			vertical-align: middle;
+		}
+
+		thead:nth-of-type(2) tr.teamNameHeader th {
+			border-top: 70px solid var(--pageBackground);
+		}
+
+
+		tr.teamNameHeader {
+
+			th {
+				text-align: left;
+			}
+
+			th.teamIdentification {
+				text-transform: uppercase;
+
+				.teamName {
+					font-family: var(--fontOxanium);
+					font-weight: 700;
+					display: block;
+					font-size: 2.2rem;
+					line-height: 1em;
+				}
+
+				.franchiseName {
+					font-family: var(--fontOxanium);
+					font-weight: 500;
+					display: block;
+					font-size: 1rem;
+					line-height: 1em;
+				}
+
+			}
+
+			th.teamScore {
+				font-family: var(--fontOxanium);
+				font-weight: 700;
+				font-size: 2.75rem;
+				text-align: right;
+				border-left: 8px solid var(--pageBackground);
+			}
+
+			th.seriesScore {
+				font-family: var(--fontOxanium);
+				font-weight: 400;
+				font-size: 2rem;
+				text-align: right;
+				border-left: 8px solid var(--pageBackground);
+				background: var(--pageBackground);
+			}
+
+		}
+
+		tr.teamHeader {
+			font-size: 1rem;
+			text-transform: uppercase;
+		}
+
+	}
+
+	.statboardTeamStats {
+		padding: 100px;
+
+		.teamStatsTable {
+			margin: 0 auto;
+			border-collapse: collapse;
+
+			th, td {
+				font-size: 30px;
+				padding: 10px;
+				border: 1px solid white;
+			}
+
+			th.teamName {
+				width: 450px;
+
+				.name {
+					font-family: var(--fontOxanium);
+					text-transform: uppercase;
+				}
+
+				.franchise {
+					font-size: .7em;
+				}
+
+			}
+
+			tbody {
+
+				td {
+					font-family: var(--fontOxanium);
+					font-weight: bold;
+					text-align: center;
+
+					&.better {
+						background: #003300;
+					}
+				}
+
+				th {
+					font-weight: normal;
+				}
+
+			}
+
+		}
+
+	}
+
+	.statboardPlayerStats {
+		padding-top: 25px;
+
+		.playerStatsTable {
+			margin: 0 auto 25px;
+			border-collapse: collapse;
+
+			th, td {
+				font-size: 30px;
+				padding: 10px;
+				border: 1px solid white;
+			}
+
+			th.teamName {
+				width: 450px;
+
+				.name {
+					font-family: var(--fontOxanium);
+					text-transform: uppercase;
+				}
+
+				.franchise {
+					font-size: .7em;
+				}
+
+			}
+
+			th.playerName {
+				width: 350px;
+				text-align: left;
+				font-family: var(--fontOxanium);
+				font-weight: bold;
+				text-transform: uppercase;
+			}
+
+			tbody {
+
+				td {
+					font-family: var(--fontOxanium);
+					font-weight: bold;
+					text-align: right;
+
+					&.better {
+						background: #003300;
+					}
+				}
+
+				th {
+					font-weight: normal;
+				}
+
+			}
+
+		}
+
+	}
+
+}
