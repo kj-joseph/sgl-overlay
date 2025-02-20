@@ -1,0 +1,96 @@
+.teamNameBox {
+    position: absolute;
+	top: $mainHeaderHeight;
+    z-index: 25;
+    width: calc($teamNameWidth - $borderSize * 3);
+    height: $mainBarHeight;
+    vertical-align: top;
+    white-space: nowrap;
+    overflow: hidden;
+	color: $textColor;
+    text-transform: uppercase;
+
+	.teamName {
+		font-family: var(--fonttHexagle);
+		font-weight: bold;
+		font-size: 36px;
+		color: $textColor;
+		margin-top: $borderSize;
+		letter-spacing: -.01em;
+	}
+
+	.franchiseName {
+		font-family: var(--fontRajdhani);
+		font-weight: bold;
+		font-size: 22px;
+		margin-top: -3px;
+	}
+
+	.goal {
+		position: absolute;
+		top: 0;
+		z-index: 55;
+		width: 100%;
+		height: $mainBarHeight;
+		font-family: var(--fonttHexagle);
+		font-weight: bold;
+		font-style: italic;
+		font-size: 2px;
+		color: $goalColor;
+		vertical-align: middle;
+		line-height: $mainBarHeight;
+		text-transform: uppercase;
+		letter-spacing: 0;
+		white-space: nowrap;
+		margin-left: .08em;
+		padding: 0;
+		animation: goalText;
+		animation-duration: .2s;
+		animation-fill-mode: forwards;
+		animation-delay: 0s;
+		animation-timing-function: linear;
+	}
+
+
+	&.team0 {
+		left: calc($teamLogoWidth * .5 + $borderSize);
+		text-align: right;
+
+		.goal {
+			text-align: right;
+		}
+	}
+
+	&.team1 {
+		right: calc($teamLogoWidth * .5 + $borderSize);
+		text-align: left;
+
+		.goal {
+			text-align: left;
+		}
+	}
+
+	&:has(.goal) {
+
+		.teamName, .franchiseName {
+			display: none;
+		}
+
+	}
+
+}
+
+@keyframes goalText {
+
+	0% {
+		font-size: 2px;
+		letter-spacing: 0;
+	}
+
+	100% {
+		font-size: 75px;
+		letter-spacing: .2em;
+	}
+
+
+}

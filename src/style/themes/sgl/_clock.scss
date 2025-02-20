@@ -1,0 +1,96 @@
+.clock {
+	--clockBackgroundImage: url("/images/themes/sgl/clock-bg.png");
+	--team0ScoreBackgroundColor: #{$clockBackgroundColor};
+	--team1ScoreBackgroundColor: #{$clockBackgroundColor};
+
+	&.overtime {
+		--clockBackgroundImage: url("/images/themes/sgl/clock-bg-ot.png");
+	}
+
+	&.goal0 {
+		--team0ScoreBackgroundColor: #{$goalColor};
+	}
+
+	&.goal1 {
+		--team1ScoreBackgroundColor: #{$goalColor};
+	}
+
+	position: absolute;
+	left: 0;
+	top: 0;
+	width: $scoreboardWidth;
+	height: $scoreboardHeight;
+	background-image:
+		var(--clockBackgroundImage),
+		linear-gradient(to right,
+			$backgroundColor 0px,
+			$backgroundColor calc($teamLogoWidth * .5 + $teamNameWidth * .02),
+			var(--team0) calc($teamLogoWidth * .5 + $teamNameWidth * .25),
+			var(--team0) calc($teamLogoWidth * .5 + $teamNameWidth),
+			var(--team0ScoreBackgroundColor) calc($teamLogoWidth * .5 + $teamNameWidth),
+			var(--team0ScoreBackgroundColor) 100%
+		),
+		linear-gradient(to left,
+			$backgroundColor 0px,
+			$backgroundColor calc($teamLogoWidth * .5 + $teamNameWidth * .02),
+			var(--team1) calc($teamLogoWidth * .5 + $teamNameWidth * .25),
+			var(--team1) calc($teamLogoWidth * .5 + $teamNameWidth),
+			var(--team1ScoreBackgroundColor) calc($teamLogoWidth * .5 + $teamNameWidth),
+			var(--team1ScoreBackgroundColor) 100%
+		);
+	background-size:
+		$clockWidth $scoreboardHeight,
+		50% $mainBarHeight,
+		50% $mainBarHeight;
+	background-position:
+		center top,
+		left center,
+		right center;
+	background-repeat:
+		no-repeat,
+		no-repeat,
+		no-repeat;
+
+ 	.time {
+		position: absolute;
+		left: 50%;
+		top: calc($headerHeight + 10px);
+
+		font-family: var(--fontUltimatum);
+		font-size: 58px;
+		font-weight: bold;
+		font-style: italic;
+		color: $timeColor;
+		text-align: center;
+		line-height: calc($mainBarHeight - 15px);
+		letter-spacing: -.15rem;
+		transform: translateX(-50%);
+
+		.colon {
+			position: relative;
+			top: -4px;
+			font-size: 75%;
+			// padding-left: .12rem;
+			margin: 0 -.05rem;
+		}
+
+		.plus {
+			display: none;
+		}
+
+		&.semilong {
+			font-size: 50px;
+		}
+
+		&.long {
+			font-size: 40px;
+		}
+
+	}
+
+	.overtimeText {
+		display: none;
+	}
+
+
+}

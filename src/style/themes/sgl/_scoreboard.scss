@@ -1,0 +1,9 @@
+.scoreboard {
+	position: absolute;
+	left: 50%;
+	top: 0;
+	transform: translateX(-50%);
+	width: $scoreboardWidth;
+	height: $scoreboardHeight;
+	background: $backgroundColor;
+}

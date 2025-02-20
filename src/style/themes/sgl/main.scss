@@ -1,0 +1,108 @@
+$borderSize: 6px;
+
+$windowWidth: 1920px;
+$windowHeight: 1080px;
+
+// $pregameLeagueLogoSize: 250px;
+// $pregameLeagueLogoSizeSmall: 150px;
+// $matchupTeamLogoSize: 320px;
+// $statsTeamLogoSize: 150px;
+
+// $topHeaderHeight: 37px;
+// $headerGradientWidth: 120px;
+
+$mainBarHeight: 75px;
+$clockWidth: 129px;
+
+$teamScoreFromMiddle: calc($clockWidth * .5);
+$teamScoreWidth: 90px;
+
+$teamNameWidth: 335px;
+
+$teamLogoWidth: 129.039px;
+// $teamLogoSpacing: 5px;
+// $teamLogoOpacity: .7;
+
+$scoreboardWidth: calc($teamLogoWidth + ($teamNameWidth + $teamScoreWidth) * 2 + $clockWidth);
+$scoreboardHeight: 149px;
+
+$mainHeaderHeight: 37px;
+$headerWidth: calc($scoreboardWidth * .5 - $teamLogoWidth * .5 - $clockWidth * .5);
+$spanSpacing: .5em;
+$pipeSpacing: .2em;
+
+$seriesInfoWidth: 400px;
+$seriesInfoHeight: 34px;
+
+$seriesScoreWidth: 310px;
+$seriesScoreHeight: 37px;
+$seriesScoreIconWidth: 73px;
+$seriesScoreIconHeight: 15px;
+$seriesScoreIconHeight: 15px;
+$seriesScoreIconGap: 10px;
+
+$watchingHeight: 35px;
+$watchingWidth: 450px;
+$watchingNameHeight: 32px;
+
+// $replayHeight: 150px;
+// $replayWidth: 550px;
+// $replayLabelHeight: 38px;
+
+$playerBoxWidth: 310px;
+$playerBoxHeight: 26px;
+$playerBoxMargin: 7px;
+$playerBoxPadding: 5px;
+$playerBoxBoostTextWidth: 44px;
+$playerBoxBoostBarSize: $borderSize;
+$playerBoxEventSize: 24px;
+
+// colors (team colors use css variables from React component)
+$sglRed: #ec2227;
+$sglRedTone: rgba($sglRed, .7);
+$sglRedFade: rgba($sglRed, .25);
+$sglBlue: rgba(#2cabe1, 1);
+$sglBlueTone: rgba($sglBlue, .7);
+$sglBlueFade: rgba($sglBlue, .25);
+
+$textColor: #ffffff;
+$secondaryTextColor: #cccccc;
+$highlightColor: #ffd100;
+
+$backgroundColor: #000000;
+$backgroundHighlight: #333333;
+$backgroundTranslucent: rgba($backgroundColor, .4);
+$backgroundTransparent: rgba($backgroundColor, 0);
+$highlightTranslucent: rgba($highlightColor, .4);
+
+$clockBackgroundColor: #ffffff;
+$timeColor: $backgroundColor;
+
+$goalColor: #ffd100;
+
+$transitionDelay: 3s;
+
+:root {
+	background: transparent;
+}
+
+#Overlay.sgl {
+
+	--fontHexagle: "Hexagle", Helvetica, Arial, sans-serif;
+	--fontRajdhani: "Rajdhani", Helvetica, Arial, sans-serif;
+
+	// @import "mixins";
+
+	@import "fonts";
+
+	@import "live";
+
+	// @import "matchup";
+	// @import "playerStats";
+	// @import "teamStats";
+
+	// @import "postgame";
+
+	@import "../transitions/triangleMerge";
+
+}

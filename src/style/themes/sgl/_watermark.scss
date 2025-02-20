@@ -1,0 +1,17 @@
+.watermark {
+	position: absolute;
+	left: $watchingHeight + 20px;
+	bottom: $watchingHeight + 20px;
+	width: 150px;
+	height: 150px;
+	opacity: .35;
+
+	img {
+		filter: grayscale(.5);
+		width: 100%;
+		height: 100%;
+		object-fit: contain;
+		object-position: 50% 50%;
+	}
+
+}

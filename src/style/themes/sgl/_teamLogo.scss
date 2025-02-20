@@ -1,0 +1,30 @@
+.teamLogo {
+	position: absolute;
+	top: 50%;
+	z-index: 80;
+	transform: translateY(-50%);
+	width: $teamLogoWidth;
+	height: $scoreboardHeight;
+	background: $backgroundColor;
+	mask-size: contain;
+	mask-image: url("/images/themes/sgl/hex-mask.png");
+	mask-size: 100% 100%;
+
+	&.team0 {
+		left: calc(0px - $teamLogoWidth * .5);
+	}
+
+	&.team1 {
+		right: calc(0px - $teamLogoWidth * .5);
+	}
+
+	img {
+		width: 100%;
+		height: 100%;
+		object-fit: cover;
+		object-position: 50% 50%;
+		overflow-clip-margin: unset;
+
+	}
+
+}

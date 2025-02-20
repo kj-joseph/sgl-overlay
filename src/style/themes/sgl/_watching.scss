@@ -1,0 +1,220 @@
+$watchingOffScreen: calc(0px - $watchingWidth - 100px);
+
+.watchingView {
+    position: absolute;
+    right: $watchingOffScreen;
+	// right: 0;
+    bottom: 0;
+    width: 100%;
+	animation: slideInFromRight;
+	animation-duration: .4s;
+	animation-fill-mode: forwards;
+	animation-delay: 0s;
+	animation-timing-function: ease-out;
+
+	.logo {
+		display: none;
+	}
+
+	.stats {
+		position: absolute;
+		right: 0;
+		bottom: 0;
+		z-index: 10;
+		width: $watchingWidth;
+		height: $watchingHeight;
+		line-height: 40px;
+		vertical-align: baseline;
+		padding: $borderSize;
+		padding-right: calc($borderSize * 3);
+		background: $backgroundTranslucent;
+
+		.name {
+			position: absolute;
+			z-index: 5;
+			bottom: calc($watchingHeight + $borderSize * 2);
+			left: 0;
+			width: calc($watchingWidth - 200px + $borderSize * 2);
+			height: $watchingNameHeight;
+			overflow: hidden;
+			color: $textColor;
+			font-family: var(--fontHexagle);
+			font-size: 25px;
+			font-weight: bold;
+			font-style: italic;
+			text-align: left;
+			text-transform: uppercase;
+			line-height: $watchingNameHeight;
+			white-space: nowrap;
+			padding: $borderSize;
+			background: $backgroundTranslucent linear-gradient(to right,
+				var(--watchingBackgroundColor) 0,
+				var(--watchingBackgroundColor) 75%,
+				$backgroundTransparent 98%
+			);
+			&.long {
+				font-size: 21px;
+			}
+
+		}
+
+		.statLine {
+			display: flex;
+			justify-content: flex-end;
+			text-align: right;
+			column-gap: 30px;
+
+			.stat {
+
+				.label {
+					font-family: var(--fontRajdhani);
+					font-size: 24px;
+					font-weight: bold;
+					color: $secondaryTextColor;
+					text-transform: uppercase;
+					margin-right: $borderSize;
+				}
+
+				.value {
+					color: $textColor;
+					font-family: var(--fontHexagle);
+					font-size: 30px;
+				}
+
+			}
+
+		}
+
+
+	}
+
+	.boostText {
+		position: absolute;
+		bottom: 5px;
+		left: 50%;
+		z-index: 55;
+		font-family: var(--fontHexagle);
+		font-size: 56px;
+		font-weight: bold;
+		font-style: italic;
+		text-align: center;
+		font-weight: 700;
+		color: var(--watchingColor);
+		transform: translateX(-50%);
+	}
+
+	.boostDisplay {
+		position: absolute;
+		right: 0;
+		bottom: calc($watchingHeight + $borderSize * 2);
+		width: 200px;
+		height: 205px;
+		background: $backgroundTranslucent;
+		mask-image: url("/images/themes/sgl/boost-bg-mask.png");
+		mask-position: top center;
+
+		.boost {
+			position: absolute;
+			top: 5px;
+			left: -10px;
+			width: 220px;
+			height: 220px;
+			mask-image: url("/images/themes/sgl/boost-meter-mask.png");
+
+			.CircularProgressbar-text {
+				text-align: center;
+				font-size: 36px;
+				vertical-align: bottom;
+				font-weight: 700;
+				fill: $secondaryTextColor;
+			}
+
+		}
+
+		.CircularProgressbar-trail {
+			stroke: $backgroundColor;
+		}
+
+	}
+
+	&.team0 {
+
+		.stats {
+			border-color: var(--team0);
+
+			.statLine .stat .label {
+				color: var(--team0);
+			}
+
+
+		}
+
+		.CircularProgressbar-trail {
+			stroke: var(--team0fade);
+		}
+
+		.CircularProgressbar-path {
+			stroke: var(--team0);
+		}
+
+	}
+
+	&.team0 {
+		--watchingColor: var(--team0);
+		--watchingBackgroundColor: var(--team0fade);
+
+		.stats {
+			border-color: var(--team0);
+
+			.statLine .stat .label {
+				color: var(--team0);
+			}
+
+
+		}
+
+		.CircularProgressbar-trail {
+			stroke: var(--team0fade);
+		}
+
+		.CircularProgressbar-path {
+			stroke: var(--team0);
+		}
+
+	}
+
+	&.team1 {
+		--watchingColor: var(--team1);
+		--watchingBackgroundColor: var(--team1fade);
+
+		.stats {
+			border-color: var(--team1);
+
+			.statLine .stat .label {
+				color: var(--team1);
+			}
+
+		}
+
+		.CircularProgressbar-trail {
+			stroke: var(--team1fade);
+		}
+
+		.CircularProgressbar-path {
+			stroke: var(--team1);
+		}
+
+	}
+
+}
+
+
+@keyframes slideInFromRight {
+	0% {
+		right: $watchingOffScreen;
+	}
+	100% {
+		right: 0;
+	}
+
+}

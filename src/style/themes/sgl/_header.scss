@@ -1,0 +1,50 @@
+.header {
+	position: absolute;
+	width: $headerWidth;
+	height: $mainHeaderHeight;
+	font-family: var(--fontHexagle);
+	font-size: 24px;
+	color: $sglBlue;
+	text-transform: uppercase;
+	text-align: center;
+	line-height: $mainHeaderHeight;
+	margin: 0 auto;
+	background: $backgroundColor;
+
+	&.header0 {
+		left: ($teamLogoWidth * .5);
+	}
+
+	&.header1 {
+		right: ($teamLogoWidth * .5);
+	}
+
+	span {
+		display: inline-block;
+
+		&:not(:last-child) {
+			margin-right: .5em;
+		}
+
+	}
+
+	&.pipes {
+
+		span {
+			&:not(:last-child) {
+				margin-right: $spanSpacing;
+
+				&:after {
+					content: "|";
+					font-family: var(--fontSans);
+					font-size: 20px;
+					color: $secondaryTextColor;
+					margin-left: $spanSpacing;
+				}
+			}
+
+		}
+
+	}
+
+}

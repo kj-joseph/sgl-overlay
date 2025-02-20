@@ -18,8 +18,7 @@ import { v4 as uuidv4 } from "uuid";
 const expireEventsInMs = 7000;
 const gameSocketUrl = "ws://localhost:49122";
 
-const socketServerUrl = "https://overlay.rscna.com/ws/"; // prod
-// const socketServerUrl = "wss://rlws.kdoughboy.com:8321"; // testing on my server
+const socketServerUrl = "wss://rl.kdoughboy.com/ws/"; // prod
 // const socketServerUrl = "ws://localhost:8321"; // local testing
 
 const Overlay = () => {

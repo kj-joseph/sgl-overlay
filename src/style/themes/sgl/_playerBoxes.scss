@@ -1,0 +1,205 @@
+.teamPlayerBoxes {
+    position: absolute;
+    top: $playerBoxMargin;
+
+	.playerBox {
+		position: relative;
+		width: $playerBoxWidth;
+		height: $playerBoxHeight;
+		margin-bottom: calc($playerBoxMargin + $borderSize);
+		padding: $borderSize;
+		background: $backgroundColor;
+
+		.name {
+			position: absolute;
+			width: calc($playerBoxWidth - $borderSize * 3 - $playerBoxEventSize * 2 - $playerBoxBoostTextWidth);
+			height: $playerBoxHeight;
+			overflow: hidden;
+			font-family: var(--fontHexagle);
+			font-size: 22px;
+			color: $textColor;
+			text-transform: uppercase;
+			line-height: $playerBoxHeight;
+
+			&.long {
+				font-size: 18px;
+			}
+
+		}
+
+		.stats {
+			display: none;
+		}
+
+		.events {
+			position: absolute;
+			top: $borderSize;
+			width: calc($playerBoxEventSize * 2);
+			height: $playerBoxHeight;
+
+			.eventIcon {
+				display: inline;
+
+				div {
+					display: inline;
+				}
+
+				svg {
+					fill: $textColor;
+					width: $playerBoxEventSize;
+					height: $playerBoxHeight;
+				}
+
+			}
+
+		}
+
+		.boost {
+
+			.boostText {
+				position: absolute;
+				top: $borderSize;
+				width: $playerBoxBoostTextWidth;
+				height: $playerBoxHeight;
+				color: var(--playerBoxColor);
+				font-family: var(--fontHexagle);
+				font-size: 26px;
+				font-weight: bold;
+				font-style: italic;
+				line-height: $playerBoxHeight;
+			}
+
+			.boostBar {
+				position: absolute;
+				left: 0;
+				top: 100%;
+				z-index: 11;
+				width: 100%;
+				height: $playerBoxBoostBarSize;
+				background: $backgroundHighlight;
+
+				.fill {
+					position: absolute;
+					bottom: 0;
+					height: $playerBoxBoostBarSize;
+					background: var(--playerBoxColor);
+					transition: width 100ms linear;
+				}
+			}
+		}
+
+		&.watching {
+
+			.boost .boostText {
+				color: $textColor;
+			}
+
+		}
+
+
+	}
+
+
+	&.team0 {
+		--playerBoxColor: var(--team0);
+		left: 0;
+
+		.playerBox {
+
+			&.watching {
+				background-image: linear-gradient(to left,
+					var(--team0) 0,
+					var(--team0) calc($borderSize * 3),
+					$backgroundColor calc($playerBoxBoostTextWidth + $borderSize * 6)
+				);
+			}
+
+			.name {
+				left: calc($borderSize * 2);
+			}
+
+			.boost {
+				text-align: right;
+
+				.boostText {
+					right: $borderSize;
+				}
+
+				.boostBar {
+
+					.fill {
+						left: 0;
+					}
+
+				}
+
+			}
+
+			.events {
+				right: calc($playerBoxBoostTextWidth + $borderSize * 2);
+				text-align: right;
+			}
+
+		}
+
+	}
+
+	&.team1 {
+		--playerBoxColor: var(--team1);
+		right: 0;
+
+		.playerBox {
+
+			&.watching {
+				background-image: linear-gradient(to right,
+					var(--team1) 0,
+					var(--team1) calc($borderSize * 3),
+					$backgroundColor calc($playerBoxBoostTextWidth + $borderSize * 6)
+				);
+			}
+
+			.name {
+				right: calc($borderSize * 2);
+				text-align: right;
+			}
+
+			.boost {
+				text-align: right;
+
+				.boostText {
+					left: $borderSize;
+				}
+
+				.boostBar {
+
+					.fill {
+						right: 0;
+					}
+
+				}
+
+			}
+
+			.events {
+				left: calc($playerBoxBoostTextWidth + $borderSize * 2);
+				text-align: left;
+			}
+
+		}
+
+	}
+
+	.playerBox.dead {
+		opacity: .5;
+		background: $backgroundColor;
+
+		.boost .boostText {
+			opacity: 0;
+		}
+
+		.stats {
+			opacity: 0;
+		}
+	}
+
+}

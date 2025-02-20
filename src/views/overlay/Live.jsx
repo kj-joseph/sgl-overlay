@@ -5,8 +5,8 @@ import Clock from "@/components/Clock";
 import SeriesInfo from "@/components/SeriesInfo";
 import Header from "@/components/Header";
 import Replay from "@/components/Replay";
-import SocialMedia from "@/components/SocialMedia";
-import Splash from "@/components/Splash";
+// import SocialMedia from "@/components/SocialMedia";
+// import Splash from "@/components/Splash";
 import TeamLogo from "@/components/TeamLogo";
 import TeamName from "@/components/TeamName";
 import TeamPlayerBoxes from "@/components/TeamPlayerBoxes";
@@ -108,16 +108,20 @@ const Live = (props) => {
 				</div>
 			: null }
 
+{/*
 			{props.config.general.theme === "rsc" ?
 				<>
 					<div className="leagueName">Rocket Soccar Confederation</div>
 					<SocialMedia />
 				</>
 			: null }
+ */}
 
+{/*
 			{props.splash.show ?
 				<Splash count={props.splash.count} />
 			: null}
+ */}
 
             {!props.gameData.isReplay && props.gameData.target && props.playerData.hasOwnProperty(props.gameData.target) ? (
                 <Watching

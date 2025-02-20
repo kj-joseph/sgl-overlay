@@ -8,18 +8,18 @@ const BoostDisplay = (props) => {
 
         <div className="boostDisplay">
 
-			{props.theme === "rsc" ?
+			{props.theme === "sgl" ?
 				<>
 					<div className="boostText">{props.boost}</div>
 
 					<CircularProgressbar
 						value={props.boost}
 						className="boost"
-						circleRatio={.25}
-						strokeWidth={12}
+						circleRatio={2/3}
+						strokeWidth={50}
 
 						styles={buildStyles({
-							rotation: 0.625,
+							rotation: 2/3,
 							strokeLinecap: "butt",
 							pathTransitionDuration: .2,
 						})}

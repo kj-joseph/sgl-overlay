@@ -1,0 +1,27 @@
+.teamScore {
+	position: absolute;
+	top: $mainHeaderHeight;
+	width: calc($teamScoreWidth - $borderSize);
+	height: $mainBarHeight;
+	font-family: var(--fontCooper);
+	font-weight: bold;
+	font-size: 72px;
+	text-align: center;
+	line-height: $mainBarHeight;
+	letter-spacing: -.2rem;
+
+	&.team0 {
+		left: calc($scoreboardWidth * .5 - $teamScoreFromMiddle - $teamScoreWidth + $borderSize * .5);
+		color: var(--team0);
+	}
+
+	&.team1 {
+		left: calc($scoreboardWidth * .5 + $teamScoreFromMiddle);
+		color: var(--team1);
+	}
+
+	&.long {
+		font-size: 35px;
+	}
+
+}
