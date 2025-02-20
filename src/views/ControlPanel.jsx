@@ -635,7 +635,7 @@ const ControlPanel = () => {
 		switch(streamType) {
 			case "RSC3-regular":
 				setLeagueId(1);
-				changeBrandLogoField("rsc-splatter-logo.png");
+				changeBrandLogoField("sgl-logo.png");
 				if (!skipTeamNames) {
 					setNamesFromDropdowns();
 				}
@@ -643,14 +643,14 @@ const ControlPanel = () => {
 
 			case "RSC3-final":
 				setLeagueId(1);
-				changeBrandLogoField("rsc-splatter-logo.png");
+				changeBrandLogoField("sgl-logo.png");
 				if (!skipTeamNames) {
 					setNamesFromDropdowns();
 				}
 				break;
 
 			case "RSC3-event":
-				changeBrandLogoField("rsc-splatter-logo.png");
+				changeBrandLogoField("sgl-logo.png");
 				if (headerField === "%%RSCHEADER%%") {
 					setHeaderField("");
 				}
@@ -836,7 +836,7 @@ const ControlPanel = () => {
 				tier: tierField,
 				brandLogo: brandLogoField,
 				// TODO: create new theme for finals
-				theme: streamTypeField === "RSC3-regular" || streamTypeField === "RSC3-final" || streamTypeField === "RSC3-event" ? "rsc" : "default",
+				theme: streamTypeField === "RSC3-regular" || streamTypeField === "RSC3-final" || streamTypeField === "RSC3-event" ? "sgl" : "default",
 				// TODO: select transition for non-RSC streams
 				transition: streamTypeField === "RSC3-regular" || streamTypeField === "RSC3-final" || streamTypeField === "RSC3-event" ? "triangleMerge" : "stripeWipe",
 			},
@@ -1431,48 +1431,52 @@ const ControlPanel = () => {
 
 						</Grid>
 
-						<Grid container size={12} spacing={2} className="mainPanelGrid">
+						{ streamTypeField !== "RSC3-regular" ?
 
-							<Grid size={6}>
-								<Item>
-									<span className={fieldHasChanges("splashOnField") ? "changedField" : ""}>
-										<strong>Show splash counter?</strong>
-									</span>
-									<Switch
-										checked={splashOnField}
-										onChange={switchSplash}
-										color={splashOnField ? "splash" : "primary"}
-									/>
-								</Item>
-							</Grid>
-
-							{splashOnField ?
+							<Grid container size={12} spacing={2} className="mainPanelGrid">
 
 								<Grid size={6}>
 									<Item>
-										<TextField
-											required
-											inputProps={{
-												min: 0,
-												step: 1,
-											}}
-											id="splashCountField"
-											type="number"
-											size="small"
-											label="Splash Count"
-											value={splashCountField}
-											onKeyDown={(e) => ["e", "E", "+", "-", "."].includes(e.key) && e.preventDefault()}
-											onChange={(e) => changeSplashCountField(e.target.value)}
-											className={`${fieldHasChanges(`splashCountField`) ? "changedField" : ""} ${splashCountField === "" ? "errorField" : ""}`}
+										<span className={fieldHasChanges("splashOnField") ? "changedField" : ""}>
+											<strong>Show splash counter?</strong>
+										</span>
+										<Switch
+											checked={splashOnField}
+											onChange={switchSplash}
+											color={splashOnField ? "splash" : "primary"}
 										/>
 									</Item>
 								</Grid>
 
+								{splashOnField ?
 
-							: null}
+									<Grid size={6}>
+										<Item>
+											<TextField
+												required
+												inputProps={{
+													min: 0,
+													step: 1,
+												}}
+												id="splashCountField"
+												type="number"
+												size="small"
+												label="Splash Count"
+												value={splashCountField}
+												onKeyDown={(e) => ["e", "E", "+", "-", "."].includes(e.key) && e.preventDefault()}
+												onChange={(e) => changeSplashCountField(e.target.value)}
+												className={`${fieldHasChanges(`splashCountField`) ? "changedField" : ""} ${splashCountField === "" ? "errorField" : ""}`}
+											/>
+										</Item>
+									</Grid>
 
 
-						</Grid>
+								: null}
+
+
+							</Grid>
+
+						: null}
 
 					</Container>
 
