@@ -45,9 +45,10 @@ $watchingHeight: 35px;
 $watchingWidth: 450px;
 $watchingNameHeight: 32px;
 
-// $replayHeight: 150px;
-// $replayWidth: 550px;
-// $replayLabelHeight: 38px;
+$replayHeight: 160px;
+$replayHeightNoAssist: 180px;
+$replayWidth: 550px;
+$replayLabelHeight: 38px;
 
 $playerBoxWidth: 310px;
 $playerBoxHeight: 26px;
@@ -64,6 +65,14 @@ $sglRedFade: rgba($sglRed, .25);
 $sglBlue: rgba(#2cabe1, 1);
 $sglBlueTone: rgba($sglBlue, .7);
 $sglBlueFade: rgba($sglBlue, .25);
+
+// TODO: remove after making new transition
+$rscOrange: #f48020;
+$rscOrangeTone: rgba($rscOrange, .7);
+$rscOrangeFade: rgba($rscOrange, .25);
+$rscBlue: rgba(#4378bb, 1);
+$rscBlueTone: rgba($rscBlue, .7);
+$rscBlueFade: rgba($rscBlue, .25);
 
 $textColor: #ffffff;
 $secondaryTextColor: #cccccc;

@@ -13,16 +13,13 @@
 	// background: #334433;
 	background: url("/images/test-bg.png");
 	background-size: contain;
-	.replay {
-		display: none;
-	}
 
 
 	// @import "ball";
 	@import "clock";
 	@import "header";
 	@import "playerBoxes";
-	// @import "replay";
+	@import "replay";
 	@import "seriesInfo";
 	@import "scoreboard";
 	// @import "socialMedia";

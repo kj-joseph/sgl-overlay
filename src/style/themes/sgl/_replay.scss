@@ -1,0 +1,126 @@
+.replay {
+    position: absolute;
+    right: calc(-100px - $replayWidth);
+    bottom: 0;
+    width: $replayWidth;
+    height: $replayHeight;
+    vertical-align: baseline;
+	padding-top: $borderSize;
+    // transition: right .25s ease-in;
+	background: $backgroundTranslucent linear-gradient(to right,
+		var(--replayColorFade) 0,
+		var(--replayColorFade) 75%,
+		$backgroundTransparent 98%
+	);
+
+	&.showReplay {
+		right: 0;
+	}
+
+	.replayLabel {
+		position: absolute;
+		// top: calc(0px - $borderSize * 2 - $replayLabelHeight);
+		bottom: 0;
+		z-index: 5;
+		width: calc($replayWidth - $borderSize * 4);
+		height: $replayLabelHeight;
+		color: var(--replayColor);
+		font-family: var(--fontHexagle);
+		font-size: 32px;
+		font-weight: bold;
+		font-style: italic;
+		text-align: right;
+		// letter-spacing: .5em;
+		padding: $borderSize calc($borderSize * 2);
+		background: $backgroundTranslucent linear-gradient(to right,
+			var(--replayColorTone) 0,
+			var(--replayColorTone) 75%,
+			$backgroundTransparent 98%
+		);
+	}
+
+	.replayLabelLeft {
+		display: none;
+	}
+
+	.replayLabelRight {
+		right: 0;
+	}
+
+	.statLine {
+		line-height: 38px;
+		padding: $borderSize;
+
+		.stat {
+			height: 40px;
+			margin-bottom: $borderSize;
+
+			.label {
+				display: inline-block;
+				font-size: 22px;
+				width: 20%;
+				color: $secondaryTextColor;
+				font-family: var(--fontRajdhani);
+				text-transform: uppercase;
+				text-align: right;
+				vertical-align: baseline;
+				margin-right: 15px;
+			}
+
+			.value {
+				// display: inline-block;
+				font-family: var(--fontHexagle);
+				font-size: 32px;
+				font-weight: bold;
+				font-style: italic;
+				color: $textColor;
+				text-transform: uppercase;
+				vertical-align: baseline;
+
+				&.long {
+					font-size: 52px;
+				}
+
+			}
+
+			&.speed {
+				position: absolute;
+				bottom: 0;
+				left: calc(20% + 15px + $borderSize);
+				z-index: 69;
+				text-align: right;
+				line-height: $replayLabelHeight;
+
+				.value {
+					text-transform: uppercase;
+					color: $textColor;
+				}
+
+				.label {
+					width: auto;
+					color: $secondaryTextColor;
+					text-transform: uppercase;
+					margin-left: 7px;
+					margin-right: 60px;
+
+				}
+
+			}
+
+		}
+
+	}
+
+	&.team0 {
+		--replayColor: var(--team0);
+		--replayColorTone: var(--team0tone);
+		--replayColorFade: var(--team0fade);
+	}
+
+	&.team1 {
+		--replayColor: var(--team1);
+		--replayColorTone: var(--team1tone);
+		--replayColorFade: var(--team1fade);
+	}
+
+}

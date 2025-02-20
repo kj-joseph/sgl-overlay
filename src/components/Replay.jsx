@@ -20,33 +20,32 @@ const Replay = (props) => {
     return (
         <div className={`replay team${team} ${props.show ? "showReplay" : ""}`}>
 
-                    <div className="replayLabel replayLabelLeft">REPLAY</div>
+			<div className="replayLabel replayLabelLeft">REPLAY</div>
 
-                    {team != null ? (
+			{team != null ?
 
-                    <div className="statLine">
-                        <div className="stat">
-                            <span className="label">Goal</span>
-                            <span className={`value ${props.lastGoal.scorer.name >= longPlayerName ? "long" : ""}`}>{props.lastGoal.scorer.name}</span>
-                        </div>
-                        {props.lastGoal.assister.name ? (
-                            <div className="stat">
-                                <span className="label">Assist</span>
-                                <span className="value">{props.lastGoal.assister.name}</span>
-                            </div>
-                        ) : null}
-                        <div className="stat speed">
-                            <span className="value">{displayDecimal(goalSpeed.mph, speedDecimalPlaces)}</span>
-                            <span className="label">MPH</span>
-                            <span className="value">{displayDecimal(goalSpeed.kph, speedDecimalPlaces)}</span>
-                            <span className="label">KM/H</span>
-                        </div>
-                    </div>
-                ) : null}
+				<div className="statLine">
+					<div className="stat">
+						<span className="label">Goal</span>
+						<span className={`value ${props.lastGoal.scorer.name >= longPlayerName ? "long" : ""}`}>{props.lastGoal.scorer.name}</span>
+					</div>
+					{props.lastGoal.assister.name ? (
+						<div className="stat">
+							<span className="label">Assist</span>
+							<span className="value">{props.lastGoal.assister.name}</span>
+						</div>
+					) : null}
+					<div className="stat speed">
+						<span className="value">{displayDecimal(goalSpeed.mph, speedDecimalPlaces)}</span>
+						<span className="label">MPH</span>
+						<span className="value">{displayDecimal(goalSpeed.kph, speedDecimalPlaces)}</span>
+						<span className="label">KM/H</span>
+					</div>
+				</div>
 
-                    <div className="replayLabel replayLabelRight">REPLAY</div>
+			: null}
 
-
+			<div className="replayLabel replayLabelRight">REPLAY</div>
 
         </div>
     )
