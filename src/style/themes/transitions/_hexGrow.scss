@@ -1,0 +1,125 @@
+@use "sass:math";
+
+$logoFinal: 600px;
+
+$transitionDuration: 1.5s;
+
+#Transition.hexGrow {
+	--transitionDelay: 0s;
+	--washColor: rgba(0, 0, 0, 0);
+
+	position: absolute;
+    left: 0;
+    top: 0;
+    z-index: 255;
+	width: $windowWidth;
+	height: $windowHeight;
+    overflow: hidden;
+    visibility: hidden;
+
+	.bg,
+	.logo {
+		position: absolute;
+		top: 50%;
+		left: 50%;
+		transform: translate(-50%, -50%);
+	}
+
+	.logo {
+		z-index: 5;
+		width: $logoFinal;
+        height: calc($logoFinal * $hexRatio);
+		mask-image: url("/images/themes/sgl/hex-mask.png");
+		mask-size: 0 0;
+		mask-repeat: no-repeat;
+		mask-position: center center;
+
+		img {
+			width: 100%;
+			height: 100%;
+			object-fit: cover;
+			object-position: 50% 50%;
+			overflow-clip-margin: unset;
+		}
+
+	}
+
+	.bg {
+		z-index: 1;
+		width: $windowWidth;
+		height: $windowHeight;
+		background-color: $backgroundColor;
+		background-image:
+			linear-gradient(var(--washColor), var(--washColor)),
+			url("/images/themes/sgl/hex-bg.png");
+		background-repeat:
+			no-repeat,
+			no-repeat;
+		mask-image: url("/images/themes/sgl/hex-mask.png");
+		mask-size: 0 0;
+		mask-repeat: no-repeat;
+		mask-position: center center;
+	}
+
+	&.team0 {
+		--washColor: var(--team0fade);
+	}
+
+	&.team1 {
+		--washColor: var(--team1fade);
+	}
+
+
+	&.show {
+		visibility: visible;
+
+		.logo {
+			animation: HexGrowLogo;
+			animation-duration: $transitionDuration;
+			animation-fill-mode: forwards;
+			animation-delay: var(--transitionDelay);
+		}
+
+		.bg {
+			animation: HexGrowLogoBackground;
+			animation-duration: $transitionDuration;
+			animation-fill-mode: forwards;
+			animation-delay: var(--transitionDelay);
+		}
+
+	}
+
+}
+
+@keyframes HexGrowLogo {
+    0% {
+		mask-size: 0 0;
+    }
+    6% {
+		mask-size: $logoFinal calc($logoFinal * $hexRatio);
+	}
+    95% {
+		mask-size: $logoFinal calc($logoFinal * $hexRatio);
+	}
+    100% {
+		mask-size: 0 0;
+    }
+}
+
+@keyframes HexGrowLogoBackground {
+    5% {
+		mask-size: 0 0;
+    }
+    15% {
+		mask-size: 0 0;
+    }
+    20% {
+        mask-size: $windowWidth calc($windowWidth * $hexRatio);
+	}
+    88% {
+        mask-size: $windowWidth calc($windowWidth * $hexRatio);
+	}
+    100% {
+		mask-size: 0 0;
+    }
+}

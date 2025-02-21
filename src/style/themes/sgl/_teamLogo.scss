@@ -6,9 +6,8 @@
 	width: $teamLogoWidth;
 	height: $scoreboardHeight;
 	background: $backgroundColor;
-	mask-size: contain;
 	mask-image: url("/images/themes/sgl/hex-mask.png");
-	mask-size: 100% 100%;
+	mask-size: cover;
 
 	&.team0 {
 		left: calc(0px - $teamLogoWidth * .5);
@@ -24,7 +23,6 @@
 		object-fit: cover;
 		object-position: 50% 50%;
 		overflow-clip-margin: unset;
-
 	}
 
 }

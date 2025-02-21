@@ -1,4 +1,5 @@
 $borderSize: 6px;
+$hexRatio: 1.148958333333333;
 
 $windowWidth: 1920px;
 $windowHeight: 1080px;
@@ -46,7 +47,6 @@ $watchingWidth: 450px;
 $watchingNameHeight: 32px;
 
 $replayHeight: 160px;
-$replayHeightNoAssist: 180px;
 $replayWidth: 550px;
 $replayLabelHeight: 38px;
 
@@ -62,7 +62,7 @@ $playerBoxEventSize: 24px;
 $sglRed: #ec2227;
 $sglRedTone: rgba($sglRed, .7);
 $sglRedFade: rgba($sglRed, .25);
-$sglBlue: rgba(#2cabe1, 1);
+$sglBlue: rgba(#2bace2, 1);
 $sglBlueTone: rgba($sglBlue, .7);
 $sglBlueFade: rgba($sglBlue, .25);
 
@@ -89,8 +89,6 @@ $timeColor: $backgroundColor;
 
 $goalColor: #ffd100;
 
-$transitionDelay: 3s;
-
 :root {
 	background: transparent;
 }
@@ -112,6 +110,6 @@ $transitionDelay: 3s;
 
 	// @import "postgame";
 
-	@import "../transitions/triangleMerge";
+	@import "../transitions/hexGrow";
 
 }

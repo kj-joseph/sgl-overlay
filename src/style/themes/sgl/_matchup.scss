@@ -1,0 +1,170 @@
+.matchup {
+	position: absolute;
+    left: 0;
+    top: 0;
+	width: $windowWidth;
+	height: $windowHeight;
+    overflow: hidden;
+	background: url("/images/themes/sgl/hex-bg.png") no-repeat;
+
+	.matchupHeader {
+
+		.leagueLogo {
+			position: absolute;
+			left: 50%;
+			top: 20px;
+			transform: translateX(-50%);
+			width: $pregameLeagueLogoSize;
+
+			img {
+				width: 100%;
+				height: 100%;
+				object-fit: contain;
+				object-position: 50% 50%;
+			}
+		}
+
+		.leagueName {
+			grid-area: league;
+			align-self: end;
+			font-family: var(--fontUltimatum);
+			font-size: 44px;
+			font-weight: bold;
+			font-style: italic;
+			color: white;
+			text-transform: uppercase;
+			letter-spacing: .3em;
+			padding: 70px 0 0 20px;
+		}
+
+		@import "header";
+
+		.header0 {
+			grid-area: header;
+			align-self: start;
+			width: auto;
+			font-size: 40px;
+			text-align: left;
+			margin: 0;
+			padding: 15px 0 20px 20px;
+			background: none;
+		}
+
+	}
+
+	.matchupTeams {
+
+		.team {
+			display: grid;
+			width: calc($windowWidth - 400px);
+			margin: 0 auto 0px;
+
+			.logo {
+				grid-area: logo;
+				width: $matchupTeamLogoSize;
+				height: $matchupTeamLogoSize;
+
+				img {
+					width: 100%;
+					height: 100%;
+					object-fit: contain;
+					object-position: 50% 50%;
+				}
+
+			}
+
+			.teamText {
+				padding-top: 70px;
+				text-transform: uppercase;
+
+				.name {
+					font-family: var(--fontUltimatum);
+					font-size: 85px;
+					font-weight: bold;
+					color: $textColor;
+				}
+
+				.franchise {
+					font-family: var(--fontCooper);
+					font-size: 45px;
+					color: $secondaryTextColor;
+				}
+
+
+			}
+
+			&.team0 {
+				grid-template-areas:
+					"logo text"
+				;
+				grid-template-columns: $matchupTeamLogoSize 1fr;
+
+				background-image: linear-gradient(to right,
+					$backgroundTransparent 0,
+					var(--team0fade) calc($matchupTeamLogoSize * .5),
+					var(--team0) calc($matchupTeamLogoSize + 100px),
+					var(--team0tone) 55%,
+					$backgroundTransparent 80%
+				);
+				background-size: 100% 180px;
+				background-repeat: no-repeat;
+				background-position: left 80px;
+
+				.teamText {
+					padding-left: 30px;
+				}
+
+				&:not(.hasLogo) {
+					grid-template-columns:  calc($matchupTeamLogoSize * .5) 1fr;
+				}
+
+			}
+
+			&.team1 {
+				grid-template-areas:
+					"text logo"
+				;
+				grid-template-columns: 1fr $matchupTeamLogoSize;
+
+				background-image: linear-gradient(to left,
+					$backgroundTransparent 0,
+					var(--team1fade) calc($matchupTeamLogoSize * .5),
+					var(--team1) calc($matchupTeamLogoSize + 100px),
+					var(--team1tone) 55%,
+					$backgroundTransparent 80%
+				);
+				background-size: 100% 180px;
+				background-repeat: no-repeat;
+				background-position: left 80px;
+
+				.teamText {
+					text-align: right;
+					padding-right: 30px;
+				}
+
+				&:not(.hasLogo) {
+					grid-template-columns: 1fr calc($matchupTeamLogoSize * .5);
+				}
+
+			}
+
+		}
+
+		.vs {
+			left: 50%;
+			top: 50%;
+			transform: translate(-50%, -50%);
+			position: absolute;
+			color: $secondaryTextColor;
+			font-family: var(--fontUltimatum);
+			font-weight: bold;
+			font-style: italic;
+			font-size: 60px;
+			text-align: center;
+			line-height: 20px;
+		}
+
+	}
+
+
+}
