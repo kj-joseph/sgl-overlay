@@ -1,3 +1,5 @@
+@use "sass:math";
+
 .matchup {
 	position: absolute;
     left: 0;
@@ -5,16 +7,76 @@
 	width: $windowWidth;
 	height: $windowHeight;
     overflow: hidden;
-	background: url("/images/themes/sgl/hex-bg.png") no-repeat;
+	background-image:
+		linear-gradient(180deg,
+			var(--team0fade) 0,
+			var(--team0fade) 75%,
+			$backgroundTransparent 98%
+		),
+		linear-gradient(180deg,
+			var(--team1fade) 0,
+			var(--team1fade) 75%,
+			$backgroundTransparent 98%
+		),
+		url("/images/themes/sgl/hex-bg.png");
+	background-position:
+		260px 256.831px,
+		1060px 256.831px,
+		center center;
+	background-size:
+		600px 823px,
+		600px 823px,
+		100% 100%;
+	background-repeat:
+		no-repeat,
+		no-repeat;
 
 	.matchupHeader {
+		position: absolute;
+		top: 68.205px;
+		width: $windowWidth;
+		height: $pregameLeagueLogoHeight;
+		background-image: linear-gradient(180deg,
+			$backgroundTransparent 0,
+			$backgroundTransparent 62.5px,
+			$sglRed 62.5px,
+			$sglRed 70.731px,
+			#1f1f1f 70.731px,
+			#1f1f1f 179.269px,
+			$sglRed 179.269px,
+			$sglRed 187.5px,
+			$backgroundTransparent 187.5px,
+			$backgroundTransparent 250px
+		),
+		linear-gradient(180deg,
+			$backgroundTransparent 0,
+			$backgroundTransparent 62.5px,
+			$sglBlue 62.5px,
+			$sglBlue 70.731px,
+			#1f1f1f 70.731px,
+			#1f1f1f 179.269px,
+			$sglBlue 179.269px,
+			$sglBlue 187.5px,
+			$backgroundTransparent 187.5px,
+			$backgroundTransparent 250px
+		);
+		background-size:
+			50% 100%,
+			50% 100%;
+		background-position:
+			top left,
+			top right;
+		background-repeat:
+			no-repeat,
+			no-repeat;
 
 		.leagueLogo {
 			position: absolute;
 			left: 50%;
-			top: 20px;
+			top: 0;
+			width: calc(math.div($pregameLeagueLogoHeight, $hexRatio));
+			height: $pregameLeagueLogoHeight;
 			transform: translateX(-50%);
-			width: $pregameLeagueLogoSize;
 
 			img {
 				width: 100%;
@@ -25,29 +87,63 @@
 		}
 
 		.leagueName {
-			grid-area: league;
-			align-self: end;
-			font-family: var(--fontUltimatum);
-			font-size: 44px;
+			position: absolute;
+			left: 0;
+			top: 50%;
+			width: calc(50% - math.div($pregameLeagueLogoHeight, $hexRatio) * .5 - $borderSize);
+			font-family: var(--fontHexagle);
+			font-size: 48px;
 			font-weight: bold;
 			font-style: italic;
-			color: white;
+			text-align: right;
+			line-height: 48px;
+			color: $textColor;
 			text-transform: uppercase;
 			letter-spacing: .3em;
-			padding: 70px 0 0 20px;
+			transform: translateY(-50%);
 		}
 
 		@import "header";
 
-		.header0 {
-			grid-area: header;
-			align-self: start;
-			width: auto;
-			font-size: 40px;
-			text-align: left;
-			margin: 0;
-			padding: 15px 0 20px 20px;
-			background: none;
+		.header {
+
+			&.header0 {
+				display: none;
+			}
+
+			&.header1 {
+				position: absolute;
+				right: 0;
+				top: 50%;
+				width: calc(50% - math.div($pregameLeagueLogoHeight, $hexRatio) * .5 - $borderSize - .3em);
+				height: auto;
+				transform: translateY(-50%);
+				font-family: var(--fontHexagle);
+				font-size: 42px;
+				font-weight: bold;
+				font-style: italic;
+				text-align: left;
+				line-height: 48px;
+				color: $textColor;
+				text-transform: uppercase;
+				letter-spacing: .3em;
+				margin: 0;
+				padding: 0;
+				background: none;
+
+				span,
+				span:not(:last-child) {
+					display: block;
+					margin: 0;
+					padding: 0;
+
+					&::after {
+						display: none;
+					}
+				}
+
+			}
+
 		}
 
 	}
@@ -55,95 +151,78 @@
 	.matchupTeams {
 
 		.team {
-			display: grid;
-			width: calc($windowWidth - 400px);
-			margin: 0 auto 0px;
+			position: absolute;
+			top: 309px;
+			width: $matchupTeamWidth;
 
 			.logo {
-				grid-area: logo;
 				width: $matchupTeamLogoSize;
-				height: $matchupTeamLogoSize;
+				height: calc($matchupTeamLogoSize * $hexRatio);
+				margin: 0 auto 15px;
+				mask-image: url("/images/themes/sgl/hex-mask.png");
+				mask-size: cover;
+				mask-repeat: no-repeat;
+				mask-position: center center;
 
 				img {
 					width: 100%;
 					height: 100%;
-					object-fit: contain;
+					object-fit: cover;
 					object-position: 50% 50%;
+					overflow-clip-margin: unset;
 				}
 
 			}
 
 			.teamText {
-				padding-top: 70px;
 				text-transform: uppercase;
+				text-align: center;
 
 				.name {
-					font-family: var(--fontUltimatum);
-					font-size: 85px;
+					font-family: var(--fontHexagle);
+					font-size: 62px;
 					font-weight: bold;
 					color: $textColor;
 				}
 
 				.franchise {
-					font-family: var(--fontCooper);
-					font-size: 45px;
+					font-family: var(--fontRajdhani);
+					font-size: 38px;
 					color: $secondaryTextColor;
 				}
 
+			}
 
+			&::before {
+				content: "";
+				position: absolute;
+				top: 0;
+				left: 50%;
+				transform: translateX(-50%);
+				width: $matchupTeamLogoSize;
+				height: calc($matchupTeamLogoSize * $hexRatio);
+				mask-image: url("/images/themes/sgl/hex-mask.png");
+				mask-size: cover;
+				mask-repeat: no-repeat;
+				mask-position: center center;
 			}
 
 			&.team0 {
-				grid-template-areas:
-					"logo text"
-				;
-				grid-template-columns: $matchupTeamLogoSize 1fr;
+				left: 560px;
+				transform: translateX(-50%);
 
-				background-image: linear-gradient(to right,
-					$backgroundTransparent 0,
-					var(--team0fade) calc($matchupTeamLogoSize * .5),
-					var(--team0) calc($matchupTeamLogoSize + 100px),
-					var(--team0tone) 55%,
-					$backgroundTransparent 80%
-				);
-				background-size: 100% 180px;
-				background-repeat: no-repeat;
-				background-position: left 80px;
-
-				.teamText {
-					padding-left: 30px;
-				}
-
-				&:not(.hasLogo) {
-					grid-template-columns:  calc($matchupTeamLogoSize * .5) 1fr;
+				&:not(.hasLogo)::before {
+					background: var(--team0);
 				}
 
 			}
 
 			&.team1 {
-				grid-template-areas:
-					"text logo"
-				;
-				grid-template-columns: 1fr $matchupTeamLogoSize;
+				right: 560px;
+				transform: translateX(50%);
 
-				background-image: linear-gradient(to left,
-					$backgroundTransparent 0,
-					var(--team1fade) calc($matchupTeamLogoSize * .5),
-					var(--team1) calc($matchupTeamLogoSize + 100px),
-					var(--team1tone) 55%,
-					$backgroundTransparent 80%
-				);
-				background-size: 100% 180px;
-				background-repeat: no-repeat;
-				background-position: left 80px;
-
-				.teamText {
-					text-align: right;
-					padding-right: 30px;
-				}
-
-				&:not(.hasLogo) {
-					grid-template-columns: 1fr calc($matchupTeamLogoSize * .5);
+				&:not(.hasLogo)::before {
+					background: var(--team1);
 				}
 
 			}
@@ -155,13 +234,12 @@
 			top: 50%;
 			transform: translate(-50%, -50%);
 			position: absolute;
-			color: $secondaryTextColor;
-			font-family: var(--fontUltimatum);
+			color: $textColor;
+			font-family: var(--fontHexagle);
 			font-weight: bold;
 			font-style: italic;
-			font-size: 60px;
+			font-size: 80px;
 			text-align: center;
-			line-height: 20px;
 		}
 
 	}

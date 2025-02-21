@@ -24,7 +24,7 @@ const Matchup = (props) => {
 								<img src={imageLocation(props.config.general.brandLogo, "images/logos")}></img>
 							: null}
 						</div>
-						<div className="leagueName">Rocket Soccar Confederation</div>
+						<div className="leagueName">Supporters<br />Gaming League</div>
 					</>
 				: null}
 
