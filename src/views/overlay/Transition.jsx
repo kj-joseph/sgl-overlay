@@ -1,5 +1,6 @@
 import React from "react";
 
+import HexGrow from "@/views/transitions/HexGrow";
 import StripeWipe from "@/views/transitions/StripeWipe";
 import TriangleMerge from "@/views/transitions/TriangleMerge";
 
@@ -20,6 +21,10 @@ const Transition = (props) => {
 			: props.transition.name === "triangleMerge" ?
 
 				<TriangleMerge transition={props.transition}/>
+
+			: props.transition.name === "hexGrow" ?
+
+				<HexGrow transition={props.transition}/>
 
 			: null}
 

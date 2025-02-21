@@ -838,7 +838,7 @@ const ControlPanel = () => {
 				// TODO: create new theme for finals
 				theme: streamTypeField === "RSC3-regular" || streamTypeField === "RSC3-final" || streamTypeField === "RSC3-event" ? "sgl" : "default",
 				// TODO: select transition for non-RSC streams
-				transition: streamTypeField === "RSC3-regular" || streamTypeField === "RSC3-final" || streamTypeField === "RSC3-event" ? "triangleMerge" : "stripeWipe",
+				transition: streamTypeField === "RSC3-regular" || streamTypeField === "RSC3-final" || streamTypeField === "RSC3-event" ? "hexGrow" : "stripeWipe",
 			},
 			series: {
 				show: streamTypeField === "RSC3-regular" || streamTypeField === "RSC3-final" ? true : showSeriesField,

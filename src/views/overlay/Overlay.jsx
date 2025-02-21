@@ -33,15 +33,16 @@ const Overlay = () => {
 	};
 
 	// For testing
-	/* 	const transitionDefault = {
-			delay: 0,
-			logo: "/images/logos/rsc-splatter-logo.png",
-			name: "triangleMerge",
-			show: true,
-			team: null,
-			text: "GOAL!",
-		};
-	*/
+		// const transitionDefault = {
+		// 	delay: 0,
+		// 	logo: "/images/logos/sgl-logo.png",
+		// 	// logo: "/images/logos/teams/Locals-RL.png",
+		// 	name: "hexGrow",
+		// 	show: true,
+		// 	team: null,
+		// 	text: "GOAL!",
+		// };
+
 	const teamColorsDefault = ["206cff", "f88521"];
 
 	const splashDefault = {
