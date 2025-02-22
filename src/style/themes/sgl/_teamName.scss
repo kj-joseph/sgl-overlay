@@ -11,7 +11,7 @@
     text-transform: uppercase;
 
 	.teamName {
-		font-family: var(--fonttHexagle);
+		font-family: var(--fontHexagle);
 		font-weight: bold;
 		font-size: 36px;
 		color: $textColor;
@@ -32,7 +32,7 @@
 		z-index: 55;
 		width: 100%;
 		height: $mainBarHeight;
-		font-family: var(--fonttHexagle);
+		font-family: var(--fontHexagle);
 		font-weight: bold;
 		font-style: italic;
 		font-size: 2px;
