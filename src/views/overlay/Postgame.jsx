@@ -114,27 +114,31 @@ const Postgame = (props) => {
 
 			: null }
 
-			<div className="seriesScoreText">
-				{
-					props.seriesScore[0] > props.seriesScore[1] ?
-						`${props.config.teams[0].name} ${
-							(props.config.series.type === "bestof" && props.seriesScore[0] === Math.ceil(props.config.series.maxGames / 2)
-								|| (props.config.series.type === "set" && props.seriesScore[0] + props.seriesScore[1] === props.config.series.maxGames)
-							) ?
-								"win"
-							: "lead"
-						} series ${props.seriesScore[0]}-${props.seriesScore[1]}`
-					: props.seriesScore[1] > props.seriesScore[0] ?
-						`${props.config.teams[1].name} ${
-							(props.config.series.type === "bestof" && props.seriesScore[1] === Math.ceil(props.config.series.maxGames / 2)
-								|| (props.config.series.type === "set" && props.seriesScore[0] + props.seriesScore[1] === props.config.series.maxGames)
-							) ?
-								"win"
-							: "lead"
-						} series ${props.seriesScore[1]}-${props.seriesScore[0]}`
-					: `Series tied ${props.seriesScore[0]}-${props.seriesScore[1]}`
-				}
-			</div>
+			{props.config.series.show || props.config.series.override ?
+
+				<div className="seriesScoreText">
+					{
+						props.seriesScore[0] > props.seriesScore[1] ?
+							`${props.config.teams[0].name} ${
+								(props.config.series.type === "bestof" && props.seriesScore[0] === Math.ceil(props.config.series.maxGames / 2)
+									|| (props.config.series.type === "set" && props.seriesScore[0] + props.seriesScore[1] === props.config.series.maxGames)
+								) ?
+									"win"
+								: "lead"
+							} series ${props.seriesScore[0]}-${props.seriesScore[1]}`
+						: props.seriesScore[1] > props.seriesScore[0] ?
+							`${props.config.teams[1].name} ${
+								(props.config.series.type === "bestof" && props.seriesScore[1] === Math.ceil(props.config.series.maxGames / 2)
+									|| (props.config.series.type === "set" && props.seriesScore[0] + props.seriesScore[1] === props.config.series.maxGames)
+								) ?
+									"win"
+								: "lead"
+							} series ${props.seriesScore[1]}-${props.seriesScore[0]}`
+						: `Series tied ${props.seriesScore[0]}-${props.seriesScore[1]}`
+					}
+				</div>
+
+			: null}
 
 
             <div className="title">Game Stats</div>
