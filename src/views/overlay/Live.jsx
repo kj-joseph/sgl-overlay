@@ -35,9 +35,9 @@ const Live = (props) => {
 				<Header
 					headers={props.config.general.headers}
 					streamType={props.config.general.streamType}
-					season={props.config.general.headers[0] === "%%RSCHEADER%%" ? props.config.general.season : null}
-					matchday={props.config.general.headers[0] === "%%RSCHEADER%%" ? props.config.general.matchday : null}
-					tier={props.config.general.headers[0] === "%%RSCHEADER%%" ? props.config.general.tier : null}
+					season={props.config.general.headers[0] === "%%SGLHEADER%%" ? props.config.general.season : null}
+					matchday={props.config.general.headers[0] === "%%SGLHEADER%%" ? props.config.general.matchday : null}
+					league={props.config.general.headers[0] === "%%SGLHEADER%%" ? props.config.general.league : null}
 				/>
 
 				<Clock
@@ -107,21 +107,6 @@ const Live = (props) => {
 					<img src={imageLocation(props.config.general.brandLogo, "images/logos")}></img>
 				</div>
 			: null }
-
-{/*
-			{props.config.general.theme === "rsc" ?
-				<>
-					<div className="leagueName">Rocket Soccar Confederation</div>
-					<SocialMedia />
-				</>
-			: null }
- */}
-
-{/*
-			{props.splash.show ?
-				<Splash count={props.splash.count} />
-			: null}
- */}
 
             {!props.gameData.isReplay && props.gameData.target && props.playerData.hasOwnProperty(props.gameData.target) ? (
                 <Watching

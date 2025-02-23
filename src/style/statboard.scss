@@ -25,6 +25,10 @@ body:has(#Statboard) {
 	}
 
 	.header0 {
+		display: none;
+	}
+
+	.header1 {
 		display: inline;
 		text-align: center;
 		font-size: 1.4rem;

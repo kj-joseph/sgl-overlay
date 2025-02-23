@@ -17,7 +17,7 @@ const Matchup = (props) => {
 
 			<div className="matchupHeader">
 
-				{props.config.general.streamType === "RSC3-regular" || props.config.general.streamType === "RSC3-final" || props.config.general.streamType === "RSC3-event" ?
+				{props.config.general.streamType === "SGL-regular" || props.config.general.streamType === "SGL-playoffs" || props.config.general.streamType === "SGL-event" ?
 					<>
 						<div className="leagueLogo">
 							{props.config.general.brandLogo ?
@@ -31,9 +31,9 @@ const Matchup = (props) => {
 				<Header
 					headers={props.config.general.headers}
 					streamType={props.config.general.streamType}
-					season={props.config.general.headers[0] === "%%RSCHEADER%%" ? props.config.general.season : null}
-					matchday={props.config.general.headers[0] === "%%RSCHEADER%%" ? props.config.general.matchday : null}
-					tier={props.config.general.headers[0] === "%%RSCHEADER%%" ? props.config.general.tier : null}
+					season={props.config.general.headers[0] === "%%SGLHEADER%%" ? props.config.general.season : null}
+					matchday={props.config.general.headers[0] === "%%SGLHEADER%%" ? props.config.general.matchday : null}
+					league={props.config.general.headers[0] === "%%SGLHEADER%%" ? props.config.general.league : null}
 				/>
 
 			</div>
@@ -63,7 +63,7 @@ const Matchup = (props) => {
 
 						{teamnum === 0 ?
 
-							props.config.general.streamType === "RSC3-regular" || props.config.general.streamType === "RSC3-final" || props.config.general.streamType === "RSC3-event" ?
+							props.config.general.streamType === "SGL-regular" || props.config.general.streamType === "SGL-playoffs" || props.config.general.streamType === "SGL-event" ?
 								<div className="vs">VS</div>
 							:
 								<div className="matchupCenter">

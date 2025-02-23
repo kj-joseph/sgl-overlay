@@ -1,4 +1,4 @@
-import React from "react";
+import React, {Fragment} from "react";
 
 const Header = (props) => {
 
@@ -7,21 +7,19 @@ const Header = (props) => {
 
 			{props.headers.map((header, index) =>
 
-				header === "%%RSCHEADER%%" ?
+				header === "%%SGLHEADER%%" ?
 
-					<div className={`header header${index} pipes ${props.streamType === "RSC3-final" ? "tierFinal" : ""} tier${props.tier}`} key={index}>
+					<Fragment key={index}>
+						<div className={`header header${index} pipes`}>
+							Supporters Gaming League
+						</div>
 
-						{props.streamType === "RSC3-final" ?
-							<span className="season">Season {props.season} {props.tier} Tier Final</span>
-						:
-							<>
-								<span className="season">Season {props.season}</span>
-								<span className="tier">{props.tier}</span>
-								<span className="matchday">Matchday {props.matchday}</span>
-							</>
-						}
-
-					</div>
+						<div className={`header header${index + 1} pipes`}>
+							{/* TODO: Include league/division name if multiple divs? */}
+							<span className="season">Season {props.season}</span>
+							<span className="matchday">Matchday {props.matchday}</span>
+						</div>
+					</Fragment>
 
 				:
 
