@@ -68,11 +68,13 @@ const Postgame = (props) => {
 			<div className="scoreboard">
 
 				<Header
+					theme={props.config.general.theme}
 					headers={props.config.general.headers}
 					streamType={props.config.general.streamType}
-					season={props.config.general.headers[0] === "%%SGLHEADER%%" ? props.config.general.season : null}
-					matchday={props.config.general.headers[0] === "%%SGLHEADER%%" ? props.config.general.matchday : null}
-					league={props.config.general.headers[0] === "%%SGLHEADER%%" ? props.config.general.league : null}
+					season={props.config.general.season}
+					matchday={props.config.general.matchday}
+					league={props.config.general.league}
+					round={props.config.general.round}
 				/>
 
 				<div className="clock"><div className="time long">FINAL</div></div>

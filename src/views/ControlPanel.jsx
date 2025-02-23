@@ -93,6 +93,7 @@ const ControlPanel = () => {
 	const [teamFields, setTeamFields] = useState(["", ""]);
 	const [brandLogoField, setBrandLogoField] = useState("");
 	const [headerField, setHeaderField] = useState(""); // TODO: handle multiple headers?
+	const [roundField, setRoundField] = useState(""); // TODO: handle multiple headers?
 	const [seasonNumberField, setSeasonNumberField] = useState(currentSeason);
 	const [matchdayNumberField, setMatchdayNumberField] = useState(1);
 	// TODO: set up league name dropdown, since tiers aren't really a thing in SGL?
@@ -202,6 +203,9 @@ const ControlPanel = () => {
 			if (headerField !== config.general.headers[0]) {
 				tempFieldsWithChanges.push("headerField");
 			}
+			if (roundField !== config.general.round) {
+				tempFieldsWithChanges.push("roundField");
+			}
 			if (seriesTypeField !== config.series.type) {
 				tempFieldsWithChanges.push("seriesTypeField");
 			}
@@ -230,6 +234,7 @@ const ControlPanel = () => {
 	}, [
 		soccerTeamFields,
 		headerField,
+		roundField,
 		brandLogoField,
 		matchdayNumberField,
 		seasonNumberField,
@@ -470,6 +475,11 @@ const ControlPanel = () => {
 		setHeaderField(text);
 	}
 
+	const changeRoundField = (text) => {
+		setRoundField(text);
+	}
+
+
 	const changeBrandLogoField = (logo) => {
 		setBrandLogoField(logo);
 	}
@@ -511,16 +521,10 @@ const ControlPanel = () => {
 
 			case "SGL-event":
 				changeBrandLogoField("sgl-logo.png");
-				if (headerField === "%%SGLHEADER%%") {
-					setHeaderField("");
-				}
 			break;
 
 			default:
 				changeBrandLogoField("");
-				if (headerField === "%%SGLHEADER%%") {
-					setHeaderField("");
-				}
 
 				break;
 		}
@@ -569,6 +573,11 @@ const ControlPanel = () => {
 
 			if (showSeriesField && seriesScoreFields.includes("")) {
 				openSnackbar("Team series score can't be blank.");
+				return;
+			}
+
+			if (streamTypeField === "SGL-playoffs" && !roundField) {
+				openSnackbar("Playoff round can't be blank.");
 				return;
 			}
 
@@ -671,10 +680,11 @@ const ControlPanel = () => {
 		const newConfig = {
 			general: {
 				...config.general,
-				headers: [streamTypeField === "SGL-regular" || streamTypeField === "SGL-playoffs" ? "%%SGLHEADER%%" : headerField],
+				headers: [headerField],
 				streamType: streamTypeField,
 				season: seasonNumberField,
 				matchday: matchdayNumberField,
+				round: roundField,
 				// tier: tierField,
 				brandLogo: brandLogoField,
 				// TODO: create new theme for finals
@@ -684,9 +694,9 @@ const ControlPanel = () => {
 			},
 			series: {
 				show: streamTypeField === "SGL-regular" || streamTypeField === "SGL-playoffs" ? true : showSeriesField,
-				type: streamTypeField === "SGL-regular" ? "set" : streamTypeField === "SGL-playoffs" ? "bestof" : seriesTypeField,
+				type: streamTypeField === "SGL-regular" || streamTypeField === "SGL-playoffs" ? "bestof" : seriesTypeField,
 				display: "both",
-				maxGames: streamTypeField === "SGL-regular" ? 4 : streamTypeField === "SGL-playoffs" ? 7 : seriesLengthField,
+				maxGames: seriesLengthField,
 				override: "",
 			},
 			teams: [
@@ -709,7 +719,7 @@ const ControlPanel = () => {
 
 		localStorage.setItem("config", JSON.stringify(newConfig));
 		setConfig(newConfig);
-		setHeaderField(streamTypeField === "SGL-regular" || streamTypeField === "SGL-playoffs" ? "%%SGLHEADER%%" : headerField);
+		setHeaderField(headerField);
 		setFieldsWithChanges([]);
 	}
 
@@ -899,27 +909,54 @@ const ControlPanel = () => {
 												</Item>
 											</Grid>
 
-											<Grid size={3}>
-												<Item>
-													<TextField
-														fullWidth
-														required
-														inputProps={{
-															min: 1,
-															step: 1,
-														}}
-														id="matchdayNumberField"
-														type="number"
-														size="small"
-														label="Matchday"
-														value={matchdayNumberField}
-														disabled={streamTypeField === "SGL-playoffs"}
-														onKeyDown={(e) => ["e", "E", "+", "-", "."].includes(e.key) && e.preventDefault()}
-														onChange={(e) => changeMatchdayNumberField(e.target.value)}
-														className={`${fieldHasChanges("matchdayNumberField") ? "changedField" : ""} ${streamTypeField === "SGL-regular" && (matchdayNumberField === "" || matchdayNumberField < 1) ? "errorField" : ""}`}
-													/>
-												</Item>
-											</Grid>
+											{streamTypeField === "SGL-regular" ?
+
+												<Grid size={3}>
+													<Item>
+														<TextField
+															fullWidth
+															required
+															inputProps={{
+																min: 1,
+																step: 1,
+															}}
+															id="matchdayNumberField"
+															type="number"
+															size="small"
+															label="Matchday"
+															value={matchdayNumberField}
+															disabled={streamTypeField === "SGL-playoffs"}
+															onKeyDown={(e) => ["e", "E", "+", "-", "."].includes(e.key) && e.preventDefault()}
+															onChange={(e) => changeMatchdayNumberField(e.target.value)}
+															className={`${fieldHasChanges("matchdayNumberField") ? "changedField" : ""} ${streamTypeField === "SGL-regular" && (matchdayNumberField === "" || matchdayNumberField < 1) ? "errorField" : ""}`}
+														/>
+													</Item>
+												</Grid>
+
+											: null}
+
+											{streamTypeField === "SGL-playoffs" ?
+
+												<Grid size={5}>
+
+													<Item>
+														<FormControl variant="outlined" size="small" fullWidth>
+															<InputLabel shrink htmlFor={`round`}>Round</InputLabel>
+															<OutlinedInput
+																notched
+																id="round"
+																label="Round"
+																onChange={(e) => changeRoundField(e.target.value)}
+																value={roundField}
+																className={`${fieldHasChanges(`roundField`) ? "changedField" : ""} ${streamTypeField === "SGL-playoffs" && roundField === "" ? "errorField" : ""}`}
+															/>
+														</FormControl>
+													</Item>
+
+												</Grid>
+
+											: null}
+
 
 											{/* TODO: implement "tier" dropdown? */}
 {/* 											{Array.isArray(tierLists[leagueId]) && tierLists[leagueId].length > 0 ?
@@ -1074,9 +1111,9 @@ const ControlPanel = () => {
 
 								{/* TODO: Handle custom series text */}
 
-								{streamTypeField !== "SGL-regular" && streamTypeField !== "SGL-playoffs" ?
+								<Grid container size={12} spacing={0} className="gridRow">
 
-									<Grid container size={12} spacing={0} className="gridRow">
+									{streamTypeField !== "SGL-regular" && streamTypeField !== "SGL-playoffs" ?
 
 										<Grid size={3}>
 											<Item>
@@ -1099,31 +1136,37 @@ const ControlPanel = () => {
 											</Item>
 										</Grid>
 
+									: null}
+
 										{showSeriesField === true ?
 
 											<>
 
-												<Grid size={6}>
-													<Item>
-														<FormControl size="small" fullWidth>
-															<InputLabel id="seriesTypeLabel" shrink>Series Type</InputLabel>
-															<Select
-																notched
-																labelId="seriesTypeLabel"
-																id="seriesType"
-																value={seriesTypeField}
-																label="Series Type"
-																className={fieldHasChanges("seriesTypeField") ? "changedField" : ""}
-																onChange={(e) => changeSeriesTypeField(e.target.value)}
-															>
-																<MenuItem value="bestof">Best of</MenuItem>
-																<MenuItem value="set">Set number of games</MenuItem>
-																<MenuItem value="unlimited">Unlimited</MenuItem>
-															</Select>
-														</FormControl>
+												{streamTypeField !== "SGL-regular" && streamTypeField !== "SGL-playoffs" ?
 
-													</Item>
-												</Grid>
+													<Grid size={6}>
+														<Item>
+															<FormControl size="small" fullWidth>
+																<InputLabel id="seriesTypeLabel" shrink>Series Type</InputLabel>
+																<Select
+																	notched
+																	labelId="seriesTypeLabel"
+																	id="seriesType"
+																	value={seriesTypeField}
+																	label="Series Type"
+																	className={fieldHasChanges("seriesTypeField") ? "changedField" : ""}
+																	onChange={(e) => changeSeriesTypeField(e.target.value)}
+																>
+																	<MenuItem value="bestof">Best of</MenuItem>
+																	<MenuItem value="set">Set number of games</MenuItem>
+																	<MenuItem value="unlimited">Unlimited</MenuItem>
+																</Select>
+															</FormControl>
+
+														</Item>
+													</Grid>
+
+												: null}
 
 												<Grid size={3}>
 													<Item>
@@ -1152,8 +1195,6 @@ const ControlPanel = () => {
 										: null}
 
 									</Grid>
-
-								: null}
 
 
 

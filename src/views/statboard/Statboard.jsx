@@ -151,11 +151,13 @@ const Statboard = () => {
 							{config && config.hasOwnProperty("general") ?
 
 								<Header
+									theme={config.general.theme}
 									headers={config.general.headers}
 									streamType={config.general.streamType}
-									season={config.general.headers[0] === "%%SGLHEADER%%" ? config.general.season : null}
-									matchday={config.general.headers[0] === "%%SGLHEADER%%" ? config.general.matchday : null}
-									league={config.general.headers[0] === "%%SGLHEADER%%" ? config.general.league : null}
+									season={config.general.season}
+									matchday={config.general.matchday}
+									league={config.general.league}
+									round={config.general.round}
 								/>
 
 							:null}

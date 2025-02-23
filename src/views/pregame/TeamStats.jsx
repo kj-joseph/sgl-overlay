@@ -69,11 +69,13 @@ const TeamStats = (props) => {
 				<div className="teamStatsTitle">Team Comparison</div>
 
 				<Header
+					theme={props.config.general.theme}
 					headers={props.config.general.headers}
 					streamType={props.config.general.streamType}
-					season={props.config.general.headers[0] === "%%RSCHEADER%%" ? props.config.general.season : null}
-					matchday={props.config.general.headers[0] === "%%RSCHEADER%%" ? props.config.general.matchday : null}
-					tier={props.config.general.headers[0] === "%%RSCHEADER%%" ? props.config.general.tier : null}
+					season={props.config.general.season}
+					matchday={props.config.general.matchday}
+					league={props.config.general.league}
+					round={props.config.general.round}
 				/>
 
 			</div>
