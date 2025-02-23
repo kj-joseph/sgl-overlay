@@ -1,0 +1,22 @@
+[
+	{
+		"name": "The Locals",
+		"soccerTeamAbbreviation": "SD",
+		"soccerTeamCity": "San Diego",
+		"soccerTeamName": "San Diego FC",
+		"logo": "Locals-RL.png",
+		"bgColor": "0a5157",
+		"league": 1
+	},
+	{
+		"name": "Emerald City RC",
+		"soccerTeamAbbreviation": "SEA",
+		"soccerTeamCity": "Seattle",
+		"soccerTeamName": "Seattle Sounders",
+		"logo": "ecrc.png",
+		"bgColor": "618626",
+		"league": 1
+	}
+
+
+]

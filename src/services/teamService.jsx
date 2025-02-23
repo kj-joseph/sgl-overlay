@@ -1,50 +1,12 @@
 import { callApi, callStats } from "@/services/apiService";
+import sglTeams from "@/data/sglTeams";
 
-export const getTeamListByTier = async (league, tier, season) =>
+// TODO: pulling locally for now; maybe API endpoint?
+export const getTeamList = async (league, tier, season) =>
 
 	new Promise((resolve, reject) => {
 
-		callApi(
-			"get",
-			`teams/`,
-			{
-				league,
-				tier,
-				season,
-			}
-		)
-			.then((response) =>
-				resolve(response.data))
-
-			.catch((error) =>
-				reject(error));
-
-	});
-
-export const getTeamPlayerStats = async (team) =>
-	new Promise((resolve, reject) => {
-
-		callStats(
-			"get",
-			`players/${team}`,
-			{}
-		)
-			.then((response) =>
-				resolve(response.data))
-
-			.catch((error) =>
-				reject(error));
-
-	});
-
-export const getTeamStatsByTier = async (tier) =>
-	new Promise((resolve, reject) => {
-
-		callStats(
-			"get",
-			`teams/${tier}`,
-			{}
-		)
+		resolve(sglTeams)
 			.then((response) =>
 				resolve(response.data))
 

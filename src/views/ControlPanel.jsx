@@ -1,10 +1,8 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 
 import { v4 as uuidv4 } from "uuid";
 
-import { getFranchiseList } from "@/services/franchiseService";
-import { getTeamListByTier, getTeamPlayerStats, getTeamStatsByTier } from "@/services/teamService";
-import { getTierList } from "@/services/tierService";
+import { getTeamList } from "@/services/teamService";
 
 import Button from "@mui/material/Button";
 import Container from "@mui/material/Container";
@@ -42,8 +40,7 @@ const defaultTeamData = [
 ];
 
 const defaultSeriesScore = [0, 0];
-// TODO: pull current season from API?
-const currentSeason = 22;
+const currentSeason = 9;
 
 let panelTheme = createTheme({
 	palette: {
@@ -88,35 +85,34 @@ const ControlPanel = () => {
 	const [snackbarMessage, setSnackbarMessage] = useState("");
 	const [viewState, setViewState] = useState("");
 
-	const [franchiseLists, setFranchiseLists] = useState({});
-	const [leagueId, setLeagueId] = useState(-1);
-	const [tierLists, setTierLists] = useState({});
-	const [teamLists, setTeamLists] = useState({});
-	const [splashOn, setSplashOn] = useState(false);
-	const [splashCount, setSplashCount] = useState(0);
+	const [teamList, setTeamList] = useState({});
 
 	const [fieldsWithChanges, setFieldsWithChanges] = useState([]);
 
-	const [streamTypeField, setStreamTypeField] = useState("RSC3-regular"); // default to regular season if not already set
+	const [streamTypeField, setStreamTypeField] = useState("SGL-regular"); // default to regular season if not already set
 	const [teamFields, setTeamFields] = useState(["", ""]);
 	const [brandLogoField, setBrandLogoField] = useState("");
 	const [headerField, setHeaderField] = useState(""); // TODO: handle multiple headers?
 	const [seasonNumberField, setSeasonNumberField] = useState(currentSeason);
 	const [matchdayNumberField, setMatchdayNumberField] = useState(1);
-	const [tierField, setTierField] = useState("");
+	// TODO: set up league name dropdown, since tiers aren't really a thing in SGL?
+	// const [tierField, setTierField] = useState("");
 	const [showSeriesField, setShowSeriesField] = useState(false);
 	const [seriesTypeField, setSeriesTypeField] = useState("");
 	const [seriesLengthField, setSeriesLengthField] = useState(0);
-	const [teamNameFields, setTeamNameFields] = useState(["", ""]);
-	const [franchiseFields, setFranchiseFields] = useState(["", ""]);
+	const [teamNameFields, _setTeamNameFields] = useState(["", ""]);
+	const [soccerTeamFields, setSoccerTeamFields] = useState(["", ""]);
 	const [teamLogoFields, setTeamLogoFields] = useState(["", ""]);
 	const [seriesScoreFields, setSeriesScoreFields] = useState(defaultSeriesScore);
-	const [splashOnField, setSplashOnField] = useState(false);
-	const [splashCountField, setSplashCountField] = useState(0);
 
 	const thisUrl = new URL(document.location.href);
 	const statsUrlPrefix = `${thisUrl.protocol}//${thisUrl.host}`;
 
+	const teamNameFieldsRef = useRef(teamNameFields);
+	const setTeamNameFields = (data) => {
+		teamNameFieldsRef.current = data;
+		_setTeamNameFields(data);
+	}
 
  	useEffect(() => {
 
@@ -153,8 +149,6 @@ const ControlPanel = () => {
 			setViewState("");
 		}
 
-		setSplashFromLocalStorage();
-
 		// listen for localstorage updates for game data and series score
 		window.onstorage = (event) => {
 			switch(event.key) {
@@ -188,8 +182,8 @@ const ControlPanel = () => {
 				if (teamNameFields[teamnum] !== config.teams[teamnum].name) {
 					tempFieldsWithChanges.push(`teamNameField${teamnum}`);
 				}
-				if (franchiseFields[teamnum] !== config.teams[teamnum].franchise) {
-					tempFieldsWithChanges.push(`franchiseField${teamnum}`);
+				if (soccerTeamFields[teamnum] !== config.teams[teamnum].soccerTeamName) {
+					tempFieldsWithChanges.push(`soccerTeamField${teamnum}`);
 				}
 				if (teamLogoFields[teamnum] !== config.teams[teamnum].logo) {
 					tempFieldsWithChanges.push(`teamLogoField${teamnum}`);
@@ -229,21 +223,12 @@ const ControlPanel = () => {
 			if (Number(matchdayNumberField) !== Number(config.general.matchday)) {
 				tempFieldsWithChanges.push("matchdayNumberField");
 			}
-			if (tierField !== config.general.tier) {
-				tempFieldsWithChanges.push("tierField");
-			}
-			if (splashOnField !== splashOn) {
-				tempFieldsWithChanges.push("splashOnField");
-			}
-			if (splashCountField !== splashCount) {
-				tempFieldsWithChanges.push("splashCountField");
-			}
 
 			setFieldsWithChanges(tempFieldsWithChanges);
 		}
 
 	}, [
-		franchiseFields,
+		soccerTeamFields,
 		headerField,
 		brandLogoField,
 		matchdayNumberField,
@@ -252,21 +237,16 @@ const ControlPanel = () => {
 		seriesScoreFields,
 		seriesTypeField,
 		showSeriesField,
-		splashCountField,
-		splashOnField,
 		streamTypeField,
 		teamFields,
 		teamLogoFields,
 		teamNameFields,
-		tierField,
 	]);
 
-	// load tiers on league change
+	// check for unsaved changes
 	useEffect(() => {
-		if(leagueId > -1) {
-			loadTierList(leagueId);
-		}
-	}, [leagueId]);
+		loadTeamList();
+	}, [teamNameFields]);
 
 	const fieldHasChanges = (fieldName) => fieldsWithChanges.indexOf(fieldName) > -1;
 
@@ -344,104 +324,36 @@ const ControlPanel = () => {
 		}
 	}
 
-	const loadTierList = (league) => {
-		if(!Array.isArray(tierLists[league]) || tierLists[league].length < 1 ) {
-			const currentTierLists = {...tierLists};
-			const apiPromises = [];
+	const loadTeamList = () => {
 
+		if (!Array.isArray(teamList) || teamList.length < 1 ) {
 			openDialog("loading");
 
-			apiPromises.push(
-				getTierList(league)
-					.then((loadedTierList) => {
-						currentTierLists[league] = loadedTierList;
-						setTierLists(currentTierLists);
-
-						// create new empty entry in teams object for league
-						const currentTeamLists = {...teamLists}
-						currentTeamLists[league] = {};
-						setTeamLists(currentTeamLists);
-
-						if (tierField) {
-							loadTeamList(leagueId, tierField);
-						}
-					})
-					.catch((error) => {
-						console.error(error);
-						openSnackbar("Error getting tier list from API");
-					})
-			);
-
-			// if franchise list isn't loaded, load it
-			if(!Array.isArray(franchiseFields[league]) || franchiseFields[league].length < 1 ) {
-				const currentFranchiseLists = {...franchiseLists};
-
-				apiPromises.push(
-					getFranchiseList(league)
-						.then((loadedFranchiseList) => {
-							currentFranchiseLists[league] = loadedFranchiseList;
-							setFranchiseLists(currentFranchiseLists);
-						})
-						.catch((error) => {
-							console.error(error);
-							openSnackbar("Error getting franchise list from API");
-						})
-				);
-
-			}
-
-			Promise.all(apiPromises)
-				.then(() => {
-					closeDialog();
-				})
-				.catch((error) => {
-					closeDialog();
-					console.error(error);
-					openSnackbar("Error loading from API");
-				});
-
-		}
-	}
-
-	const loadTeamList = (league, tier) => {
-
-		if (league === -1 || !tier) {
-			return;
-		}
-
-		const currentTeamLists = {...teamLists}
-
-		if (!currentTeamLists.hasOwnProperty(league)) {
-			currentTeamLists[league] = {};
-		}
-
-		if (!Array.isArray(currentTeamLists[league][tier]) || currentTeamLists[league][tier] < 1 ) {
-			openDialog("loading");
-
-			getTeamListByTier(league, tier, currentSeason)
+			getTeamList()
 				.then((loadedTeamList) => {
-					currentTeamLists[league][tier] = loadedTeamList;
-					setTeamLists(currentTeamLists);
+					setTeamList(loadedTeamList);
 
 					// if a current team name matches, select the object
 					const currentTeamFields = [...teamFields];
-					const currentTeamNameFields = [...teamNameFields];
-					const currentFranchiseFields = [...franchiseFields];
+					const currentTeamNameFields = [...teamNameFieldsRef.current];
+					const currentSoccerTeamFields = [...soccerTeamFields];
 
-					for (let teamNum in teamNameFields) {
-						const matchedTeam = loadedTeamList.filter((team) => team.name === teamNameFields[teamNum]);
+					for (let teamNum in currentTeamNameFields) {
+						const matchedTeam = loadedTeamList.filter((team) => team.name === currentTeamNameFields[teamNum]);
 
 						if (matchedTeam.length === 1) {
 							currentTeamFields[teamNum] = matchedTeam[0];
+							currentTeamNameFields[teamNum] = matchedTeam[0].name;
+							currentSoccerTeamFields[teamNum] = matchedTeam[0].soccerTeamName;
 						} else {
 							currentTeamFields[teamNum] = "";
 							currentTeamNameFields[teamNum] = "";
-							currentFranchiseFields[teamNum] = "";
+							currentSoccerTeamFields[teamNum] = "";
 						}
 
 						setTeamFields(currentTeamFields);
 						setTeamNameFields(currentTeamNameFields);
-						setFranchiseFields(currentFranchiseFields);
+						setSoccerTeamFields(currentSoccerTeamFields);
 					}
 
 					closeDialog();
@@ -469,10 +381,10 @@ const ControlPanel = () => {
 		setTeamNameFields(tempTeamNameField);
 	}
 
-	const changeFranchiseField = (name, teamNumber) => {
-		const tempFranchiseField = [... franchiseFields];
-		tempFranchiseField[teamNumber]= name;
-		setFranchiseFields(tempFranchiseField);
+	const changeSoccerTeamField = (name, teamNumber) => {
+		const tempSoccerTeamField = [... soccerTeamFields];
+		tempSoccerTeamField[teamNumber]= name;
+		setSoccerTeamFields(tempSoccerTeamField);
 	}
 
 	const changeTeamLogoField = (logo, teamNumber) => {
@@ -503,24 +415,19 @@ const ControlPanel = () => {
 		setMatchdayNumberField(matchday);
 	}
 
-	const changeTierField = (tier) => {
-		setTierField(tier);
-		loadTeamList(leagueId, tier);
-	}
-
 	const changeTeamField = (team, teamNumber) => {
 		const tempTeamFields = [... teamFields];
 		tempTeamFields[teamNumber]= team;
 		setTeamFields(tempTeamFields);
 		changeTeamNameField(team.name, teamNumber);
-		changeFranchiseField(team.franchise.name, teamNumber);
+		changeSoccerTeamField(team.soccerTeamName, teamNumber);
 	}
 
 	const setConfigValuesFromLocalStorage = () => {
 		const loadedConfig = JSON.parse(localStorage.getItem("config"));
 		setConfig(loadedConfig);
 		setTeamNameFields([loadedConfig.teams[0].name, loadedConfig.teams[1].name]);
-		setFranchiseFields([loadedConfig.teams[0].franchise, loadedConfig.teams[1].franchise]);
+		setSoccerTeamFields([loadedConfig.teams[0].franchise, loadedConfig.teams[1].franchise]);
 		setTeamLogoFields([loadedConfig.teams[0].logo, loadedConfig.teams[1].logo]);
 		setSeriesTypeField(loadedConfig.series.type);
 		setSeriesLengthField(loadedConfig.series.maxGames);
@@ -529,13 +436,13 @@ const ControlPanel = () => {
 		setBrandLogoField(loadedConfig.general.brandLogo);
 		setSeasonNumberField(loadedConfig.general.season);
 		setMatchdayNumberField(loadedConfig.general.matchday);
-		changeTierField(loadedConfig.general.tier);
+		// changeTierField(loadedConfig.general.tier);
 		changeStreamTypeField(loadedConfig.general.streamType, true);
 	}
 
 	const setConfigValuesToDefault = () => {
 		setTeamFields(["", ""]);
-		setTierField("");
+		// setTierField("");
 		setConfig(defaultConfig);
 		localStorage.setItem("config", JSON.stringify(defaultConfig));
 	}
@@ -546,21 +453,9 @@ const ControlPanel = () => {
 		localStorage.setItem("seriesScore", JSON.stringify(defaultSeriesScore))
 	}
 
-	const setSplashToDefault = () => {
-		setSplashOn(false);
-		setSplashOnField(false);
-		setSplashCount(0);
-		setSplashCountField(0);
-		localStorage.setItem("splash", JSON.stringify({
-			show: false,
-			count: 0,
-		}))
-	}
-
 	const setAllValuesToDefault = () => {
 		setConfigValuesToDefault();
 		setSeriesScoreToDefault();
-		setSplashToDefault();
 		closeDialog();
 	}
 
@@ -568,38 +463,6 @@ const ControlPanel = () => {
 		const seriesScoreIn = JSON.parse(localStorage.getItem("seriesScore"));
 		setSeriesScore(seriesScoreIn);
 		setSeriesScoreFields(seriesScoreIn);
-	}
-
-	const setSplashFromLocalStorage = () => {
-		if (localStorage.hasOwnProperty("splash")) {
-			const savedSplash = JSON.parse(localStorage.getItem("splash"));
-
-			if (savedSplash.hasOwnProperty("show")) {
-				setSplashOn(savedSplash.show);
-				setSplashOnField(savedSplash.show);
-			} else {
-				setSplashOn(false);
-				setSplashOnField(false);
-			}
-
-			if (savedSplash.hasOwnProperty("count")) {
-				setSplashCount(savedSplash.count);
-				setSplashCountField(savedSplash.count);
-			} else {
-				setSplashCount(0);
-				setSplashCountField(0);
-			}
-
-		} else {
-			localStorage.setItem("splash", JSON.stringify({
-				show: false,
-				count: 0,
-			}));
-			setSplashOn(false);
-			setSplashOnField(false);
-			setSplashCount(0);
-			setSplashCountField(0);
-		}
 	}
 
 	// TODO: handle multiple headers
@@ -613,53 +476,49 @@ const ControlPanel = () => {
 
 	const setNamesFromDropdowns = () => {
 		const tempTeamNames = [];
-		const tempFranchises = [];
+		const tempSoccerTeams = [];
 		for (let team in teamFields) {
-			if (teamFields[team].hasOwnProperty("franchise")) {
+			if (teamFields[team].hasOwnProperty("soccerTeamName")) {
 				tempTeamNames[team] = teamFields[team].name;
-				tempFranchises[team] = teamFields[team].franchise.name;
+				tempSoccerTeams[team] = teamFields[team].soccerTeamName;
 			} else {
 				tempTeamNames[team] = teamNameFields[team];
-				tempFranchises[team] = franchiseFields[team];
+				tempSoccerTeams[team] = soccerTeamFields[team];
 			}
 		}
 		setTeamNameFields(tempTeamNames);
-		setFranchiseFields(tempFranchises);
+		setSoccerTeamFields(tempSoccerTeams);
 	}
 
 	// don't set team names based on dropdowns on initial load
 	const changeStreamTypeField = (streamType, skipTeamNames) => {
 		setStreamTypeField(streamType);
 
-		// TODO: If another league happens, clear tier selection when switching leagues
 		switch(streamType) {
-			case "RSC3-regular":
-				setLeagueId(1);
+			case "SGL-regular":
 				changeBrandLogoField("sgl-logo.png");
 				if (!skipTeamNames) {
 					setNamesFromDropdowns();
 				}
 				break;
 
-			case "RSC3-final":
-				setLeagueId(1);
+			case "SGL-playoffs":
 				changeBrandLogoField("sgl-logo.png");
 				if (!skipTeamNames) {
 					setNamesFromDropdowns();
 				}
 				break;
 
-			case "RSC3-event":
+			case "SGL-event":
 				changeBrandLogoField("sgl-logo.png");
-				if (headerField === "%%RSCHEADER%%") {
+				if (headerField === "%%SGLHEADER%%") {
 					setHeaderField("");
 				}
 			break;
 
 			default:
-				setLeagueId(-1);
 				changeBrandLogoField("");
-				if (headerField === "%%RSCHEADER%%") {
+				if (headerField === "%%SGLHEADER%%") {
 					setHeaderField("");
 				}
 
@@ -671,7 +530,6 @@ const ControlPanel = () => {
 	const resetFieldValues = () => {
 		setConfigValuesFromLocalStorage();
 		setSeriesScoreFromLocalStorage();
-		setSplashFromLocalStorage();
 	}
 
 	const triggerViewState = (triggerState, endState) => {
@@ -681,31 +539,18 @@ const ControlPanel = () => {
 		}
 	}
 
-	const switchSplash = () => {
-		setSplashOnField(!splashOnField);
-	}
-
-	const changeSplashCountField = (count) => {
-		if (count === "" || Number.isInteger(Number(count))) {
-			setSplashCountField(count);
-		}
-	}
-
-
 	const saveToLocalStorage = () => {
-		const teamFranchiseLogos = ["", ""];
-
 		const playerStats = [];
 		const teamStats = [];
-		const tierTeamStats = [];
+		// const tierTeamStats = [];
 
 		// check for required fields
-		if (streamTypeField === "RSC3-regular" || streamTypeField === "RSC3-final") {
+		if (streamTypeField === "SGL-regular" || streamTypeField === "SGL-playoffs") {
 
-			if (tierField === "") {
-				openSnackbar("Tier and teams must be chosen.");
-				return;
-			}
+			// if (tierField === "") {
+			// 	openSnackbar("Tier and teams must be chosen.");
+			// 	return;
+			// }
 
 			if (teamFields.includes("")) {
 				openSnackbar("Teams must be chosen.");
@@ -717,7 +562,7 @@ const ControlPanel = () => {
 				return;
 			}
 
-			if (streamTypeField === "RSC3-regular" && (matchdayNumberField === "" || matchdayNumberField < 1)) {
+			if (streamTypeField === "SGL-regular" && (matchdayNumberField === "" || matchdayNumberField < 1)) {
 				openSnackbar("Matchday number must be set.");
 				return;
 			}
@@ -727,6 +572,8 @@ const ControlPanel = () => {
 				return;
 			}
 
+			// TODO: load season stats for SGL?
+/*
 			if (Array.isArray(franchiseLists[leagueId]) && franchiseLists[leagueId].length > 0) {
 				// only load stats when series score set to 0-0
 				const loadPregameStats = (seriesScoreFields[0] === 0 && seriesScoreFields[1] === 0);
@@ -803,9 +650,9 @@ const ControlPanel = () => {
 
 			}
 
+ */
 
 		} else {
-
 			if (showSeriesField && seriesScoreFields.includes("")) {
 				openSnackbar("Team series score can't be blank.");
 				return;
@@ -821,55 +668,49 @@ const ControlPanel = () => {
 		setSeriesScore(seriesScoreFields);
 		localStorage.setItem("seriesScore", JSON.stringify(seriesScoreFields));
 
-		localStorage.setItem("splash", JSON.stringify({
-			show: splashOnField,
-			count: splashCountField,
-		}));
-
 		const newConfig = {
 			general: {
 				...config.general,
-				headers: [streamTypeField === "RSC3-regular" || streamTypeField === "RSC3-final" ? "%%RSCHEADER%%" : headerField],
+				headers: [streamTypeField === "SGL-regular" || streamTypeField === "SGL-playoffs" ? "%%SGLHEADER%%" : headerField],
 				streamType: streamTypeField,
 				season: seasonNumberField,
 				matchday: matchdayNumberField,
-				tier: tierField,
+				// tier: tierField,
 				brandLogo: brandLogoField,
 				// TODO: create new theme for finals
-				theme: streamTypeField === "RSC3-regular" || streamTypeField === "RSC3-final" || streamTypeField === "RSC3-event" ? "sgl" : "default",
-				// TODO: select transition for non-RSC streams
-				transition: streamTypeField === "RSC3-regular" || streamTypeField === "RSC3-final" || streamTypeField === "RSC3-event" ? "hexGrow" : "stripeWipe",
+				theme: streamTypeField === "SGL-regular" || streamTypeField === "SGL-playoffs" || streamTypeField === "SGL-event" ? "sgl" : "default",
+				// TODO: select transition for non-SGL streams
+				transition: streamTypeField === "SGL-regular" || streamTypeField === "SGL-playoffs" || streamTypeField === "SGL-event" ? "hexGrow" : "stripeWipe",
 			},
 			series: {
-				show: streamTypeField === "RSC3-regular" || streamTypeField === "RSC3-final" ? true : showSeriesField,
-				type: streamTypeField === "RSC3-regular" ? "set" : streamTypeField === "RSC3-final" ? "bestof" : seriesTypeField,
+				show: streamTypeField === "SGL-regular" || streamTypeField === "SGL-playoffs" ? true : showSeriesField,
+				type: streamTypeField === "SGL-regular" ? "set" : streamTypeField === "SGL-playoffs" ? "bestof" : seriesTypeField,
 				display: "both",
-				maxGames: streamTypeField === "RSC3-regular" ? 4 : streamTypeField === "RSC3-final" ? 7 : seriesLengthField,
+				maxGames: streamTypeField === "SGL-regular" ? 4 : streamTypeField === "SGL-playoffs" ? 7 : seriesLengthField,
 				override: "",
 			},
 			teams: [
 				{
 					...config.teams[0],
 					name: teamNameFields[0],
-					franchise: franchiseFields[0],
-					logo: streamTypeField === "RSC3-regular" || streamTypeField === "RSC3-final" ? teamFranchiseLogos[0] : teamLogoFields[0],
+					franchise: soccerTeamFields[0],
+					logo: streamTypeField === "SGL-regular" || streamTypeField === "SGL-playoffs" ? teamFields[0].logo : teamLogoFields[0],
+					bgColor: streamTypeField === "SGL-regular" || streamTypeField === "SGL-playoffs" ? teamFields[0].color : null,
 				},
 				{
 					...config.teams[1],
 					name: teamNameFields[1],
-					franchise: franchiseFields[1],
-					logo: streamTypeField === "RSC3-regular" || streamTypeField === "RSC3-final" ? teamFranchiseLogos[1] : teamLogoFields[1],
+					franchise: soccerTeamFields[1],
+					logo: streamTypeField === "SGL-regular" || streamTypeField === "SGL-playoffs" ? teamFields[1].logo : teamLogoFields[1],
+					bgColor: streamTypeField === "SGL-regular" || streamTypeField === "SGL-playoffs" ? teamFields[1].color : null,
 				},
 			],
 		};
 
 		localStorage.setItem("config", JSON.stringify(newConfig));
 		setConfig(newConfig);
-		setHeaderField(streamTypeField === "RSC3-regular" || streamTypeField === "RSC3-final" ? "%%RSCHEADER%%" : headerField);
+		setHeaderField(streamTypeField === "SGL-regular" || streamTypeField === "SGL-playoffs" ? "%%SGLHEADER%%" : headerField);
 		setFieldsWithChanges([]);
-
-		setSplashCount(splashCountField);
-		setSplashOn(splashOnField);
 	}
 
 
@@ -929,7 +770,7 @@ const ControlPanel = () => {
 					message={snackbarMessage}
 				/>
 
-				<h1>RSC overlay control panel</h1>
+				<h1>SGL overlay control panel</h1>
 
 				<ThemeProvider theme={panelTheme}>
 
@@ -1019,10 +860,10 @@ const ControlPanel = () => {
 												className={fieldHasChanges("streamTypeField") ? "changedField" : ""}
 												onChange={(e) => changeStreamTypeField(e.target.value)}
 											>
-												<MenuItem value="RSC3-regular">RSC 3s Regular Season</MenuItem>
-												<MenuItem value="RSC3-final">RSC 3s Finals</MenuItem>
-												<MenuItem value="RSC3-event">RSC 3s Other Event</MenuItem>
-												<MenuItem value="other">No RSC branding</MenuItem>
+												<MenuItem value="SGL-regular">SGL Regular Season</MenuItem>
+												<MenuItem value="SGL-playoffs">SGL Playoffs</MenuItem>
+												<MenuItem value="SGL-event">SGL Other</MenuItem>
+												<MenuItem value="other">No SGL branding</MenuItem>
 											</Select>
 										</FormControl>
 									</Item>
@@ -1031,7 +872,7 @@ const ControlPanel = () => {
 							</Grid>
 
 
-								{streamTypeField === "RSC3-regular" || streamTypeField === "RSC3-final" ?
+								{streamTypeField === "SGL-regular" || streamTypeField === "SGL-playoffs" ?
 
 									<>
 
@@ -1072,15 +913,16 @@ const ControlPanel = () => {
 														size="small"
 														label="Matchday"
 														value={matchdayNumberField}
-														disabled={streamTypeField === "RSC3-final"}
+														disabled={streamTypeField === "SGL-playoffs"}
 														onKeyDown={(e) => ["e", "E", "+", "-", "."].includes(e.key) && e.preventDefault()}
 														onChange={(e) => changeMatchdayNumberField(e.target.value)}
-														className={`${fieldHasChanges("matchdayNumberField") ? "changedField" : ""} ${streamTypeField === "RSC3-regular" && (matchdayNumberField === "" || matchdayNumberField < 1) ? "errorField" : ""}`}
+														className={`${fieldHasChanges("matchdayNumberField") ? "changedField" : ""} ${streamTypeField === "SGL-regular" && (matchdayNumberField === "" || matchdayNumberField < 1) ? "errorField" : ""}`}
 													/>
 												</Item>
 											</Grid>
 
-											{Array.isArray(tierLists[leagueId]) && tierLists[leagueId].length > 0 ?
+											{/* TODO: implement "tier" dropdown? */}
+{/* 											{Array.isArray(tierLists[leagueId]) && tierLists[leagueId].length > 0 ?
 
 												<Grid size={6}>
 													<Item>
@@ -1107,7 +949,7 @@ const ControlPanel = () => {
 												</Grid>
 
 											: null}
-
+ */}
 										</Grid>
 
 										<Grid container size={12} spacing={0} className="gridRow pregameButtons">
@@ -1232,7 +1074,7 @@ const ControlPanel = () => {
 
 								{/* TODO: Handle custom series text */}
 
-								{streamTypeField !== "RSC3-regular" && streamTypeField !== "RSC3-final" ?
+								{streamTypeField !== "SGL-regular" && streamTypeField !== "SGL-playoffs" ?
 
 									<Grid container size={12} spacing={0} className="gridRow">
 
@@ -1335,7 +1177,7 @@ const ControlPanel = () => {
 
 									<Grid size={9}>
 										<Item>
-											{streamTypeField !== "RSC3-regular" && streamTypeField !== "RSC3-final" ?
+											{streamTypeField !== "SGL-regular" && streamTypeField !== "SGL-playoffs" ?
 												<>
 													<FormControl variant="outlined" size="small" fullWidth>
 														<InputLabel shrink htmlFor={`teamNameField${teamnum}`}>Team Name</InputLabel>
@@ -1350,14 +1192,14 @@ const ControlPanel = () => {
 														/>
 													</FormControl><br />
 													<FormControl variant="outlined" size="small" fullWidth>
-														<InputLabel shrink htmlFor={`franchiseField${teamnum}`}>Franchise Name</InputLabel>
+														<InputLabel shrink htmlFor={`soccerTeamField${teamnum}`}>Soccer Team Name</InputLabel>
 														<OutlinedInput
 															notched
-															id={`franchiseField${teamnum}`}
-															label="Franchise Name"
-															onChange={(e) => changeFranchiseField(e.target.value, teamnum)}
-															value={franchiseFields[teamnum]}
-															className={fieldHasChanges(`franchiseField${teamnum}`) ? "changedField" : ""}
+															id={`soccerTeamField${teamnum}`}
+															label="Soccer Team Name"
+															onChange={(e) => changeSoccerTeamField(e.target.value, teamnum)}
+															value={soccerTeamFields[teamnum]}
+															className={fieldHasChanges(`soccerTeamField${teamnum}`) ? "changedField" : ""}
 														/>
 													</FormControl>
 													{/* TODO: upload team logo */}
@@ -1373,7 +1215,7 @@ const ControlPanel = () => {
 														/>
 													</FormControl><br />
 												</>
-											: teamLists.hasOwnProperty(leagueId) && Array.isArray(teamLists[leagueId][tierField]) && teamLists[leagueId][tierField].length > 0 ?
+											: Array.isArray(teamList) && teamList.length > 0 ?
 												<>
 													<FormControl size="small" fullWidth>
 														<InputLabel id={`teamField${teamnum}Label`} shrink>Team</InputLabel>
@@ -1387,10 +1229,10 @@ const ControlPanel = () => {
 															className={`${fieldHasChanges(`teamField${teamnum}`) ? "changedField" : ""} ${teamFields[teamnum] === "" ? "errorField" : ""}`}
 															onChange={(e) => changeTeamField(e.target.value, teamnum)}
 														>
-															{teamLists[leagueId][tierField]
+															{teamList
 																	.sort((a,b) => a.name > b.name ? 1 : a.name < b.name ? -1 : 0)
-																	.map(team => (
-																		<MenuItem key={team.id} value={team}>{team.name}</MenuItem>
+																	.map((team, i) => (
+																		<MenuItem key={i} value={team}>{team.name} ({team.soccerTeamAbbreviation})</MenuItem>
 																))}
 														</Select>
 													</FormControl>
@@ -1401,7 +1243,7 @@ const ControlPanel = () => {
 										</Item>
 									</Grid>
 
-									{(streamTypeField === "RSC3-regular" || streamTypeField === "RSC3-final") || showSeriesField ?
+									{(streamTypeField === "SGL-regular" || streamTypeField === "SGL-playoffs") || showSeriesField ?
 
 										<Grid size={3}>
 											<Item>
@@ -1430,53 +1272,6 @@ const ControlPanel = () => {
 							))}
 
 						</Grid>
-
-						{ streamTypeField !== "RSC3-regular" ?
-
-							<Grid container size={12} spacing={2} className="mainPanelGrid">
-
-								<Grid size={6}>
-									<Item>
-										<span className={fieldHasChanges("splashOnField") ? "changedField" : ""}>
-											<strong>Show splash counter?</strong>
-										</span>
-										<Switch
-											checked={splashOnField}
-											onChange={switchSplash}
-											color={splashOnField ? "splash" : "primary"}
-										/>
-									</Item>
-								</Grid>
-
-								{splashOnField ?
-
-									<Grid size={6}>
-										<Item>
-											<TextField
-												required
-												inputProps={{
-													min: 0,
-													step: 1,
-												}}
-												id="splashCountField"
-												type="number"
-												size="small"
-												label="Splash Count"
-												value={splashCountField}
-												onKeyDown={(e) => ["e", "E", "+", "-", "."].includes(e.key) && e.preventDefault()}
-												onChange={(e) => changeSplashCountField(e.target.value)}
-												className={`${fieldHasChanges(`splashCountField`) ? "changedField" : ""} ${splashCountField === "" ? "errorField" : ""}`}
-											/>
-										</Item>
-									</Grid>
-
-
-								: null}
-
-
-							</Grid>
-
-						: null}
 
 					</Container>
 

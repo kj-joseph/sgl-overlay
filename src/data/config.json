@@ -1,8 +1,8 @@
 {
 	"general": {
 		"theme": "default",
-		"streamType": "RSC3-regular",
-		"season": 22,
+		"streamType": "SGL-regular",
+		"season": 9,
 		"matchday": 1,
 		"tier": "",
 		"headers": [""],
@@ -26,13 +26,15 @@
 			"name": "",
             "franchise": "",
             "logo": "",
-			"color": ""
+			"color": "",
+			"bgColor": ""
         },
         {
 			"name": "",
             "franchise": "",
             "logo": "",
-			"color": ""
+			"color": "",
+			"bgColor": ""
         }
     ]
 }
