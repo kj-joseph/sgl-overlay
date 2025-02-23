@@ -7,7 +7,14 @@ const HexGrow = (props) => {
 			<div className="bg"></div>
 			{props.transition.logo ?
 				<>
-					<div className="logo">
+					<div
+						className="logo"
+						style={props.transition.bgColor ?
+							{
+								backgroundColor: `#${props.transition.bgColor}`,
+							} : {}
+						}
+					>
 						<img src={props.transition.logo}></img>
 					</div>
 				</>

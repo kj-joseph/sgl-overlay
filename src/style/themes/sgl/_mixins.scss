@@ -1,0 +1,23 @@
+$hexLogoBorderWidth: 0%; // can add "border" around image in hex, but decided not to for now
+
+@mixin teamLogoHex($logoWidth) {
+	width: $logoWidth;
+	height: calc($logoWidth * $hexRatio);
+	background: $backgroundColor;
+	mask-image: url("/images/themes/sgl/hex-mask.png");
+	mask-size: cover;
+	mask-repeat: no-repeat;
+	mask-position: center center;
+
+	img {
+		width: calc(100% - $hexLogoBorderWidth * 2);
+		height: calc(100% - $hexLogoBorderWidth * 2);
+		margin: $hexLogoBorderWidth;
+		mask-image: url("/images/themes/sgl/hex-mask.png");
+		mask-size: cover;
+		object-fit: cover;
+		object-position: 50% 50%;
+		overflow-clip-margin: unset;
+	}
+
+}

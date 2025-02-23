@@ -42,9 +42,17 @@ const Matchup = (props) => {
 
 				{props.gameData.teams.map((team, teamnum) => (
 					<Fragment key={`matchupTeam${teamnum}`}>
-						<div className={`team team${teamnum} ${props.config.teams[teamnum].hasOwnProperty("logo") && props.config.teams[teamnum].logo ? "hasLogo" : ""}`}>
+						<div
+							className={`team team${teamnum} ${props.config.teams[teamnum].hasOwnProperty("logo") && props.config.teams[teamnum].logo ? "hasLogo" : ""}`}
+						>
 							{props.config.teams[teamnum].logo ? (
-								<div className="logo">
+								<div className="logo"
+									style={props.config.teams[teamnum].bgColor ?
+										{
+											backgroundColor: `#${props.config.teams[teamnum].bgColor}`,
+										} : {}
+									}
+								>
 									<img src={imageLocation(props.config.teams[teamnum].logo, "images/logos/teams")}></img>
 								</div>
 							) :

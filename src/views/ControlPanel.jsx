@@ -695,14 +695,14 @@ const ControlPanel = () => {
 					name: teamNameFields[0],
 					franchise: soccerTeamFields[0],
 					logo: streamTypeField === "SGL-regular" || streamTypeField === "SGL-playoffs" ? teamFields[0].logo : teamLogoFields[0],
-					bgColor: streamTypeField === "SGL-regular" || streamTypeField === "SGL-playoffs" ? teamFields[0].color : null,
+					bgColor: streamTypeField === "SGL-regular" || streamTypeField === "SGL-playoffs" ? teamFields[0].bgColor : null,
 				},
 				{
 					...config.teams[1],
 					name: teamNameFields[1],
 					franchise: soccerTeamFields[1],
 					logo: streamTypeField === "SGL-regular" || streamTypeField === "SGL-playoffs" ? teamFields[1].logo : teamLogoFields[1],
-					bgColor: streamTypeField === "SGL-regular" || streamTypeField === "SGL-playoffs" ? teamFields[1].color : null,
+					bgColor: streamTypeField === "SGL-regular" || streamTypeField === "SGL-playoffs" ? teamFields[1].bgColor : null,
 				},
 			],
 		};

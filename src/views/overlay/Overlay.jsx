@@ -262,6 +262,7 @@ const Overlay = () => {
 									imageLocation(activeConfigRef.current.general.brandLogo, "images/logos")
 									: null,
 								null,
+								null,
 								0,
 							);
 							setTimeout(() => {
@@ -277,6 +278,7 @@ const Overlay = () => {
 								activeConfigRef.current.general.hasOwnProperty("brandLogo") && activeConfigRef.current.general.brandLogo ?
 									imageLocation(activeConfigRef.current.general.brandLogo, "images/logos")
 									: null,
+								null,
 								null,
 								0,
 							);
@@ -294,6 +296,9 @@ const Overlay = () => {
 									imageLocation(activeConfigRef.current.teams[0].logo, "images/logos/teams/")
 									: activeConfigRef.current.general.hasOwnProperty("brandLogo") && activeConfigRef.current.general.brandLogo ?
 										imageLocation(activeConfigRef.current.general.brandLogo, "images/logos")
+									: null,
+									activeConfigRef.current.teams[0].hasOwnProperty("logo") && activeConfigRef.current.teams[0].logo && activeConfigRef.current.teams[0].bgColor ?
+										activeConfigRef.current.teams[0].bgColor
 									: null,
 								0,
 								0,
@@ -313,6 +318,9 @@ const Overlay = () => {
 									: activeConfigRef.current.general.hasOwnProperty("brandLogo") && activeConfigRef.current.general.brandLogo ?
 										imageLocation(activeConfigRef.current.general.brandLogo, "images/logos")
 									: null,
+								activeConfigRef.current.teams[1].hasOwnProperty("logo") && activeConfigRef.current.teams[1].logo && activeConfigRef.current.teams[1].bgColor ?
+										activeConfigRef.current.teams[1].bgColor
+									: null,
 								1,
 								0,
 							);
@@ -329,6 +337,7 @@ const Overlay = () => {
 								activeConfigRef.current.general.hasOwnProperty("brandLogo") && activeConfigRef.current.general.brandLogo ?
 									imageLocation(activeConfigRef.current.general.brandLogo, "images/logos")
 									: null,
+								null,
 								null,
 								0,
 							);
@@ -417,6 +426,7 @@ const Overlay = () => {
 							imageLocation(activeConfig.general.brandLogo, "images/logos")
 							: null,
 						null,
+						null,
 						0,
 					);
 					setTimeout(() => {
@@ -436,6 +446,9 @@ const Overlay = () => {
 						imageLocation(activeConfig.teams[data.scorer.teamnum].logo, "images/logos/teams/")
 						: activeConfig.general.hasOwnProperty("brandLogo") && activeConfig.general.brandLogo ?
 							imageLocation(activeConfig.general.brandLogo, "images/logos")
+						: null,
+					activeConfig.teams[data.scorer.teamnum].hasOwnProperty("logo") && activeConfig.teams[data.scorer.teamnum].logo && activeConfig.teams[data.scorer.teamnum].bgColor ?
+						activeConfig.teams[data.scorer.teamnum].bgColor
 						: null,
 					data.scorer.teamnum,
 					3,
@@ -460,6 +473,9 @@ const Overlay = () => {
 							imageLocation(activeConfig.teams[winningTeam].logo, "images/logos/teams/")
 							: activeConfig.general.hasOwnProperty("brandLogo") && activeConfig.general.brandLogo ?
 								imageLocation(activeConfig.general.brandLogo, "images/logos")
+							: null,
+						activeConfig.teams[winningTeam].hasOwnProperty("logo") && activeConfig.teams[winningTeam].logo && activeConfig.teams[winningTeam].bgColor ?
+							activeConfig.teams[winningTeam].bgColor
 							: null,
 						winningTeam,
 						0,
@@ -550,6 +566,7 @@ const Overlay = () => {
 						imageLocation(activeConfig.general.brandLogo, "images/logos")
 						: null,
 					null,
+					null,
 					2,
 				);
 				break;
@@ -608,8 +625,9 @@ const Overlay = () => {
 	}
 
 	// visual transitions
-	const triggerTransition = (name, text, logo, team, delay) => {
+	const triggerTransition = (name, text, logo, bgColor, team, delay) => {
 		setTransition({
+			bgColor,
 			delay,
 			logo,
 			name,

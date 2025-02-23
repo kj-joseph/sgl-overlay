@@ -62,6 +62,7 @@ const Live = (props) => {
 							<TeamLogo
 								team={teamnum}
 								logo={props.config.teams[teamnum].logo}
+								bgColor={props.config.teams[teamnum].bgColor}
 							/>
 						) : null}
 						<TeamScore
