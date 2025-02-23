@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
-import socialMediaList from "@/data/rscSocialMedia";
+import socialMediaList from "@/data/rscSocialMedia";  // TODO: Replace if SGL does social media or similar
 
 const rotationSeconds = 13;
 
