@@ -23,7 +23,7 @@ export const callGoogleSheets = (sheetName, params) =>
 				const responseData = [];
 
 				if (response.data.values.length > 1) {
-					const keys = response.data.values[0];
+					const keys = response.data.values[0].map(k => k.replaceAll(" ", ""));
 
 					for (let row = 1; row < response.data.values.length; row++) {
 						const rowObject = {};

@@ -3,6 +3,7 @@ import React, { useEffect, useState, useRef } from "react";
 import { v4 as uuidv4 } from "uuid";
 
 import { getTeamList } from "@/services/teamService";
+import { getPlayerStatsByTeams } from "@/services/statService";
 
 import Button from "@mui/material/Button";
 import Container from "@mui/material/Container";
@@ -16,7 +17,6 @@ import MenuItem from "@mui/material/MenuItem";
 import OutlinedInput from "@mui/material/OutlinedInput";
 import Select from "@mui/material/Select";
 import Snackbar from "@mui/material/Snackbar";
-import Switch from "@mui/material/Switch";
 import TextField from "@mui/material/TextField";
 import { createTheme, styled, ThemeProvider } from "@mui/material/styles";
 
@@ -248,10 +248,9 @@ const ControlPanel = () => {
 		teamNameFields,
 	]);
 
-	// check for unsaved changes
 	useEffect(() => {
 		loadTeamList();
-	}, [teamNameFields]);
+	}, []);
 
 	const fieldHasChanges = (fieldName) => fieldsWithChanges.indexOf(fieldName) > -1;
 
@@ -581,15 +580,14 @@ const ControlPanel = () => {
 				return;
 			}
 
-			// TODO: load season stats for SGL?
-/*
-			if (Array.isArray(franchiseLists[leagueId]) && franchiseLists[leagueId].length > 0) {
-				// only load stats when series score set to 0-0
-				const loadPregameStats = (seriesScoreFields[0] === 0 && seriesScoreFields[1] === 0);
+			// only load stats when series score set to 0-0
+			if (seriesScoreFields[0] === 0 && seriesScoreFields[1] === 0) {
 				const apiPromises = [];
+				openDialog("loading");
 
+// TODO: SGL team stats
+/*
 				// load team stats
-				if (loadPregameStats) {
 					apiPromises.push(
 						getTeamStatsByTier(tierField)
 							.then((loadedTeamStats) => {
@@ -600,39 +598,27 @@ const ControlPanel = () => {
 								openSnackbar("Error getting team stats from old API");
 							})
 					);
-				}
+*/
 
-				for (let teamnum in teamFields) {
+				//load player stats
+				// for (let teamnum in teamFields) {
 
-					const teamFranchise = franchiseLists[leagueId].filter((franchise) => franchise.id === teamFields[teamnum].franchise.id);
-					if (teamFranchise.length === 1) {
+					apiPromises.push(
+						getPlayerStatsByTeams([teamFields[0].code, teamFields[1].code])
+						.then((loadedPlayerStats) => {
+							playerStats.push(...loadedPlayerStats);
+						})
+						.catch((error) => {
+							console.error(error);
+							openSnackbar("Error getting team stats from stats service");
+						})
+					)
 
-						// set franchise logos
-						teamFranchiseLogos[teamnum] = teamFranchise[0].logo;
+				// }
 
-						// load player stats if both teams at 0 games
-						if (loadPregameStats) {
-								apiPromises.push(
-								getTeamPlayerStats(teamFields[teamnum].name)
-								.then((loadedPlayerStats) => {
-									playerStats[teamnum] = loadedPlayerStats;
-								})
-								.catch((error) => {
-									console.error(error);
-									openSnackbar("Error getting team stats from stats service");
-								})
-							)
-						}
-
-					}
-				}
-
-				if (loadPregameStats) {
-					// load team and player stats
-					openDialog("loading");
-
-					Promise.all(apiPromises)
+				Promise.all(apiPromises)
 					.then(() => {
+/*
 						// set team stats from tier list
 						for (let teamnum in teamFields) {
 							const filteredTeamStats = tierTeamStats.filter((t) => t.teamName === teamFields[teamnum].name);
@@ -640,7 +626,7 @@ const ControlPanel = () => {
 								teamStats[teamnum] = filteredTeamStats[0];
 							}
 						}
-
+ */
 						// save pregame stats to local storagge
 						localStorage.setItem("pregameStats", JSON.stringify({
 							playerStats,
@@ -655,13 +641,12 @@ const ControlPanel = () => {
 						openSnackbar("Error loading from stats service");
 					});
 
-				}
-
 			}
 
- */
 
 		} else {
+			// not SGL official
+
 			if (showSeriesField && seriesScoreFields.includes("")) {
 				openSnackbar("Team series score can't be blank.");
 				return;
