@@ -1,14 +1,12 @@
-import { callApi, callStats } from "@/services/apiService";
-import sglTeams from "@/data/sglTeams";
+import { callSheets } from "@/services/sheetsService";
 
-// TODO: pulling locally for now; maybe API endpoint?
-export const getTeamList = async (league, tier, season) =>
+export const getTeamList = async () =>
 
 	new Promise((resolve, reject) => {
 
-		resolve(sglTeams)
+		callSheets("teams", {})
 			.then((response) =>
-				resolve(response.data))
+				resolve(response))
 
 			.catch((error) =>
 				reject(error));

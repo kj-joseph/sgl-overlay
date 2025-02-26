@@ -1,15 +1,6 @@
 import axios from "axios";
 
-const apiLocation = "https://api.rscna.com/api/v1/";
-const statServiceLocation = "https://devleague.rscna.com/";
-
-export const callApi = (method, path, params) =>
-	makeServerCall(method, path, params, "api");
-
-export const callStats = (method, path, params) =>
-	makeServerCall(method, path, params, "stats");
-
-export const makeServerCall = (method, path, params, service) =>
+export const makeServerCall = (method, url, params) =>
 
 	new Promise((resolve, reject) => {
 
@@ -29,7 +20,7 @@ export const makeServerCall = (method, path, params, service) =>
 
 		const axiosRequest = {
 			method,
-			url: `${service === "stats" ? statServiceLocation : apiLocation}${path}`,
+			url,
 		};
 
 		if (method === "get") {
@@ -47,7 +38,7 @@ export const makeServerCall = (method, path, params, service) =>
 				resolve(response);
 			})
 			.catch((error) => {
-					reject(error);
+				reject(error);
 			});
 
 	});
