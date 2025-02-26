@@ -2,6 +2,8 @@ import React from "react";
 
 import imageLocation from "@/utils/imageLocation";
 
+import displayDecimal from "@/utils/displayDecimal";
+
 const longTeamName = 16;
 const longFranchiseName = 25;
 
@@ -49,7 +51,7 @@ const PlayerStatsTable = (props) => {
 
 							{props.statList.map((stat, statIndex) => (
 								<td scope="col" className={stat.name==="shotPct" ? "pct" : ""} key={statIndex}>
-									{player[stat.name]}
+									{displayDecimal(player[stat.name], stat.round)}
 									{stat.name==="shotPct" ?
 										<span className="pctSymbol">%</span>
 									: null}
