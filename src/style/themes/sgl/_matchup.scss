@@ -20,12 +20,12 @@
 		),
 		url("/images/themes/sgl/hex-bg.png");
 	background-position:
-		260px 256.831px,
-		1060px 256.831px,
+		260px 250px,
+		1060px 250px,
 		center center;
 	background-size:
-		600px 823px,
-		600px 823px,
+		600px 830px,
+		600px 830px,
 		100% 100%;
 	background-repeat:
 		no-repeat,
@@ -38,27 +38,27 @@
 		height: $pregameLeagueLogoHeight;
 		background-image: linear-gradient(to bottom,
 			$backgroundTransparent 0,
-			$backgroundTransparent 62.5px,
-			$sglRed 62.5px,
-			$sglRed 70.731px,
-			#1f1f1f 70.731px,
-			#1f1f1f 179.269px,
-			$sglRed 179.269px,
-			$sglRed 187.5px,
-			$backgroundTransparent 187.5px,
-			$backgroundTransparent 250px
+			$backgroundTransparent 25%,
+			$sglRed 25%,
+			$sglRed 28.29%,
+			#1f1f1f 28.29%,
+			#1f1f1f 71.71%,
+			$sglRed 71.71%,
+			$sglRed 75%,
+			$backgroundTransparent 75%,
+			$backgroundTransparent 100%
 		),
 		linear-gradient(to bottom,
 			$backgroundTransparent 0,
-			$backgroundTransparent 62.5px,
-			$sglBlue 62.5px,
-			$sglBlue 70.731px,
-			#1f1f1f 70.731px,
-			#1f1f1f 179.269px,
-			$sglBlue 179.269px,
-			$sglBlue 187.5px,
-			$backgroundTransparent 187.5px,
-			$backgroundTransparent 250px
+			$backgroundTransparent 25%,
+			$sglBlue 25%,
+			$sglBlue 28.29%,
+			#1f1f1f 28.29%,
+			#1f1f1f 71.71%,
+			$sglBlue 71.71%,
+			$sglBlue 75%,
+			$backgroundTransparent 75%,
+			$backgroundTransparent 100%
 		);
 		background-size:
 			50% 100%,

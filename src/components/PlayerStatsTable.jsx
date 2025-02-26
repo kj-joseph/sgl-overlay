@@ -17,10 +17,17 @@ const PlayerStatsTable = (props) => {
 			<thead>
 				<tr>
 
-					<th className={`teamName team${props.team}`} colSpan={props.statList.length + 1} style={props.teamColors ? {backgroundColor: `#${props.teamColors[props.team]}`} : null}>
-						{props.showLogos ?
+					<th className={`teamName team${props.team} ${!props.config.teams[props.team].logo ? "noLogo" : null}`} colSpan={props.statList.length + 1} style={props.teamColors ? {backgroundColor: `#${props.teamColors[props.team]}`} : null}>
+						{props.showLogos && props.config.teams[props.team].logo ?
 							<div className="logo">
-								<img src={imageLocation(props.config.teams[props.team].logo, "images/logos/teams")}></img>
+								<img
+									src={imageLocation(props.config.teams[props.team].logo, "images/logos/teams")}
+									style={props.bgColor ?
+										{
+											backgroundColor: `#${props.bgColor}`,
+										} : {}
+									}
+								></img>
 							</div>
 						: null}
 						<div className="teamText">

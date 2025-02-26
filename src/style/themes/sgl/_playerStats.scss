@@ -1,0 +1,336 @@
+@use "sass:math";
+
+$statPlayerWidth: 420px;
+$statWidth: 100px;
+$statPadding: 12px;
+
+.playerStats {
+	--backgroundFadeColor: #{rgba(#ffffff, .25)};
+
+	position: absolute;
+    left: 0;
+    top: 0;
+	width: $windowWidth;
+	height: $windowHeight;
+	color: $textColor;
+	padding-top: 20px;
+	background-image:
+		linear-gradient(to bottom,
+			var(--backgroundFadeColor) 0,
+			var(--backgroundFadeColor) 75%,
+			$backgroundTransparent 98%
+		),
+		linear-gradient(to bottom,
+			var(--backgroundFadeColor) 0,
+			var(--backgroundFadeColor) 75%,
+			$backgroundTransparent 98%
+		),
+		url("/images/themes/sgl/hex-bg.png");
+	background-position:
+		60px 130px,
+		60px 130px,
+		center center;
+	background-size:
+		200px 950px,
+		1800px 980px,
+		100% 100%;
+	background-repeat:
+		no-repeat,
+		no-repeat,
+		no-repeat;
+
+	&.team0 {
+		--backgroundFadeColor: var(--team0fade);
+	}
+
+	&.team1 {
+		--backgroundFadeColor: var(--team1fade);
+	}
+
+	.playerStatsHeader {
+		position: absolute;
+		top: 25px;
+		width: $windowWidth;
+		height: $pregameLeagueLogoHeightSmall;
+		background-image: linear-gradient(to bottom,
+			$backgroundTransparent 0,
+			$backgroundTransparent 25%,
+			$sglRed 25%,
+			$sglRed 28.29%,
+			#1f1f1f 28.29%,
+			#1f1f1f 71.71%,
+			$sglRed 71.71%,
+			$sglRed 75%,
+			$backgroundTransparent 75%,
+			$backgroundTransparent 100%
+		),
+		linear-gradient(to bottom,
+			$backgroundTransparent 0,
+			$backgroundTransparent 25%,
+			$sglBlue 25%,
+			$sglBlue 28.29%,
+			#1f1f1f 28.29%,
+			#1f1f1f 71.71%,
+			$sglBlue 71.71%,
+			$sglBlue 75%,
+			$backgroundTransparent 75%,
+			$backgroundTransparent 100%
+		);
+		background-size:
+			50% 100%,
+			50% 100%;
+		background-position:
+			top left,
+			top right;
+		background-repeat:
+			no-repeat,
+			no-repeat;
+
+		.leagueLogo {
+			position: absolute;
+			left: 50%;
+			top: 0;
+			width: calc(math.div($pregameLeagueLogoHeightSmall, $hexRatio));
+			height: $pregameLeagueLogoHeightSmall;
+			transform: translateX(-50%);
+
+			img {
+				width: 100%;
+				height: 100%;
+				object-fit: contain;
+				object-position: 50% 50%;
+			}
+		}
+
+		.leagueName {
+			position: absolute;
+			left: 0;
+			top: 50%;
+			width: calc(50% - math.div($pregameLeagueLogoHeight, $hexRatio) * .5 - $borderSize);
+			font-family: var(--fontHexagle);
+			font-size: 48px;
+			font-weight: bold;
+			font-style: italic;
+			text-align: right;
+			line-height: 48px;
+			color: $textColor;
+			text-transform: uppercase;
+			letter-spacing: .3em;
+			transform: translateY(-50%);
+		}
+
+		@import "header";
+
+		.header {
+			position: absolute;
+			font-size: 32px;
+			top: 50%;
+			transform: translateY(-50%);
+			line-height: 32px;
+			color: $textColor;
+			font-family: var(--fontHexagle);
+			font-weight: bold;
+			font-style: normal;
+			text-transform: uppercase;
+			letter-spacing: .3em;
+			background: none;
+			margin: 0;
+			padding: 0;
+
+			&.header0 {
+				left: 0;
+				width: calc(50% - math.div($pregameLeagueLogoHeightSmall, $hexRatio) * .5 - $borderSize - $borderSize);
+				text-align: right;
+			}
+
+			&.header1 {
+				right: 0;
+				width: calc(50% - math.div($pregameLeagueLogoHeightSmall, $hexRatio) * .5 - $borderSize - $borderSize - .3em);
+				text-align: left;
+			}
+
+			&.pipes span:not(:last-child):after {
+				font-size: 28px;
+			}
+
+		}
+
+		.playerStatsTitle {
+			// display: none;
+			position: absolute;
+			top: 225px;
+			left: calc(310px + $borderSize);
+			z-index: 25;
+			color: white;
+			font-family: var(--fontRajdhani);
+			font-size: 44px;
+			font-weight: bold;
+			font-style: italic;
+			text-align: left;
+			text-transform: uppercase;
+			letter-spacing: .15em;
+			margin: 0;
+			padding: 0 0 0 .3em;
+		}
+
+	}
+
+	.playerStatsTable {
+		position: absolute;
+		left: 310px;
+		top: 240px;
+		width: 1500px;
+		text-transform: uppercase;
+		background: $backgroundTranslucent;
+		border-collapse: collapse;
+		border: $borderSize solid $backgroundColor;
+
+		th, td {
+			text-align: center;
+			padding: calc($borderSize * 2.5) $borderSize;
+			border: $borderSize solid $backgroundColor;
+
+			&.centerColumn {
+				width: 200px;
+			}
+
+		}
+
+		thead {
+
+			th.teamName {
+				position: absolute;
+				top: 0;
+				left: 0;
+				padding: 0;
+				background: none;
+
+				.teamText {
+					position: absolute;
+					top: 130px;
+					right: 160px;
+					transform: rotate(-90deg);
+					transform-origin: right center;
+					text-align: right;
+					text-transform: uppercase;
+					margin-left: calc($statsTeamLogoSize * .5 + 20px);
+
+					.name {
+						font-family: var(--fontHexagle);
+						font-size: 70px;
+						font-weight: bold;
+						white-space: nowrap;
+						color: $textColor;
+					}
+
+					.franchise {
+						font-family: var(--fontRajdhani);
+						font-size: 30px;
+						font-weight: normal;
+						white-space: nowrap;
+						color: $secondaryTextColor;
+					}
+
+				}
+
+				.logo {
+					position: absolute;
+					top: -30px;
+					left: -242px;
+					@include teamLogoHex($statsTeamLogoSize);
+				}
+
+				&.noLogo {
+					.teamText {
+						top: -50px;
+					}
+				}
+
+			}
+
+			th.statHeader {
+				background: $backgroundColor;
+			}
+
+			th.playerName,
+			th.statHeader {
+				width: $statWidth;
+				color: $secondaryTextColor;
+				font-family: var(--fontRajdhani);
+				font-weight: bold;
+				font-size: 26px;
+				text-align: right;
+				padding: $statPadding;
+
+				&.pct {
+					width: calc($statWidth * 1.75);
+				}
+			}
+
+			th.playerName {
+				width: $statPlayerWidth;
+				text-align: left;
+			}
+
+		}
+
+
+		tbody {
+			--playerStatsTeamFade: #{$backgroundTranslucent};
+			--playerStatsTeamTone: #{$backgroundHighlight};
+
+			tr:nth-child(odd) {
+				td, th {
+					background:
+						linear-gradient(var(--playerStatsTeamFade), var(--playerStatsTeamFade)),
+						linear-gradient(var(--playerStatsTeamFade), var(--playerStatsTeamFade));
+					background-blend-mode: color-burn, normal;
+				}
+			}
+
+			tr:nth-child(even) {
+				td, th {
+					background: var(--playerStatsTeamTone);
+				}
+			}
+
+			th {
+				color: $textColor;
+				font-family: var(--fontHexagle);
+				font-size: 36px;
+				font-weight: bold;
+				font-style: italic;
+				vertical-align: middle;
+				text-align: left;
+				padding: $statPadding;
+			}
+
+			td {
+				width: $statWidth;
+				font-family: var(--fontHexagle);
+				font-size: 44px;
+				font-weight: bold;
+				vertical-align: middle;
+				text-align: right;
+				padding: $statPadding;
+
+				.pctSymbol {
+					font-size: .75em;
+				}
+			}
+
+			.team0 {
+				--playerStatsTeamFade: var(--team0fade);
+				--playerStatsTeamTone: var(--team0tone);
+			}
+
+			.team1 {
+				--playerStatsTeamFade: var(--team1fade);
+				--playerStatsTeamTone: var(--team1tone);
+			}
+
+		}
+
+	}
+
+}

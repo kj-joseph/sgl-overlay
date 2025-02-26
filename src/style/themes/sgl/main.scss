@@ -5,9 +5,10 @@ $windowWidth: 1920px;
 $windowHeight: 1080px;
 
 $pregameLeagueLogoHeight: 250px;
+$pregameLeagueLogoHeightSmall: 150px;
 $matchupTeamWidth: 600px;
 $matchupTeamLogoSize: 400px;
-$statsTeamLogoSize: 150px;
+$statsTeamLogoSize: 165px;
 
 $mainBarHeight: 75px;
 $clockWidth: 129px;
@@ -94,7 +95,7 @@ $goalColor: #ffd100;
 	@import "live";
 
 	@import "matchup";
-	// @import "playerStats";
+	@import "playerStats";
 	// @import "teamStats";
 
 	@import "postgame";

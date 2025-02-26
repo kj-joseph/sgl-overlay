@@ -82,6 +82,7 @@ const PlayerStats = (props) => {
 				statList={statList}
 				showLogos={true}
 				team={props.team}
+				bgColor={props.config.teams[props.team].hasOwnProperty("logo") && props.config.teams[props.team].logo && props.config.teams[props.team].bgColor ? props.config.teams[props.team].bgColor : null}
 			></PlayerStatsTable>
 
 		</div>
