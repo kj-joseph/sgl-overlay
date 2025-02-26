@@ -1,10 +1,10 @@
-import { callSheets } from "@/services/sheetsService";
+import { callGoogleSheets } from "@/services/googleSheetsService";
 
 export const getTeamList = async () =>
 
 	new Promise((resolve, reject) => {
 
-		callSheets("teams", {})
+		callGoogleSheets("teams", {})
 			.then((response) =>
 				resolve(response.map(team => ({
 					name: team.name,

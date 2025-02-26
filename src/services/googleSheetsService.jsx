@@ -4,19 +4,19 @@ import apiData from "@/data/apiData";
 
 const sheetsUrl = "https://sheets.googleapis.com/v4/spreadsheets/";
 
-export const callSheets = (sheetName, params) =>
+export const callGoogleSheets = (sheetName, params) =>
 
 	new Promise((resolve, reject) => {
 
-		if (!apiData.hasOwnProperty("sheets") || !apiData.sheets.sheetData.hasOwnProperty(sheetName)) {
+		if (!apiData.hasOwnProperty("googleSheets") || !apiData.googleSheets.sheetData.hasOwnProperty(sheetName)) {
 			throw(`Sheet ID not found: ${sheetName}`)
 		}
 
 		makeServerCall(
 			"get",
-			`${apiData.sheets.url}/${apiData.sheets.sheetData[sheetName].id}/values/${apiData.sheets.sheetData[sheetName].table}`,
+			`${apiData.googleSheets.url}/${apiData.googleSheets.sheetData[sheetName].id}/values/${apiData.googleSheets.sheetData[sheetName].table}`,
 			{...params,
-				key: apiData.sheets.apiKey,
+				key: apiData.googleSheets.apiKey,
 			}
 		)
 			.then((response) =>	{
