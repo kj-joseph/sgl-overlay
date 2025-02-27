@@ -15,7 +15,7 @@ export const getPlayerStatsByTeams = async (teamCodes) =>
 								gp: player.GamesPlayed,
 								goals: player.TotalGoals,
 								shots: player.TotalShots,
-								shotPct: player.ShootingPercentageAverage,
+								shotPct: player.ShootingPercentage,
 								assists: player.TotalAssists,
 								saves: player.TotalSaves,
 								demos: player.TotalDemosInflicted,
