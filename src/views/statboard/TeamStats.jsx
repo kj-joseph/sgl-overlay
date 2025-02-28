@@ -6,19 +6,23 @@ import "@/style/statboard.scss";
 
 const statList = [
     {
-        name: "%%RECORD%%",
-        label: "Record",
+        name: "%%SERIES%%",
+        label: "Series Record",
     },
     {
-        name: "goals",
+        name: "%%GAMES%%",
+        label: "Game Record",
+    },
+    {
+        name: "goalsPerGame",
         label: "Goals For",
-		round: 0,
+		round: 2,
 		best: "higher",
     },
     {
-        name: "shots",
+        name: "shotsPerGame",
         label: "Shots",
-		round: 0,
+		round: 2,
 		best: "higher",
     },
     {
@@ -28,21 +32,21 @@ const statList = [
 		best: "higher",
     },
     {
-        name: "assists",
+        name: "assistsPerGame",
         label: "Assists",
-		round: 0,
+		round: 2,
 		best: "higher",
     },
     {
-        name: "oppGoals",
+        name: "oppGoalsPerGame",
         label: "Goals Vs",
-		round: 0,
+		round: 2,
 		best: "lower",
     },
     {
-        name: "saves",
+        name: "savesPerGame",
         label: "Saves",
-		round: 0,
+		round: 2,
 		best: "higher",
 	},
 ];

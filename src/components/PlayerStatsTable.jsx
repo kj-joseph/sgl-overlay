@@ -17,7 +17,7 @@ const PlayerStatsTable = (props) => {
 			<thead>
 				<tr>
 
-					<th className={`teamName team${props.team} ${!props.config.teams[props.team].logo ? "noLogo" : null}`} colSpan={props.statList.length + 1} style={props.teamColors ? {backgroundColor: `#${props.teamColors[props.team]}`} : null}>
+					<th className={`teamName team${props.team} ${!props.config.teams[props.team].logo ? "noLogo" : ""}`} colSpan={props.statList.length + 1} style={props.teamColors ? {backgroundColor: `#${props.teamColors[props.team]}`} : null}>
 						{props.showLogos && props.config.teams[props.team].logo ?
 							<div className="logo">
 								<img

@@ -14,10 +14,18 @@ const TeamStatsTable = (props) => {
 		<table className="teamStatsTable">
 			<thead>
 				<tr>
-					<th className="teamName team0" colSpan={2} style={props.teamColors ? {backgroundColor: `#${props.teamColors[0]}`} : null}>
+					<th className="teamName team0" style={props.teamColors ? {backgroundColor: `#${props.teamColors[0]}`} : null}>
 						{props.showLogos ?
 							<div className="logo">
-								<img src={imageLocation(props.config.teams[0].logo, "images/logos/teams")}></img>
+								<img
+									src={imageLocation(props.config.teams[0].logo, "images/logos/teams")}
+									style={props.config.teams[0].bgColor ?
+										{
+											backgroundColor: `#${props.config.teams[0].bgColor}`,
+										} : {}
+									}
+								>
+								</img>
 							</div>
 						: null}
 						<div className="teamText">
@@ -31,10 +39,18 @@ const TeamStatsTable = (props) => {
 
 					<td className="centerColumn"></td>
 
-					<th className="teamName team1" colSpan={2} style={props.teamColors ? {backgroundColor: `#${props.teamColors[1]}`} : null}>
+					<th className="teamName team1" style={props.teamColors ? {backgroundColor: `#${props.teamColors[1]}`} : null}>
 						{props.showLogos ?
 							<div className="logo">
-								<img src={imageLocation(props.config.teams[1].logo, "images/logos/teams")}></img>
+								<img
+									src={imageLocation(props.config.teams[1].logo, "images/logos/teams")}
+									style={props.config.teams[1].bgColor ?
+										{
+											backgroundColor: `#${props.config.teams[1].bgColor}`,
+										} : {}
+									}
+								>
+								</img>
 							</div>
 						: null}
 						<div className="teamText">
@@ -51,15 +67,30 @@ const TeamStatsTable = (props) => {
 			<tbody>
 				{props.statList.map((stat, statIndex) => (
 					<tr key={`stat${statIndex}`}>
-						{stat.name == "%%RECORD%%" ?
-							props.pregameStats.teamStats[0] && props.pregameStats.teamStats[0].hasOwnProperty("wins") && props.pregameStats.teamStats[0].hasOwnProperty("loss") ?
-								<td key={`team0${statIndex}`} className={`team0 ${props.pregameStats.teamStats[1] && props.pregameStats.teamStats[1].hasOwnProperty("wins") && props.pregameStats.teamStats[0].wins >= props.pregameStats.teamStats[1].wins ? "better" : ""}`}>
-									{`${props.pregameStats.teamStats[0].wins}-${props.pregameStats.teamStats[0].loss}`}
+						{stat.name == "%%SERIES%%" ?
+							props.pregameStats.teamStats[0] && props.pregameStats.teamStats[0].hasOwnProperty("seriesWins") && props.pregameStats.teamStats[0].hasOwnProperty("seriesLosses") ?
+								<td
+									key={`team0${statIndex}`}
+									className={`team0 ${props.pregameStats.teamStats[1] && props.pregameStats.teamStats[1].hasOwnProperty("seriesWins") && props.pregameStats.teamStats[1].hasOwnProperty("seriesLosses") && (props.pregameStats.teamStats[0].seriesWins / props.pregameStats.teamStats[0].seriesLosses) >= (props.pregameStats.teamStats[1].seriesWins / props.pregameStats.teamStats[1].seriesLosses) ? "better" : ""}`}>
+									{props.pregameStats.teamStats[0].seriesWins}<span className="hyphen">-</span>{props.pregameStats.teamStats[0].seriesLosses}
 								</td>
 							:
-								<td key={`team0${statIndex}na`} className={`team0`}>
+								<td key={`team0${statIndex}`} className={`team0`}>
 									n/a
 								</td>
+						: stat.name == "%%GAMES%%" ?
+							props.pregameStats.teamStats[0] && props.pregameStats.teamStats[0].hasOwnProperty("gameWins") && props.pregameStats.teamStats[0].hasOwnProperty("gameLosses") ?
+								<td
+									key={`team0${statIndex}`}
+									className={`team0 ${props.pregameStats.teamStats[1] && props.pregameStats.teamStats[1].hasOwnProperty("gameWins") && props.pregameStats.teamStats[1].hasOwnProperty("gameLosses") && (props.pregameStats.teamStats[0].gameWins / props.pregameStats.teamStats[0].gameLosses) >= (props.pregameStats.teamStats[1].gameWins / props.pregameStats.teamStats[1].gameLosses) ? "better" : ""}`}>
+									{props.pregameStats.teamStats[0].gameWins}<span className="hyphen">-</span>{props.pregameStats.teamStats[0].gameLosses}
+								</td>
+							:
+								<td key={`team0${statIndex}`} className={`team0`}>
+									n/a
+								</td>
+
+
 						:
 							props.pregameStats.teamStats[0] && props.pregameStats.teamStats[0].hasOwnProperty(stat.name) ?
 								<td key={`team0${statIndex}`}
@@ -82,16 +113,29 @@ const TeamStatsTable = (props) => {
 									n/a
 								</td>
 						}
-						<th scope="row" className="centerColumn"  colSpan={2}><span>{stat.label}</span></th>
-						{stat.name == "%%RECORD%%" ?
-							props.pregameStats.teamStats[1] && props.pregameStats.teamStats[1].hasOwnProperty("wins") && props.pregameStats.teamStats[1].hasOwnProperty("loss") ?
-							<td className={`team1 ${props.pregameStats.teamStats[0] && props.pregameStats.teamStats[0].wins <= props.pregameStats.teamStats[1].wins ? "better" : ""}`} key={`team1${statIndex}`}>
-								{`${props.pregameStats.teamStats[1].wins}-${props.pregameStats.teamStats[1].loss}`}
-							</td>
+						<th scope="row" className="centerColumn"><span>{stat.label}</span></th>
+						{stat.name == "%%SERIES%%" ?
+							props.pregameStats.teamStats[1] && props.pregameStats.teamStats[1].hasOwnProperty("seriesWins") && props.pregameStats.teamStats[1].hasOwnProperty("seriesLosses") ?
+								<td
+									key={`team1${statIndex}`}
+									className={`team1 ${props.pregameStats.teamStats[0] && props.pregameStats.teamStats[0].hasOwnProperty("seriesWins") && props.pregameStats.teamStats[0].hasOwnProperty("seriesLosses") && (props.pregameStats.teamStats[1].seriesWins / props.pregameStats.teamStats[1].seriesLosses) >= (props.pregameStats.teamStats[0].seriesWins / props.pregameStats.teamStats[0].seriesLosses) ? "better" : ""}`}>
+									{props.pregameStats.teamStats[1].seriesWins}<span className="hyphen">-</span>{props.pregameStats.teamStats[1].seriesLosses}
+								</td>
 							:
-							<td key={`team1${statIndex}`} className={`team1`}>
-								n/a
-							</td>
+								<td key={`team1${statIndex}`} className={`team1`}>
+									n/a
+								</td>
+						: stat.name == "%%GAMES%%" ?
+							props.pregameStats.teamStats[1] && props.pregameStats.teamStats[1].hasOwnProperty("gameWins") && props.pregameStats.teamStats[1].hasOwnProperty("gameLosses") ?
+								<td
+									key={`team1${statIndex}`}
+									className={`team1 ${props.pregameStats.teamStats[0] && props.pregameStats.teamStats[0].hasOwnProperty("gameWins") && props.pregameStats.teamStats[0].hasOwnProperty("gameLosses") && (props.pregameStats.teamStats[1].gameWins / props.pregameStats.teamStats[1].gameLosses) >= (props.pregameStats.teamStats[0].gameWins / props.pregameStats.teamStats[0].gameLosses) ? "better" : ""}`}>
+									{props.pregameStats.teamStats[1].gameWins}<span className="hyphen">-</span>{props.pregameStats.teamStats[1].seriesLosses}
+								</td>
+							:
+								<td key={`team1${statIndex}`} className={`team1`}>
+									n/a
+								</td>
 						:
 							props.pregameStats.teamStats[1] && props.pregameStats.teamStats[1].hasOwnProperty(stat.name) ?
 								<td key={`team1${statIndex}na`}

@@ -3,7 +3,7 @@ import React, { useEffect, useState, useRef } from "react";
 import { v4 as uuidv4 } from "uuid";
 
 import { getTeamList } from "@/services/teamService";
-import { getPlayerStatsByTeams } from "@/services/statService";
+import { getPlayerStatsByTeams, getTeamStatsByTeams } from "@/services/statService";
 
 import Button from "@mui/material/Button";
 import Container from "@mui/material/Container";
@@ -365,7 +365,7 @@ const ControlPanel = () => {
 				.catch((error) => {
 					closeDialog();
 					console.error(error);
-					openSnackbar("Error getting team list from API");
+					openSnackbar("Error getting team list from sheets");
 				});
 		}
 
@@ -585,24 +585,20 @@ const ControlPanel = () => {
 				const apiPromises = [];
 				openDialog("loading");
 
-// TODO: SGL team stats
-/*
 				// load team stats
 					apiPromises.push(
-						getTeamStatsByTier(tierField)
+						getTeamStatsByTeams([teamFields[0].code, teamFields[1].code])
 							.then((loadedTeamStats) => {
-								tierTeamStats.push(...loadedTeamStats);
+								teamStats.push(...loadedTeamStats);
 							})
 							.catch((error) => {
 								console.error(error);
-								openSnackbar("Error getting team stats from old API");
+								openSnackbar("Error getting team stats from sheets");
 							})
 					);
-*/
+
 
 				//load player stats
-				// for (let teamnum in teamFields) {
-
 					apiPromises.push(
 						getPlayerStatsByTeams([teamFields[0].code, teamFields[1].code])
 						.then((loadedPlayerStats) => {
@@ -610,23 +606,12 @@ const ControlPanel = () => {
 						})
 						.catch((error) => {
 							console.error(error);
-							openSnackbar("Error getting team stats from stats service");
+							openSnackbar("Error getting team stats from sheets");
 						})
 					)
 
-				// }
-
 				Promise.all(apiPromises)
 					.then(() => {
-/*
-						// set team stats from tier list
-						for (let teamnum in teamFields) {
-							const filteredTeamStats = tierTeamStats.filter((t) => t.teamName === teamFields[teamnum].name);
-							if (filteredTeamStats.length === 1) {
-								teamStats[teamnum] = filteredTeamStats[0];
-							}
-						}
- */
 						// save pregame stats to local storagge
 						localStorage.setItem("pregameStats", JSON.stringify({
 							playerStats,
