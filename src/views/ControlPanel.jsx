@@ -1203,11 +1203,11 @@ const ControlPanel = () => {
 														/>
 													</FormControl><br />
 													<FormControl variant="outlined" size="small" fullWidth>
-														<InputLabel shrink htmlFor={`soccerTeamField${teamnum}`}>Soccer Team Name</InputLabel>
+														<InputLabel shrink htmlFor={`soccerTeamField${teamnum}`}>{streamTypeField === "other" ? "Org Name" : "Soccer Team Name"}</InputLabel>
 														<OutlinedInput
 															notched
 															id={`soccerTeamField${teamnum}`}
-															label="Soccer Team Name"
+															label={streamTypeField === "other" ? "Org Name" : "Soccer Team Name"}
 															onChange={(e) => changeSoccerTeamField(e.target.value, teamnum)}
 															value={soccerTeamFields[teamnum]}
 															className={fieldHasChanges(`soccerTeamField${teamnum}`) ? "changedField" : ""}
