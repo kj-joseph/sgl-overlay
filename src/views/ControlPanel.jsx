@@ -523,7 +523,9 @@ const ControlPanel = () => {
 			break;
 
 			default:
-				changeBrandLogoField("");
+				if(brandLogoField === "sgl-logo.png") {
+					changeBrandLogoField("");
+				}
 
 				break;
 		}
