@@ -183,7 +183,6 @@ $statPadding: 12px;
 					transform-origin: right center;
 					text-align: right;
 					text-transform: uppercase;
-					margin-left: calc($statsTeamLogoSize * .5 + 20px);
 
 					.name {
 						font-family: var(--fontHexagle);
@@ -191,6 +190,11 @@ $statPadding: 12px;
 						font-weight: bold;
 						white-space: nowrap;
 						color: $textColor;
+
+						&.long {
+							font-size: 55px;
+						}
+
 					}
 
 					.franchise {

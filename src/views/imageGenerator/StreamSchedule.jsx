@@ -47,7 +47,7 @@ const StreamSchedule = (props) => {
 											<div className="franchise">{team.franchise.name}</div>
 										</div>
 										<div className="logo">
-											<img src={imageLocation(team.logo, "images/logos/teams")}></img>
+											<img src={imageLocation(team.logo, "images/logos/teams")} />
 										</div>
 									</div>
 									{index === 0 ?

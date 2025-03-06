@@ -189,9 +189,9 @@ $tableCenterColumnWidth: 400px;
 			}
 
 			th {
+				height: 65px;
 				padding: 0;
 				background: $backgroundColor;
-				height: 65px;
 
 				&.teamName {
 					position: absolute;
@@ -209,7 +209,6 @@ $tableCenterColumnWidth: 400px;
 					transform-origin: right center;
 					text-align: right;
 					text-transform: uppercase;
-					margin-left: calc($statsTeamLogoSize * .5 + 20px);
 
 					.name {
 						font-family: var(--fontHexagle);
@@ -217,6 +216,12 @@ $tableCenterColumnWidth: 400px;
 						font-weight: bold;
 						white-space: nowrap;
 						color: $textColor;
+						line-height: 70px;
+
+						&.long {
+							font-size: 55px;
+						}
+
 					}
 
 					.franchise {
@@ -236,12 +241,6 @@ $tableCenterColumnWidth: 400px;
 					@include teamLogoHex($statsTeamLogoSize);
 				}
 
-				&.noLogo {
-					.teamText {
-						top: -50px;
-					}
-				}
-
 				&.team0 {
 
 					.logo {
@@ -250,7 +249,7 @@ $tableCenterColumnWidth: 400px;
 					}
 
 					.teamText {
-						left: -676px;
+						right: 573px;
 					}
 
 				}
