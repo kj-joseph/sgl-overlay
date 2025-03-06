@@ -11,7 +11,7 @@ const Header = (props) => {
 						<span className="leagueName">Supporters Gaming League</span>
 						{props.streamType !== "SGL-event" ?
 							<span className="season">Season {props.season}
-								{props.streamType === "SGL-playoffs" ? " Playoffs" : null}
+								{props.streamType === "SGL-playoffs" ? " Cup" : null}
 							</span>
 
 
