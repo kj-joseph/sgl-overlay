@@ -12,6 +12,19 @@ const Matchup = (props) => {
 
 	const teamName = (teamnum) => props.config.teams[teamnum].name ? props.config.teams[teamnum].name : props.gameData.teams[teamnum].name;
 
+	const bgColor = (teamnum) =>
+		props.config.general.theme === "sgl" ?
+			props.config.teams[teamnum].bgColor
+			? props.config.teams[teamnum].bgColor
+				: props.config.teams[teamnum].color ?
+						props.config.teams[teamnum].color
+						: props.gameData.hasOwnProperty("teams")
+							&& Array.isArray(props.gameData.teams)
+							&& props.gameData.teams[teamnum].hasOwnProperty("color_primary")
+							? props.gameData.teams[teamnum].color_primary
+								: props.teamColorsDefault[teamnum]
+		: "";
+
 	return (
 		<div className={`matchup ${(props.config.series.show && props.config.series.type !== "unlimited") || props.config.series.override ? "hasSeriesInfo" : ""}`}>
 
@@ -35,6 +48,7 @@ const Matchup = (props) => {
 					matchday={props.config.general.matchday}
 					league={props.config.general.league}
 					round={props.config.general.round}
+					tier={props.config.general.tier}
 				/>
 
 			</div>

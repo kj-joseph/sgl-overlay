@@ -23,8 +23,9 @@ const Header = (props) => {
 					{props.streamType !== "SGL-event" ?
 
 						<div className={`header header1 pipes`}>
-							{/* TODO: Get tier info from control panel */}
-							<span className="tier">Premier</span>
+							{(props.streamType === "SGL-regular" || props.streamType === "SGL-playoffs") && props.tier ?
+								<span className="tier">{props.tier}</span>
+							: null}
 							{props.streamType === "SGL-regular" ?
 								<span className="matchday">Matchday {props.matchday}</span>
 							: props.streamType === "SGL-playoffs" ?

@@ -3,6 +3,7 @@ import React, { useEffect, useState, useRef } from "react";
 import { v4 as uuidv4 } from "uuid";
 
 import { getTeamList } from "@/services/teamService";
+import { getTierList } from "@/services/tierService";
 import { getPlayerStatsByTeams, getTeamStatsByTeams } from "@/services/statService";
 
 import Button from "@mui/material/Button";
@@ -86,6 +87,7 @@ const ControlPanel = () => {
 	const [viewState, setViewState] = useState("");
 
 	const [teamList, setTeamList] = useState({});
+	const [tierList, setTierList] = useState({});
 
 	const [fieldsWithChanges, setFieldsWithChanges] = useState([]);
 
@@ -96,8 +98,7 @@ const ControlPanel = () => {
 	const [roundField, setRoundField] = useState(""); // TODO: handle multiple headers?
 	const [seasonNumberField, setSeasonNumberField] = useState(currentSeason);
 	const [matchdayNumberField, setMatchdayNumberField] = useState(1);
-	// TODO: set up league name dropdown, since tiers aren't really a thing in SGL?
-	// const [tierField, setTierField] = useState("");
+	const [tierField, setTierField] = useState("");
 	const [showSeriesField, setShowSeriesField] = useState(false);
 	const [seriesTypeField, setSeriesTypeField] = useState("");
 	const [seriesLengthField, setSeriesLengthField] = useState(0);
@@ -218,6 +219,9 @@ const ControlPanel = () => {
 			if (brandLogoField !== config.general.brandLogo) {
 				tempFieldsWithChanges.push("brandLogoField");
 			}
+			if (tierField !== config.general.tier) {
+				tempFieldsWithChanges.push("tierField");
+			}
 			if (streamTypeField !== config.general.streamType) {
 				tempFieldsWithChanges.push("streamTypeField");
 			}
@@ -246,10 +250,14 @@ const ControlPanel = () => {
 		teamFields,
 		teamLogoFields,
 		teamNameFields,
+		tierField,
 	]);
 
 	useEffect(() => {
-		loadTeamList();
+		Promise.all([
+			loadTeamList(),
+			loadTierList()
+		]);
 	}, []);
 
 	const fieldHasChanges = (fieldName) => fieldsWithChanges.indexOf(fieldName) > -1;
@@ -328,10 +336,25 @@ const ControlPanel = () => {
 		}
 	}
 
-	const loadTeamList = () => {
+	const loadTierList = async () => {
+
+		if (!Array.isArray(tierList) || tierList.length < 1 ) {
+			getTierList()
+				.then((loadedTierList) => {
+					setTierList(loadedTierList);
+					setTeamFields(["", ""]);
+				})
+				.catch((error) => {
+					closeDialog();
+					console.error(error);
+					openSnackbar("Error getting tier list from sheets");
+				});
+		}
+	}
+
+	const loadTeamList = async () => {
 
 		if (!Array.isArray(teamList) || teamList.length < 1 ) {
-			openDialog("loading");
 
 			getTeamList()
 				.then((loadedTeamList) => {
@@ -427,6 +450,10 @@ const ControlPanel = () => {
 		changeSoccerTeamField(team.soccerTeamName, teamNumber);
 	}
 
+	const changeTierField = (tier) => {
+		setTierField(tier);
+	}
+
 	const setConfigValuesFromLocalStorage = () => {
 		const loadedConfig = JSON.parse(localStorage.getItem("config"));
 		setConfig(loadedConfig);
@@ -440,13 +467,13 @@ const ControlPanel = () => {
 		setBrandLogoField(loadedConfig.general.brandLogo);
 		setSeasonNumberField(loadedConfig.general.season);
 		setMatchdayNumberField(loadedConfig.general.matchday);
-		// changeTierField(loadedConfig.general.tier);
+		changeTierField(loadedConfig.general.tier);
 		changeStreamTypeField(loadedConfig.general.streamType, true);
 	}
 
 	const setConfigValuesToDefault = () => {
 		setTeamFields(["", ""]);
-		// setTierField("");
+		setTierField("");
 		setConfig(defaultConfig);
 		localStorage.setItem("config", JSON.stringify(defaultConfig));
 	}
@@ -547,18 +574,22 @@ const ControlPanel = () => {
 	const saveToLocalStorage = () => {
 		const playerStats = [];
 		const teamStats = [];
-		// const tierTeamStats = [];
 
 		// check for required fields
 		if (streamTypeField === "SGL-regular" || streamTypeField === "SGL-playoffs") {
 
-			// if (tierField === "") {
-			// 	openSnackbar("Tier and teams must be chosen.");
-			// 	return;
-			// }
+			if (tierField === "") {
+				openSnackbar("Tier and teams must be chosen.");
+				return;
+			}
 
 			if (teamFields.includes("")) {
 				openSnackbar("Teams must be chosen.");
+				return;
+			}
+
+			if (teamFields[0] === teamFields[1]) {
+				openSnackbar("A team can't play itself.");
 				return;
 			}
 
@@ -657,9 +688,8 @@ const ControlPanel = () => {
 				season: seasonNumberField,
 				matchday: matchdayNumberField,
 				round: roundField,
-				// tier: tierField,
+				tier: tierField,
 				brandLogo: brandLogoField,
-				// TODO: create new theme for finals
 				theme: streamTypeField === "SGL-regular" || streamTypeField === "SGL-playoffs" || streamTypeField === "SGL-event" ? "sgl" : "default",
 				// TODO: select transition for non-SGL streams
 				transition: streamTypeField === "SGL-regular" || streamTypeField === "SGL-playoffs" || streamTypeField === "SGL-event" ? "hexGrow" : "stripeWipe",
@@ -934,9 +964,7 @@ const ControlPanel = () => {
 
 											: null}
 
-
-											{/* TODO: implement "tier" dropdown? */}
-{/* 											{Array.isArray(tierLists[leagueId]) && tierLists[leagueId].length > 0 ?
+											{Array.isArray(tierList) || tierList.length ?
 
 												<Grid size={6}>
 													<Item>
@@ -952,7 +980,7 @@ const ControlPanel = () => {
 																onChange={(e) => changeTierField(e.target.value)}
 																className={`${fieldHasChanges("tierField") ? "changedField" : ""} ${tierField === "" ? "errorField" : ""}`}
 															>
-																{tierLists[leagueId]
+																{tierList
 																	.sort((a,b) => Number(a.position) < Number(b.position) ? 1 : Number(a.position) > Number(b.position) ? -1 : 0)
 																	.map(tier => (
 																		<MenuItem key={tier.id} value={tier.name}>{tier.name}</MenuItem>
@@ -963,81 +991,6 @@ const ControlPanel = () => {
 												</Grid>
 
 											: null}
- */}
-										</Grid>
-
-										<Grid container size={12} spacing={0} className="gridRow pregameButtons">
-
-											<Grid size={12}>
-												<h2>Pregame cards</h2>
-
-												<Item justifyContent={"center"}>
-
-													<Button
-														variant={viewState === "matchup" ? "contained" : "outlined"}
-														disabled={viewState === "matchup" || viewState === "triggerMatchup"}
-														style={{
-															borderWidth: "2px",
-															borderStyle: "solid",
-															borderColor: viewState === "matchup" ? "yellowgreen" : "",
-														}}
-														color="primary"
-														onClick={() => {triggerViewState("triggerMatchup", "matchup")}}
-													>Matchup</Button>
-
-													<Button
-														color="secondary"
-														variant={viewState === "teamStats" ? "contained" : "outlined"}
-														disabled={viewState === "teamStats" || viewState === "triggerTeamStats"}
-														style={{
-															borderWidth: "2px",
-															borderStyle: "solid",
-															borderColor: viewState === "teamStats" ? "yellowgreen" : "",
-														}}
-														onClick={() => {triggerViewState("triggerTeamStats", "teamStats")}}
-													>Team stats</Button>
-
-													<Button
-														variant={viewState === "playerStats0" ? "contained" : "outlined"}
-														disabled={viewState === "playerStats0" || viewState === "triggerPlayerStats0"}
-														style={{
-															borderWidth: "2px",
-															borderStyle: "solid",
-															borderColor: viewState === "playerStats0" ? "yellowgreen" : `#${config.teams[0].color ? config.teams[0].color : teamData[0].color_primary}`,
-															backgroundColor: viewState === "playerStats0" ? `#${config.teams[0].color ? config.teams[0].color : teamData[0].color_primary}` : null,
-															color: viewState === "playerStats0" ? null : `#${config.teams[0].color ? config.teams[0].color : teamData[0].color_primary}`,
-														}}
-														onClick={() => {triggerViewState("triggerPlayerStats0", "playerStats0")}}
-													>Player stats 1</Button>
-
-													<Button
-														variant={viewState === "playerStats1" ? "contained" : "outlined"}
-														disabled={viewState === "playerStats1" || viewState === "triggerPlayerStats1"}
-														style={{
-															borderWidth: "2px",
-															borderStyle: "solid",
-															borderColor: viewState === "playerStats1" ? "yellowgreen" : `#${config.teams[1].color ? config.teams[1].color : teamData[1].color_primary}`,
-															backgroundColor: viewState === "playerStats1" ? `#${config.teams[1].color ? config.teams[1].color : teamData[1].color_primary}` : null,
-															color: viewState === "playerStats1" ? null : `#${config.teams[1].color ? config.teams[1].color : teamData[1].color_primary}`,
-														}}
-														onClick={() => {triggerViewState("triggerPlayerStats1", "playerStats1")}}
-													>Player stats 2</Button>
-
-													<Button
-														variant={viewState === "live" ? "contained" : "outlined"}
-														disabled={viewState === "live" || viewState === "triggerLive"}
-														color="error"
-														style={{
-															borderWidth: "2px",
-															borderStyle: "solid",
-															borderColor: viewState === "live" ? "yellowgreen" : "",
-														}}
-														onClick={() => {triggerViewState("triggerLive", "live")}}
-													>Live game</Button>
-
-												</Item>
-
-											</Grid>
 
 										</Grid>
 
@@ -1173,6 +1126,84 @@ const ControlPanel = () => {
 
 									</Grid>
 
+									{streamTypeField === "SGL-regular" || streamTypeField === "SGL-playoffs" ?
+
+										<Grid container size={12} spacing={0} className="gridRow pregameButtons">
+
+											<Grid size={12}>
+												<h2>Pregame cards</h2>
+
+												<Item justifyContent={"center"}>
+
+													<Button
+														variant={viewState === "matchup" ? "contained" : "outlined"}
+														disabled={viewState === "matchup" || viewState === "triggerMatchup"}
+														style={{
+															borderWidth: "2px",
+															borderStyle: "solid",
+															borderColor: viewState === "matchup" ? "yellowgreen" : "",
+														}}
+														color="primary"
+														onClick={() => {triggerViewState("triggerMatchup", "matchup")}}
+													>Matchup</Button>
+
+													<Button
+														color="secondary"
+														variant={viewState === "teamStats" ? "contained" : "outlined"}
+														disabled={viewState === "teamStats" || viewState === "triggerTeamStats"}
+														style={{
+															borderWidth: "2px",
+															borderStyle: "solid",
+															borderColor: viewState === "teamStats" ? "yellowgreen" : "",
+														}}
+														onClick={() => {triggerViewState("triggerTeamStats", "teamStats")}}
+													>Team stats</Button>
+
+													<Button
+														variant={viewState === "playerStats0" ? "contained" : "outlined"}
+														disabled={viewState === "playerStats0" || viewState === "triggerPlayerStats0"}
+														style={{
+															borderWidth: "2px",
+															borderStyle: "solid",
+															borderColor: viewState === "playerStats0" ? "yellowgreen" : `#${config.teams[0].color ? config.teams[0].color : teamData[0].color_primary}`,
+															backgroundColor: viewState === "playerStats0" ? `#${config.teams[0].color ? config.teams[0].color : teamData[0].color_primary}` : null,
+															color: viewState === "playerStats0" ? null : `#${config.teams[0].color ? config.teams[0].color : teamData[0].color_primary}`,
+														}}
+														onClick={() => {triggerViewState("triggerPlayerStats0", "playerStats0")}}
+													>Player stats 1</Button>
+
+													<Button
+														variant={viewState === "playerStats1" ? "contained" : "outlined"}
+														disabled={viewState === "playerStats1" || viewState === "triggerPlayerStats1"}
+														style={{
+															borderWidth: "2px",
+															borderStyle: "solid",
+															borderColor: viewState === "playerStats1" ? "yellowgreen" : `#${config.teams[1].color ? config.teams[1].color : teamData[1].color_primary}`,
+															backgroundColor: viewState === "playerStats1" ? `#${config.teams[1].color ? config.teams[1].color : teamData[1].color_primary}` : null,
+															color: viewState === "playerStats1" ? null : `#${config.teams[1].color ? config.teams[1].color : teamData[1].color_primary}`,
+														}}
+														onClick={() => {triggerViewState("triggerPlayerStats1", "playerStats1")}}
+													>Player stats 2</Button>
+
+													<Button
+														variant={viewState === "live" ? "contained" : "outlined"}
+														disabled={viewState === "live" || viewState === "triggerLive"}
+														color="error"
+														style={{
+															borderWidth: "2px",
+															borderStyle: "solid",
+															borderColor: viewState === "live" ? "yellowgreen" : "",
+														}}
+														onClick={() => {triggerViewState("triggerLive", "live")}}
+													>Live game</Button>
+
+												</Item>
+
+											</Grid>
+
+										</Grid>
+
+									: null}
 
 
 							<Grid container size={12} spacing={2} className="mainPanelGrid">
@@ -1248,10 +1279,12 @@ const ControlPanel = () => {
 															onChange={(e) => changeTeamField(e.target.value, teamnum)}
 														>
 															{teamList
-																	.sort((a,b) => a.name > b.name ? 1 : a.name < b.name ? -1 : 0)
-																	.map((team, i) => (
-																		<MenuItem key={i} value={team}>{team.name} ({team.soccerTeamAbbreviation})</MenuItem>
-																))}
+																.filter((t) =>
+																	t.tier === tierList.filter((tier) => tier.name === tierField)[0].id)
+																.sort((a,b) => a.name > b.name ? 1 : a.name < b.name ? -1 : 0)
+																.map((team, i) => (
+																	<MenuItem key={i} value={team}>{team.name} ({team.soccerTeamAbbreviation})</MenuItem>
+															))}
 														</Select>
 													</FormControl>
 

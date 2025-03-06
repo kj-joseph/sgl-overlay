@@ -40,6 +40,7 @@ const Live = (props) => {
 					matchday={props.config.general.matchday}
 					league={props.config.general.league}
 					round={props.config.general.round}
+					tier={props.config.general.tier}
 				/>
 
 				<Clock
