@@ -254,10 +254,19 @@ const ControlPanel = () => {
 	]);
 
 	useEffect(() => {
+		openDialog("loading");
 		Promise.all([
 			loadTeamList(),
 			loadTierList()
-		]);
+		])
+			.then(() => {
+				setTeamFields(["", ""]);
+				closeDialog();
+			})
+			.catch((error) => {
+				closeDialog();
+			});
+		;
 	}, []);
 
 	const fieldHasChanges = (fieldName) => fieldsWithChanges.indexOf(fieldName) > -1;
@@ -1264,7 +1273,7 @@ const ControlPanel = () => {
 														/>
 													</FormControl><br />
 												</>
-											: Array.isArray(teamList) && teamList.length > 0 ?
+											: Array.isArray(teamList) && teamList.length && Array.isArray(tierList) && tierList.length > 0 && tierField ?
 												<>
 													<FormControl size="small" fullWidth>
 														<InputLabel id={`teamField${teamnum}Label`} shrink>Team</InputLabel>
