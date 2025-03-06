@@ -878,7 +878,7 @@ const ControlPanel = () => {
 												onChange={(e) => changeStreamTypeField(e.target.value)}
 											>
 												<MenuItem value="SGL-regular">SGL Regular Season</MenuItem>
-												<MenuItem value="SGL-playoffs">SGL Playoffs</MenuItem>
+												<MenuItem value="SGL-playoffs">SGL Cup</MenuItem>
 												<MenuItem value="SGL-event">SGL Other</MenuItem>
 												<MenuItem value="other">No SGL branding</MenuItem>
 											</Select>
@@ -942,31 +942,9 @@ const ControlPanel = () => {
 
 											: null}
 
-											{streamTypeField === "SGL-playoffs" ?
-
-												<Grid size={5}>
-
-													<Item>
-														<FormControl variant="outlined" size="small" fullWidth>
-															<InputLabel shrink htmlFor={`round`}>Round</InputLabel>
-															<OutlinedInput
-																notched
-																id="round"
-																label="Round"
-																onChange={(e) => changeRoundField(e.target.value)}
-																value={roundField}
-																className={`${fieldHasChanges(`roundField`) ? "changedField" : ""} ${streamTypeField === "SGL-playoffs" && roundField === "" ? "errorField" : ""}`}
-															/>
-														</FormControl>
-													</Item>
-
-												</Grid>
-
-											: null}
-
 											{Array.isArray(tierList) || tierList.length ?
 
-												<Grid size={6}>
+												<Grid size={4}>
 													<Item>
 														<FormControl size="small" fullWidth>
 															<InputLabel id="tierFieldLabel" shrink>Tier</InputLabel>
@@ -988,6 +966,28 @@ const ControlPanel = () => {
 															</Select>
 														</FormControl>
 													</Item>
+												</Grid>
+
+											: null}
+
+											{streamTypeField === "SGL-playoffs" ?
+
+												<Grid size={5}>
+
+													<Item>
+														<FormControl variant="outlined" size="small" fullWidth>
+															<InputLabel shrink htmlFor={`round`}>Round</InputLabel>
+															<OutlinedInput
+																notched
+																id="round"
+																label="Round"
+																onChange={(e) => changeRoundField(e.target.value)}
+																value={roundField}
+																className={`${fieldHasChanges(`roundField`) ? "changedField" : ""} ${streamTypeField === "SGL-playoffs" && roundField === "" ? "errorField" : ""}`}
+															/>
+														</FormControl>
+													</Item>
+
 												</Grid>
 
 											: null}
