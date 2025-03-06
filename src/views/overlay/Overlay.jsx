@@ -185,10 +185,11 @@ const Overlay = () => {
 		// set interval to send data to websocket server (even before game initialized)
 		const sendExternalInterval = setInterval(() => {
 
-			// don't send logo, could be very large and the statboard doesn't use them
+			// don't send logos, could be very large and the statboard doesn't use them
 			const configToSend = Object.assign({}, JSON.parse(JSON.stringify(activeConfigRef.current)));
 			configToSend.teams[0].logo = undefined;
 			configToSend.teams[1].logo = undefined;
+			configToSend.general.brandLogo = undefined;
 
 			sendJsonMessageServer({
 				clientId: clientIdRef.current,
