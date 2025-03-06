@@ -689,6 +689,11 @@ const ControlPanel = () => {
 			],
 		};
 
+		if (streamTypeField !== "other") {
+			newConfig.teams[0].shortName = teamFields[0].shortName;
+			newConfig.teams[1].shortName = teamFields[1].shortName;
+		}
+
 		localStorage.setItem("config", JSON.stringify(newConfig));
 		setConfig(newConfig);
 		setHeaderField(headerField);

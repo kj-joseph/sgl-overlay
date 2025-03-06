@@ -57,7 +57,7 @@ const Live = (props) => {
 						<TeamName
 							team={teamnum}
 							goalScored={props.showGoalTeam && props.lastGoal.scorer.hasOwnProperty("teamnum") && props.lastGoal.scorer.teamnum === teamnum}
-							name={props.config.teams[teamnum].name ? props.config.teams[teamnum].name : team.name}
+							name={props.config.teams[teamnum].shortName ? props.config.teams[teamnum].shortName : props.config.teams[teamnum].name ? props.config.teams[teamnum].name : team.name}
 							franchiseName={props.config.teams[teamnum].franchise}
 						/>
 						{props.config.teams[teamnum].hasOwnProperty("logo") && props.config.teams[teamnum].logo ? (

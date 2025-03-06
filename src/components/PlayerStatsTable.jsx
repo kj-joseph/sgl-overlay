@@ -9,7 +9,9 @@ const longFranchiseName = 25;
 
 const PlayerStatsTable = (props) => {
 
-	const teamName = (teamnum) => props.config.teams[teamnum].name ? props.config.teams[teamnum].name : props.gameData.teams[teamnum].name;
+	const teamName = (teamnum) =>
+		props.config.teams[teamnum].shortName ? props.config.teams[teamnum].shortName :
+		props.config.teams[teamnum].name ? props.config.teams[teamnum].name : props.gameData.teams[teamnum].name;
 
 	return (
 

@@ -8,9 +8,10 @@ export const getTeamList = async () =>
 			.then((response) =>
 				resolve(response.map(team => ({
 					name: team.name,
+					shortName: team.shortName,
 					code: team.code,
 					soccerTeamAbbreviation: team.soccerTeamAbbreviation,
-					soccerTeamCity: team.soccerTeamCity,
+					soccerTeamLocation: team.soccerTeamLocation,
 					soccerTeamName: team.soccerTeamName,
 					bgColor: team.bgColor,
 					league: team.league,

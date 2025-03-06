@@ -86,7 +86,7 @@ const Postgame = (props) => {
 				{props.gameData.teams.map((team, teamnum) => (
 					<Fragment key={teamnum}>
 
-						<TeamName name={props.config.teams[teamnum].name ? props.config.teams[teamnum].name : team.name} team={teamnum} franchiseName={props.config.teams[teamnum].franchise} />
+						<TeamName name={props.config.teams[teamnum].shortName ? props.config.teams[teamnum].shortName : props.config.teams[teamnum].name ? props.config.teams[teamnum].name : team.name} team={teamnum} franchiseName={props.config.teams[teamnum].franchise} />
 
 						{props.config.teams[teamnum].hasOwnProperty("logo") && props.config.teams[teamnum].logo ? (
 							<TeamLogo team={teamnum} logo={props.config.teams[teamnum].logo} />
