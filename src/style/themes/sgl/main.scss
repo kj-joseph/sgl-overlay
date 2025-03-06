@@ -1,5 +1,6 @@
 $borderSize: 6px;
 $hexRatio: 1.155208333333333;
+$hexSlopeRatio: 1.743810810810811;
 
 $windowWidth: 1920px;
 $windowHeight: 1080px;
@@ -16,14 +17,18 @@ $clockWidth: 129px;
 $teamScoreFromMiddle: calc($clockWidth * .5);
 $teamScoreWidth: 90px;
 
-$teamNameWidth: 335px;
+$teamNameWidth: 300px;
 
 $teamLogoWidth: 129.039px;
 // $teamLogoSpacing: 5px;
 // $teamLogoOpacity: .7;
 
 $scoreboardWidth: calc($teamLogoWidth + ($teamNameWidth + $teamScoreWidth) * 2 + $clockWidth);
-$scoreboardHeight: 149px;
+$scoreboardHeight: 186px;
+
+$topHeaderHeight: 37px;
+$topHeaderStripeHeight: 2px;
+$topHeaderStripeGap: 34.552px;
 
 $mainHeaderHeight: 37px;
 $headerWidth: calc($scoreboardWidth * .5 - $teamLogoWidth * .5 - $clockWidth * .5);
@@ -33,7 +38,7 @@ $pipeSpacing: .2em;
 $seriesInfoWidth: 400px;
 $seriesInfoHeight: 34px;
 
-$seriesScoreWidth: 310px;
+$seriesScoreWidth: 285px;
 $seriesScoreHeight: 37px;
 $seriesScoreIconWidth: 73px;
 $seriesScoreIconHeight: 15px;

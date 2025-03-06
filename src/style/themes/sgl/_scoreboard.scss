@@ -5,5 +5,64 @@
 	transform: translateX(-50%);
 	width: $scoreboardWidth;
 	height: $scoreboardHeight;
-	background: $backgroundColor;
+
+	// clip-path: polygon(0 0, 5% 75%, 45% 90%, 0% 40%);
+
+	&::after {
+		content: "";
+		position: absolute;
+		top: 0;
+		left: 0;
+		width: $scoreboardWidth;
+		height: $scoreboardHeight;
+		z-index: -1;
+		background-color: $backgroundColor;
+		background-image:
+			linear-gradient(to right,
+				$sglRed 0px,
+				$sglRed calc($teamLogoWidth * .5 + $teamNameWidth + $teamScoreWidth + $clockWidth * .5 - $topHeaderStripeGap * .5),
+				$backgroundColor calc($teamLogoWidth * .5 + $teamNameWidth + $teamScoreWidth + $clockWidth * .5 - $topHeaderStripeGap * .5),
+				$backgroundColor calc($teamLogoWidth * .5 + $teamNameWidth + $teamScoreWidth + $clockWidth * .5 + $topHeaderStripeGap * .5),
+				$sglBlue calc($teamLogoWidth * .5 + $teamNameWidth + $teamScoreWidth + $clockWidth * .5 + $topHeaderStripeGap * .5),
+				$sglBlue 100%
+			),
+			linear-gradient(to right,
+				$sglRed 0,
+				$sglRed 26.278px,
+				$backgroundColor 26.278px,
+				$backgroundColor 38.237px,
+				$sglRed 38.237px,
+				$sglRed 64.519px
+			),
+			linear-gradient(to left,
+				$sglBlue 0,
+				$sglBlue 26.278px,
+				$backgroundColor 26.278px,
+				$backgroundColor 38.237px,
+				$sglBlue 38.237px,
+				$sglBlue 64.519px
+			),
+		;
+		background-size:
+			100% $topHeaderStripeHeight,
+			64.519px $topHeaderHeight,
+			64.519px $topHeaderHeight;
+		background-position:
+			center calc($topHeaderHeight - $topHeaderStripeHeight),
+			left top,
+			right top;
+		background-repeat:
+			no-repeat,
+			no-repeat,
+			no-repeat;
+		clip-path: polygon(
+			0 $topHeaderHeight,
+			calc($topHeaderHeight * $hexSlopeRatio) 0,
+			calc(100% - $topHeaderHeight * $hexSlopeRatio) 0,
+			100% $topHeaderHeight,
+			100% 100%,
+			0 100%
+		);
+
+	}
 }

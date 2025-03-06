@@ -1,8 +1,8 @@
 .seriesInfo {
 	position: absolute;
-	left: 50%;
-	top: 100%;
-	transform: translateX(-50%);
+	width: $headerWidth;
+	top: $topHeaderHeight;
+	right: ($teamLogoWidth * .5);
 	width: $headerWidth;
 	height: $seriesInfoHeight;
 	font-family: var(--fontRajdhani);
@@ -11,9 +11,7 @@
 	color: $textColor;
 	text-transform: uppercase;
 	text-align: center;
-	line-height: $seriesInfoHeight;
-	margin: 0 auto;
-	background: url("/images/themes/sgl/series-info-bg.png") no-repeat center center;
+	line-height: $mainHeaderHeight;
 }
 
 .pipe {

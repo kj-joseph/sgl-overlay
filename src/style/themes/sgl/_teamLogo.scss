@@ -1,9 +1,8 @@
 .teamLogo {
 	@include teamLogoHex($teamLogoWidth);
 	position: absolute;
-	top: 50%;
+	top: $topHeaderHeight;
 	z-index: 80;
-	transform: translateY(-50%);
 
 	&.team0 {
 		left: calc(0px - $teamLogoWidth * .5);
@@ -12,6 +11,5 @@
 	&.team1 {
 		right: calc(0px - $teamLogoWidth * .5);
 	}
-
 
 }

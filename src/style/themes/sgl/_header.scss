@@ -1,23 +1,34 @@
 .header {
 	position: absolute;
 	width: $headerWidth;
-	height: $mainHeaderHeight;
+	// height: $mainHeaderHeight;
 	font-family: var(--fontHexagle);
 	font-size: 24px;
-	color: $sglBlue;
+	color: $textColor;
 	text-transform: uppercase;
 	text-align: center;
 	line-height: $mainHeaderHeight;
 	margin: 0 auto;
-	background: $backgroundColor;
+	// background: $backgroundColor;
 
 	&.header0 {
-		left: ($teamLogoWidth * .5);
+		top: 0;
+		width: calc($scoreboardWidth - 300px);
+		left: 50%;
+		transform: translateX(-50%);
 	}
 
 	&.header1 {
-		right: ($teamLogoWidth * .5);
+		font-size: 21px;
+		font-family: var(--fontRajdhani);
+		font-weight: bold;
+		top: $topHeaderHeight;
+		left: ($teamLogoWidth * .5);
 	}
+
+	// &.header1 {
+	// 	right: ($teamLogoWidth * .5);
+	// }
 
 	span {
 		display: inline-block;

@@ -1,6 +1,6 @@
 .teamScore {
 	position: absolute;
-	top: $mainHeaderHeight;
+	top: calc($mainHeaderHeight + $topHeaderHeight);
 	width: calc($teamScoreWidth - $borderSize);
 	height: $mainBarHeight;
 	font-family: var(--fontHexagle);

@@ -17,9 +17,9 @@
 
 	position: absolute;
 	left: 0;
-	top: 0;
+	top: $topHeaderHeight;
 	width: $scoreboardWidth;
-	height: $scoreboardHeight;
+	height: calc($scoreboardHeight - $topHeaderHeight);
 	background-image:
 		var(--clockBackgroundImage),
 		linear-gradient(to right,
@@ -39,7 +39,7 @@
 			var(--team1ScoreBackgroundColor) 100%
 		);
 	background-size:
-		$clockWidth $scoreboardHeight,
+		$clockWidth calc($scoreboardHeight - $topHeaderHeight),
 		50% $mainBarHeight,
 		50% $mainBarHeight;
 	background-position:

@@ -7,15 +7,24 @@ const Header = (props) => {
 
 			{props.theme === "sgl" ?
 				<>
-					<div className={`header header0`}>
-						Supporters Gaming League{props.streamType === "SGL-playoffs" ? " Playoffs" : null}
+					<div className={`header header0 pipes`}>
+						<span className="leagueName">Supporters Gaming League</span>
+						{props.streamType !== "SGL-event" ?
+							<span className="season">Season {props.season}
+								{props.streamType === "SGL-playoffs" ? " Playoffs" : null}
+							</span>
+
+
+
+						: null}
+
 					</div>
 
 					{props.streamType !== "SGL-event" ?
 
 						<div className={`header header1 pipes`}>
-							{/* TODO: Include league/division name if multiple divs? */}
-							<span className="season">Season {props.season}</span>
+							{/* TODO: Get tier info from control panel */}
+							<span className="tier">Premier</span>
 							{props.streamType === "SGL-regular" ?
 								<span className="matchday">Matchday {props.matchday}</span>
 							: props.streamType === "SGL-playoffs" ?

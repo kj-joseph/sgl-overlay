@@ -1,4 +1,4 @@
-$postgameTopHeight: calc($scoreboardHeight + $seriesInfoHeight);
+$postgameTopHeight: $scoreboardHeight;
 $postgameTitleWidth: $scoreboardWidth;
 $mvpIconSize: 125px;
 
@@ -50,16 +50,16 @@ $postGameTableWidth: calc($windowWidth - 300px);
 
 		.brandLogo {
 			position: absolute;
-			top: $borderSize;
-			width: $postgameTopHeight;
-			height: $postgameTopHeight;
+			top: 30px;
+			width: 130px;
+			height: 130px;
 
 			&:nth-child(1) {
-				left: $borderSize;
+				left: 95px;
 			}
 
 			&:nth-child(2) {
-				right: $borderSize;
+				right: 95px;
 			}
 
 			img {
@@ -67,7 +67,7 @@ $postGameTableWidth: calc($windowWidth - 300px);
 				height: 100%;
 				object-fit: contain;
 				object-position: 50% 50%;
-				opacity: .6;
+				opacity: .5;
 				filter: grayscale(.25)
 			}
 

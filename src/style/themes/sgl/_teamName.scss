@@ -1,6 +1,6 @@
 .teamNameBox {
     position: absolute;
-	top: $mainHeaderHeight;
+	top: calc($mainHeaderHeight + $topHeaderHeight);
     z-index: 25;
     width: calc($teamNameWidth - $borderSize * 3);
     height: $mainBarHeight;
@@ -13,16 +13,21 @@
 	.teamName {
 		font-family: var(--fontHexagle);
 		font-weight: bold;
-		font-size: 36px;
 		color: $textColor;
+		font-size: 33px;
+		line-height: 37px;
 		margin-top: $borderSize;
 		letter-spacing: -.01em;
+
+		&.long {
+			font-size: 28px;
+		}
 	}
 
 	.franchiseName {
 		font-family: var(--fontRajdhani);
 		font-weight: bold;
-		font-size: 22px;
+		font-size: 20px;
 		margin-top: -3px;
 	}
 
