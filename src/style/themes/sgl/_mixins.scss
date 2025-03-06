@@ -23,6 +23,29 @@ $hexLogoBorderWidth: 0%; // can add "border" around image in hex, but decided no
 
 }
 
+@mixin placeholderTeamlogo($bgColor) {
+	background-image:
+		linear-gradient($bgColor, $bgColor),
+		linear-gradient(#000000, #000000),
+		url("/images/logos/sgl-logo.png");
+	background-size:
+		100% 100%,
+		100% 100%,
+		100% 100%,
+		100% 100%;
+	background-repeat:
+		no-repeat,
+		no-repeat,
+		no-repeat,
+		no-repeat;
+	background-blend-mode:
+		normal,
+		color,
+		normal;
+
+
+}
+
 @mixin teamLogoHex($logoWidth, $maskSize: cover) {
 	width: $logoWidth;
 	height: calc($logoWidth * $hexRatio);

@@ -6,10 +6,12 @@
 
 	&.team0 {
 		left: calc(0px - $teamLogoWidth * .5);
+		@include placeholderTeamlogo(var(--team0tone));
 	}
 
 	&.team1 {
 		right: calc(0px - $teamLogoWidth * .5);
+		@include placeholderTeamlogo(var(--team1tone));
 	}
 
 }

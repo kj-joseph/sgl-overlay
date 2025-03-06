@@ -20,8 +20,8 @@ const PlayerStatsTable = (props) => {
 				<tr>
 
 					<th className={`teamName team${props.team} ${!props.config.teams[props.team].logo ? "noLogo" : ""}`} colSpan={props.statList.length + 1} style={props.teamColors ? {backgroundColor: `#${props.teamColors[props.team]}`} : null}>
-						{props.showLogos && props.config.teams[props.team].logo ?
-							<div className="logo">
+						<div className="logo">
+							{props.showLogos && props.config.teams[props.team].logo ?
 								<img
 									src={imageLocation(props.config.teams[props.team].logo, "images/logos/teams")}
 									style={props.bgColor ?
@@ -29,9 +29,9 @@ const PlayerStatsTable = (props) => {
 											backgroundColor: `#${props.bgColor}`,
 										} : {}
 									}
-								></img>
-							</div>
-						: null}
+								/>
+								: null}
+						</div>
 						<div className="teamText">
 							<div className={`name ${teamName(props.team).length >= longTeamName ? "long" : ""}`}>{teamName(props.team)}</div>
 

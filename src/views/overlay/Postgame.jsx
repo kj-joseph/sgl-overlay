@@ -107,10 +107,10 @@ const Postgame = (props) => {
 
 				<div className="branding">
 					<div className="brandLogo">
-						<img src={imageLocation(props.config.general.brandLogo, "images/logos")}></img>
+						<img src={imageLocation(props.config.general.brandLogo, "images/logos")} />
 					</div>
 					<div className="brandLogo">
-						<img src={imageLocation(props.config.general.brandLogo, "images/logos")}></img>
+						<img src={imageLocation(props.config.general.brandLogo, "images/logos")} />
 					</div>
 				</div>
 

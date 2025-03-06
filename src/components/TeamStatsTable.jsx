@@ -17,8 +17,8 @@ const TeamStatsTable = (props) => {
 			<thead>
 				<tr>
 					<th className="teamName team0" style={props.teamColors ? {backgroundColor: `#${props.teamColors[0]}`} : null}>
-						{props.showLogos ?
-							<div className="logo">
+						<div className="logo">
+							{props.showLogos && props.config.teams[0].logo ?
 								<img
 									src={imageLocation(props.config.teams[0].logo, "images/logos/teams")}
 									style={props.config.teams[0].bgColor ?
@@ -26,10 +26,9 @@ const TeamStatsTable = (props) => {
 											backgroundColor: `#${props.config.teams[0].bgColor}`,
 										} : {}
 									}
-								>
-								</img>
-							</div>
-						: null}
+								/>
+							: null}
+						</div>
 						<div className="teamText">
 							<div className={`name ${teamName(0).length >= longTeamName ? "long" : ""}`}>{teamName(0)}</div>
 
@@ -42,8 +41,8 @@ const TeamStatsTable = (props) => {
 					<td className="centerColumn"></td>
 
 					<th className="teamName team1" style={props.teamColors ? {backgroundColor: `#${props.teamColors[1]}`} : null}>
-						{props.showLogos ?
-							<div className="logo">
+						<div className="logo">
+							{props.showLogos && props.config.teams[1].logo ?
 								<img
 									src={imageLocation(props.config.teams[1].logo, "images/logos/teams")}
 									style={props.config.teams[1].bgColor ?
@@ -51,10 +50,9 @@ const TeamStatsTable = (props) => {
 											backgroundColor: `#${props.config.teams[1].bgColor}`,
 										} : {}
 									}
-								>
-								</img>
-							</div>
-						: null}
+								/>
+							: null}
+						</div>
 						<div className="teamText">
 							<div className={`name ${teamName(1).length >= longTeamName ? "long" : ""}`}>{teamName(1)}</div>
 

@@ -21,7 +21,7 @@ const Matchup = (props) => {
 					<>
 						<div className="leagueLogo">
 							{props.config.general.brandLogo ?
-								<img src={imageLocation(props.config.general.brandLogo, "images/logos")}></img>
+								<img src={imageLocation(props.config.general.brandLogo, "images/logos")} />
 							: null}
 						</div>
 					</>
@@ -47,14 +47,15 @@ const Matchup = (props) => {
 							className={`team team${teamnum} ${props.config.teams[teamnum].hasOwnProperty("logo") && props.config.teams[teamnum].logo ? "hasLogo" : ""}`}
 						>
 							{props.config.teams[teamnum].logo ? (
-								<div className="logo"
-									style={props.config.teams[teamnum].bgColor ?
-										{
-											backgroundColor: `#${props.config.teams[teamnum].bgColor}`,
-										} : {}
-									}
-								>
-									<img src={imageLocation(props.config.teams[teamnum].logo, "images/logos/teams")}></img>
+								<div className="logo">
+									<img
+										src={imageLocation(props.config.teams[teamnum].logo, "images/logos/teams")}
+										style={props.config.teams[teamnum].bgColor ?
+											{
+												backgroundColor: `#${props.config.teams[teamnum].bgColor}`,
+											} : {}
+										}
+									/>
 								</div>
 							) :
 								<div className="logo"></div>
@@ -77,7 +78,7 @@ const Matchup = (props) => {
 							:
 								<div className="matchupCenter">
 									{props.config.general.brandLogo ?
-										<img src={imageLocation(props.config.general.brandLogo, "images/logos")}></img>
+										<img src={imageLocation(props.config.general.brandLogo, "images/logos")} />
 									:
 										<div className="vs">VS</div>
 									}

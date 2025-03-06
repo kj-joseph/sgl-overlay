@@ -7,13 +7,17 @@ const TeamLogo = (props) => {
     return (
         <div
 			className={`teamLogo team${props.team}`}
-			style={props.bgColor ?
-				{
-					backgroundColor: `#${props.bgColor}`,
-				} : {}
-			}
 		>
-            <img src={imageLocation(props.logo, "images/logos/teams")} />
+			{props.logo ?
+				<img
+					src={imageLocation(props.logo, "images/logos/teams")}
+					style={props.bgColor ?
+						{
+							backgroundColor: `#${props.bgColor}`,
+						} : {}
+					}
+				/>
+			: null}
         </div>
     )
 

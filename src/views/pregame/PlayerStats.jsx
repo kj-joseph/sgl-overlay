@@ -59,7 +59,7 @@ const PlayerStats = (props) => {
 
 				<div className="leagueLogo">
 					{props.config.general.brandLogo ?
-						<img src={imageLocation(props.config.general.brandLogo, "images/logos")}></img>
+						<img src={imageLocation(props.config.general.brandLogo, "images/logos")} />
 					: null}
 				</div>
 				<div className="playerStatsTitle">Player Stats</div>

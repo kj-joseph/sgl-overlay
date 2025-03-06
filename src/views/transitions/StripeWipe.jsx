@@ -7,7 +7,7 @@ const StripeWipe = (props) => {
             <div className="bg">
                 {props.transition.logo ? (
                     <div className="logo">
-						<img src={props.transition.logo}></img>
+						<img src={props.transition.logo} />
                     </div>
                 ): null}
             </div>

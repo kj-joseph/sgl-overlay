@@ -95,23 +95,6 @@ $statPadding: 12px;
 			}
 		}
 
-		// .leagueName {
-		// 	position: absolute;
-		// 	left: 0;
-		// 	top: 50%;
-		// 	width: calc(50% - math.div($pregameLeagueLogoHeight, $hexRatio) * .5 - $borderSize);
-		// 	font-family: var(--fontHexagle);
-		// 	font-size: 48px;
-		// 	font-weight: bold;
-		// 	font-style: italic;
-		// 	text-align: right;
-		// 	line-height: 48px;
-		// 	color: $textColor;
-		// 	text-transform: uppercase;
-		// 	letter-spacing: .3em;
-		// 	transform: translateY(-50%);
-		// }
-
 		@import "header";
 
 		.header {
@@ -227,12 +210,6 @@ $statPadding: 12px;
 					@include teamLogoHex($statsTeamLogoSize);
 				}
 
-				&.noLogo {
-					.teamText {
-						top: -50px;
-					}
-				}
-
 			}
 
 			th.statHeader {
@@ -330,8 +307,9 @@ $statPadding: 12px;
 		.playerStatsTable {
 			left: 310px;
 
-			.logo {
+			thead th.teamName .logo {
 				left: -242px;
+				@include placeholderTeamlogo(var(--team0tone));
 			}
 
 			.teamText {
@@ -353,8 +331,9 @@ $statPadding: 12px;
 		.playerStatsTable {
 			left: 110px;
 
-			.logo {
+			thead th.teamName .logo {
 				left: 1559px;
+				@include placeholderTeamlogo(var(--team1tone));
 			}
 
 			.teamText {

@@ -162,7 +162,7 @@
 				transform: translateX(-50%);
 
 				.logo {
-					background: var(--team0);
+					@include placeholderTeamlogo(var(--team0tone));
 				}
 
 			}
@@ -172,7 +172,7 @@
 				transform: translateX(50%);
 
 				.logo {
-					background: var(--team1);
+					@include placeholderTeamlogo(var(--team1tone));
 				}
 
 			}

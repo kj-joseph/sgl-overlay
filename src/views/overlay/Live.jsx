@@ -60,13 +60,22 @@ const Live = (props) => {
 							name={props.config.teams[teamnum].shortName ? props.config.teams[teamnum].shortName : props.config.teams[teamnum].name ? props.config.teams[teamnum].name : team.name}
 							franchiseName={props.config.teams[teamnum].franchise}
 						/>
-						{props.config.teams[teamnum].hasOwnProperty("logo") && props.config.teams[teamnum].logo ? (
-							<TeamLogo
-								team={teamnum}
-								logo={props.config.teams[teamnum].logo}
-								bgColor={props.config.teams[teamnum].bgColor}
-							/>
-						) : null}
+						{props.config.teams[teamnum].color}
+						<TeamLogo
+							team={teamnum}
+							logo={props.config.teams[teamnum].hasOwnProperty("logo") && props.config.teams[teamnum].logo ? props.config.teams[teamnum].logo : null}
+							bgColor={props.config.general.theme === "sgl" ?
+								props.config.teams[teamnum].bgColor
+								? props.config.teams[teamnum].bgColor
+									: props.config.teams[teamnum].color ?
+										 props.config.teams[teamnum].color
+											: props.gameData.hasOwnProperty("teams")
+												&& Array.isArray(props.gameData.teams)
+												&& props.gameData.teams[teamnum].hasOwnProperty("color_primary")
+												? props.gameData.teams[teamnum].color_primary
+													: props.teamColorsDefault[teamnum]
+								: null}
+						/>
 						<TeamScore
 							team={teamnum}
 							score={team.score}
@@ -107,7 +116,7 @@ const Live = (props) => {
 
 			{props.config.general.hasOwnProperty("brandLogo") && props.config.general.brandLogo ?
 				<div className="watermark">
-					<img src={imageLocation(props.config.general.brandLogo, "images/logos")}></img>
+					<img src={imageLocation(props.config.general.brandLogo, "images/logos")} />
 				</div>
 			: null }
 

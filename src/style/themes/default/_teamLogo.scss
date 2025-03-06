@@ -10,6 +10,10 @@
 	padding: $borderSize * 2;
 	background-color: $backgroundTranslucent;
 
+	&:not(:has(img)) {
+		background-color: transparent;
+	}
+
 	&.team0 {
 		left: $windowWidth * .5 - $clockWidth * .5 - $teamScoreWidth - $teamNameWidth - $teamLogoSize - $borderSize * 7;
 	}

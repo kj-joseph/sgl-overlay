@@ -755,6 +755,7 @@ const Overlay = () => {
 					seriesGame={seriesScore[0] + seriesScore[1] + 1}
 					showGoalTeam={showGoalTeam}
 					splash={splash}
+					teamColorsDefault={teamColorsDefault}
 				/>
 			)}
 

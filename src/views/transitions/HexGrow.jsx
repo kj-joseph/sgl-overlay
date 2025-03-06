@@ -15,7 +15,7 @@ const HexGrow = (props) => {
 							} : {}
 						}
 					>
-						<img src={props.transition.logo}></img>
+						<img src={props.transition.logo} />
 					</div>
 				</>
 			: null}

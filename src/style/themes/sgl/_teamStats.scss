@@ -246,6 +246,7 @@ $tableCenterColumnWidth: 400px;
 
 					.logo {
 						left: -286px;
+						@include placeholderTeamlogo(var(--team0tone));
 					}
 
 					.teamText {
@@ -258,6 +259,7 @@ $tableCenterColumnWidth: 400px;
 
 					.logo {
 						right: -1109px;
+						@include placeholderTeamlogo(var(--team1tone));
 					}
 
 					.teamText {
