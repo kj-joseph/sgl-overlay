@@ -715,6 +715,7 @@ const Overlay = () => {
 					gameData={gameData}
 					seriesScore={seriesScore}
 					seriesGame={seriesScore[0] + seriesScore[1] + 1}
+					teamColorsDefault={teamColorsDefault}
 				/>
 			) : viewState ==="teamStats" ? (
 				<TeamStats

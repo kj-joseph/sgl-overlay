@@ -50,9 +50,9 @@ const Matchup = (props) => {
 								<div className="logo">
 									<img
 										src={imageLocation(props.config.teams[teamnum].logo, "images/logos/teams")}
-										style={props.config.teams[teamnum].bgColor ?
+										style={bgColor(teamnum) ?
 											{
-												backgroundColor: `#${props.config.teams[teamnum].bgColor}`,
+												backgroundColor: `#${bgColor(teamnum)}`,
 											} : {}
 										}
 									/>
