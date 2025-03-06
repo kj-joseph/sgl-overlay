@@ -1,5 +1,28 @@
 $hexLogoBorderWidth: 0%; // can add "border" around image in hex, but decided not to for now
 
+@mixin textPipes {
+
+	&.pipes {
+
+		span {
+			&:not(:last-child) {
+				margin-right: $spanSpacing;
+
+				&:after {
+					content: "|";
+					font-family: var(--fontSans);
+					font-size: 87%;
+					color: $secondaryTextColor;
+					margin-left: $spanSpacing;
+				}
+			}
+
+		}
+
+	}
+
+}
+
 @mixin teamLogoHex($logoWidth, $maskSize: cover) {
 	width: $logoWidth;
 	height: calc($logoWidth * $hexRatio);

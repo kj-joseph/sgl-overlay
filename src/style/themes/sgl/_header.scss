@@ -1,4 +1,4 @@
-.header {
+.scoreboard .header {
 	position: absolute;
 	width: $headerWidth;
 	// height: $mainHeaderHeight;
@@ -26,10 +26,6 @@
 		left: ($teamLogoWidth * .5);
 	}
 
-	// &.header1 {
-	// 	right: ($teamLogoWidth * .5);
-	// }
-
 	span {
 		display: inline-block;
 
@@ -39,23 +35,6 @@
 
 	}
 
-	&.pipes {
-
-		span {
-			&:not(:last-child) {
-				margin-right: $spanSpacing;
-
-				&:after {
-					content: "|";
-					font-family: var(--fontSans);
-					font-size: 20px;
-					color: $secondaryTextColor;
-					margin-left: $spanSpacing;
-				}
-			}
-
-		}
-
-	}
+	@include textPipes;
 
 }

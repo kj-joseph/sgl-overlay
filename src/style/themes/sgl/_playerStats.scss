@@ -95,37 +95,36 @@ $statPadding: 12px;
 			}
 		}
 
-		.leagueName {
-			position: absolute;
-			left: 0;
-			top: 50%;
-			width: calc(50% - math.div($pregameLeagueLogoHeight, $hexRatio) * .5 - $borderSize);
-			font-family: var(--fontHexagle);
-			font-size: 48px;
-			font-weight: bold;
-			font-style: italic;
-			text-align: right;
-			line-height: 48px;
-			color: $textColor;
-			text-transform: uppercase;
-			letter-spacing: .3em;
-			transform: translateY(-50%);
-		}
+		// .leagueName {
+		// 	position: absolute;
+		// 	left: 0;
+		// 	top: 50%;
+		// 	width: calc(50% - math.div($pregameLeagueLogoHeight, $hexRatio) * .5 - $borderSize);
+		// 	font-family: var(--fontHexagle);
+		// 	font-size: 48px;
+		// 	font-weight: bold;
+		// 	font-style: italic;
+		// 	text-align: right;
+		// 	line-height: 48px;
+		// 	color: $textColor;
+		// 	text-transform: uppercase;
+		// 	letter-spacing: .3em;
+		// 	transform: translateY(-50%);
+		// }
 
 		@import "header";
 
 		.header {
 			position: absolute;
-			font-size: 32px;
+			font-size: 30px;
 			top: 50%;
 			transform: translateY(-50%);
-			line-height: 32px;
 			color: $textColor;
 			font-family: var(--fontHexagle);
 			font-weight: bold;
 			font-style: normal;
 			text-transform: uppercase;
-			letter-spacing: .3em;
+			letter-spacing: .1em;
 			background: none;
 			margin: 0;
 			padding: 0;
@@ -138,13 +137,11 @@ $statPadding: 12px;
 
 			&.header1 {
 				right: 0;
-				width: calc(50% - math.div($pregameLeagueLogoHeightSmall, $hexRatio) * .5 - $borderSize - $borderSize - .3em);
+				width: calc(50% - math.div($pregameLeagueLogoHeightSmall, $hexRatio) * .5 - $borderSize - $borderSize);
 				text-align: left;
 			}
 
-			&.pipes span:not(:last-child):after {
-				font-size: 28px;
-			}
+			@include textPipes;
 
 		}
 

@@ -86,62 +86,39 @@
 			}
 		}
 
-		.leagueName {
-			position: absolute;
-			left: 0;
-			top: 50%;
-			width: calc(50% - math.div($pregameLeagueLogoHeight, $hexRatio) * .5 - $borderSize);
-			font-family: var(--fontHexagle);
-			font-size: 48px;
-			font-weight: bold;
-			font-style: italic;
-			text-align: right;
-			line-height: 48px;
-			color: $textColor;
-			text-transform: uppercase;
-			letter-spacing: .3em;
-			transform: translateY(-50%);
-		}
-
 		@import "header";
 
 		.header {
+			position: absolute;
+			top: 50%;
+			transform: translateY(-50%);
+			font-size: 42px;
+			line-height: 48px;
+			font-weight: bold;
+			font-family: var(--fontHexagle);
+			letter-spacing: .2em;
+			text-transform: uppercase;
 
 			&.header0 {
-				display: none;
+				left: 0;
+				width: calc(50% - math.div($pregameLeagueLogoHeight, $hexRatio) * .5 - $borderSize - .1em);
+				text-align: right;
+				color: $textColor;
+
 			}
 
 			&.header1 {
-				position: absolute;
 				right: 0;
 				top: 50%;
 				width: calc(50% - math.div($pregameLeagueLogoHeight, $hexRatio) * .5 - $borderSize - .3em);
 				height: auto;
-				transform: translateY(-50%);
-				font-family: var(--fontHexagle);
-				font-size: 42px;
-				font-weight: bold;
-				font-style: italic;
 				text-align: left;
-				line-height: 48px;
 				color: $textColor;
-				text-transform: uppercase;
-				letter-spacing: .3em;
-				margin: 0;
-				padding: 0;
-				background: none;
 
-				span,
-				span:not(:last-child) {
-					display: block;
-					margin: 0;
-					padding: 0;
+			}
 
-					&::after {
-						display: none;
-					}
-				}
-
+			span {
+				display: block;
 			}
 
 		}
