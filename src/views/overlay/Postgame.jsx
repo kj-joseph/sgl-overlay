@@ -89,9 +89,21 @@ const Postgame = (props) => {
 
 						<TeamName name={props.config.teams[teamnum].shortName ? props.config.teams[teamnum].shortName : props.config.teams[teamnum].name ? props.config.teams[teamnum].name : team.name} team={teamnum} franchiseName={props.config.teams[teamnum].franchise} />
 
-						{props.config.teams[teamnum].hasOwnProperty("logo") && props.config.teams[teamnum].logo ? (
-							<TeamLogo team={teamnum} logo={props.config.teams[teamnum].logo} />
-						) : null}
+						<TeamLogo
+							team={teamnum}
+							logo={props.config.teams[teamnum].hasOwnProperty("logo") && props.config.teams[teamnum].logo ? props.config.teams[teamnum].logo : null}
+							bgColor={props.config.general.theme === "sgl" ?
+								props.config.teams[teamnum].bgColor
+								? props.config.teams[teamnum].bgColor
+									: props.config.teams[teamnum].color ?
+											props.config.teams[teamnum].color
+											: props.gameData.hasOwnProperty("teams")
+												&& Array.isArray(props.gameData.teams)
+												&& props.gameData.teams[teamnum].hasOwnProperty("color_primary")
+												? props.gameData.teams[teamnum].color_primary
+													: props.teamColorsDefault[teamnum]
+							: null}
+						/>
 
 						<TeamScore score={team.score} team={teamnum} long={longScores} />
 

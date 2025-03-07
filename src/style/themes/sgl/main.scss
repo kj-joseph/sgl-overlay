@@ -19,9 +19,7 @@ $teamScoreWidth: 90px;
 
 $teamNameWidth: 300px;
 
-$teamLogoWidth: 129.039px;
-// $teamLogoSpacing: 5px;
-// $teamLogoOpacity: .7;
+$teamLogoWidth: 129px;
 
 $scoreboardWidth: calc($teamLogoWidth + ($teamNameWidth + $teamScoreWidth) * 2 + $clockWidth);
 $scoreboardHeight: 186px;

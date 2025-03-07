@@ -714,6 +714,7 @@ const Overlay = () => {
 					players={endGameData.playerData}
 					seriesScore={seriesScore}
 					seriesGame={seriesScore[0] + seriesScore[1]}
+					teamColorsDefault={teamColorsDefault}
 				/>
 			) : viewState ==="matchup" ? (
 				<Matchup
