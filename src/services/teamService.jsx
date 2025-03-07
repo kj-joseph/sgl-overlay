@@ -15,7 +15,7 @@ export const getTeamList = async () =>
 					soccerTeamName: team.soccerTeamName,
 					bgColor: team.bgColor,
 					tier: team.tier,
-					logo: team.logo1 + team.logo2 + team.logo3 + team.logo4,
+					logo: team.logo,
 				})))
 			)
 
