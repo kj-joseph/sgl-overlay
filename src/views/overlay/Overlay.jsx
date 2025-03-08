@@ -5,9 +5,10 @@ import useWebSocket from "react-use-websocket";
 import defaultConfig from "@/data/config.json";
 
 import Live from "@/views/overlay/Live";
-import Postgame from "@/views/overlay/Postgame";
 import Matchup from "@/views/pregame/Matchup";
+import Postgame from "@/views/overlay/Postgame";
 import PlayerStats from "@/views/pregame/PlayerStats";
+import MatchdaySchedule from "../pregame/MatchdaySchedule";
 import TeamStats from "@/views/pregame/TeamStats";
 import Transition from "@/views/overlay/Transition";
 
@@ -64,8 +65,11 @@ const Overlay = () => {
     const [playerEvents, _setPlayerEvents] = useState([]);
     const [pregameStats, _setPregameStats] = useState({});
     const [seriesScore, _setSeriesScore] = useState([0,0]);
+	const [scheduleList, _setScheduleList] = useState([]);
 	const [showGoalTeam, setShowGoalTeam] = useState(false);
 	const [splash, _setSplash] = useState(splashDefault);
+	const [teamList, _setTeamList] = useState([]);
+	const [tierList, _setTierList] = useState([]);
 	const [teamDataSent, setTeamDataSent] = useState(false);
 	const [transition, setTransition] = useState(transitionDefault);
 	const [viewState, setViewState] = useState("");
@@ -130,10 +134,28 @@ const Overlay = () => {
         _setSeriesScore(data);
     }
 
+	const scheduleListRef = useRef(scheduleList);
+    const setScheduleList = (data) => {
+        scheduleListRef.current = data;
+        _setScheduleList(data);
+    }
+
 	const splashRef = useRef(splash);
     const setSplash = (data) => {
         splashRef.current = data;
         _setSplash(data);
+    }
+
+	const teamListRef = useRef(teamList);
+    const setTeamList = (data) => {
+        teamListRef.current = data;
+        _setPlayerEvents(data);
+    }
+
+	const tierListRef = useRef(tierList);
+    const setTierList = (data) => {
+        tierListRef.current = data;
+        _setPlayerEvents(data);
     }
 
 	useEffect(() => {
@@ -154,6 +176,12 @@ const Overlay = () => {
 			localStorage.setItem("config", JSON.stringify(activeConfig));
 		}
 
+		if (localStorage.hasOwnProperty("matchSchedule")) {
+			setScheduleList(JSON.parse(localStorage.getItem("matchSchedule")));
+		} else {
+			localStorage.setItem("matchSchedule", JSON.stringify(scheduleList));
+		}
+
 		if (localStorage.hasOwnProperty("pregameStats")) {
 			setPregameStats(JSON.parse(localStorage.getItem("pregameStats")));
 		}
@@ -170,6 +198,18 @@ const Overlay = () => {
 			setSplash(JSON.parse(localStorage.getItem("splash")));
 		} else {
 			localStorage.setItem("splash", JSON.stringify(splash));
+		}
+
+		if (localStorage.hasOwnProperty("teamList")) {
+			setTeamList(JSON.parse(localStorage.getItem("teamList")));
+		} else {
+			localStorage.setItem("teamList", JSON.stringify(teamList));
+		}
+
+		if (localStorage.hasOwnProperty("tierList")) {
+			setTierList(JSON.parse(localStorage.getItem("tierList")));
+		} else {
+			localStorage.setItem("tierList", JSON.stringify(tierList));
 		}
 
 		if (localStorage.hasOwnProperty("viewstate")) {
@@ -230,6 +270,14 @@ const Overlay = () => {
 					}
 					break;
 
+				case "matchSchedule":
+					if(event.newValue !== null) {
+						setScheduleList(JSON.parse(event.newValue));
+					} else {
+						setScheduleList({});
+					}
+					break;
+
 				case "pregameStats":
 					if(event.newValue !== null) {
 						setPregameStats(JSON.parse(event.newValue));
@@ -257,6 +305,22 @@ const Overlay = () => {
 					}
 					break;
 
+				case "teamList":
+					if(event.newValue !== null) {
+						setTeamList(JSON.parse(event.newValue));
+					} else {
+						setTeamList({});
+					}
+					break;
+
+				case "teamList":
+					if(event.newValue !== null) {
+						setTierList(JSON.parse(event.newValue));
+					} else {
+						setTierList({});
+					}
+					break;
+
 				case "viewstate":
 					switch (event.newValue) {
 
@@ -273,6 +337,23 @@ const Overlay = () => {
 							);
 							setTimeout(() => {
 								applyViewState("matchup");
+							}, 750);
+							break;
+						}
+
+						case "triggerSchedule": {
+							triggerTransition(
+								activeConfigRef.current.general.hasOwnProperty("transition") && activeConfigRef.current.general.transition ? activeConfigRef.current.general.transition : transitionDefault.name,
+								"",
+								activeConfigRef.current.general.hasOwnProperty("brandLogo") && activeConfigRef.current.general.brandLogo ?
+									imageLocation(activeConfigRef.current.general.brandLogo, "images/logos")
+									: null,
+								null,
+								null,
+								0,
+							);
+							setTimeout(() => {
+								applyViewState("schedule");
 							}, 750);
 							break;
 						}
@@ -727,6 +808,15 @@ const Overlay = () => {
 					seriesScore={seriesScore}
 					seriesGame={seriesScore[0] + seriesScore[1] + 1}
 					teamColorsDefault={teamColorsDefault}
+				/>
+			) : viewState ==="schedule" ? (
+				<MatchdaySchedule
+					config={activeConfig}
+					matchday={activeConfig.general.matchday}
+					schedule={scheduleListRef.current}
+					teamList={teamListRef.current}
+					tierList={tierListRef.current}
+					gameData={gameData}
 				/>
 			) : viewState ==="teamStats" ? (
 				<TeamStats

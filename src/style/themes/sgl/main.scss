@@ -59,6 +59,10 @@ $playerBoxBoostTextWidth: 44px;
 $playerBoxBoostBarSize: $borderSize;
 $playerBoxEventSize: 24px;
 
+$scheduleTeamLogoSize: 80px;
+$scheduleTeamBoxMargin: .04;
+$scheduleScoreWidth: 100px;
+
 // colors (team colors use css variables from React component)
 $sglRed: #ec2227;
 $sglRedTone: rgba($sglRed, .7);
@@ -98,6 +102,7 @@ $goalColor: #ffd100;
 	@import "live";
 
 	@import "matchup";
+	@import "matchdaySchedule";
 	@import "playerStats";
 	@import "teamStats";
 

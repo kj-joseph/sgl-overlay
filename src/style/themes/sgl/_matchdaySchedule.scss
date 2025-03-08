@@ -1,0 +1,204 @@
+.matchdaySchedule {
+	--sideFadeColor: #{rgba(#666666, .4)};
+	--leftFadeColor: #{rgba($sglRed, .35)};
+	--rightFadeColor: #{rgba($sglBlue, .35)};
+
+	position: absolute;
+    left: 0;
+    top: 0;
+	width: $windowWidth;
+	height: $windowHeight;
+	color: $textColor;
+	padding-top: 20px;
+	background-image:
+		// linear-gradient(to bottom,
+		// 	var(--sideFadeColor) 0,
+		// 	var(--sideFadeColor) 75%,
+		// 	$backgroundTransparent 98%
+		// ),
+		linear-gradient(to bottom,
+			var(--sideFadeColor) 0,
+			var(--sideFadeColor) 75%,
+			$backgroundTransparent 98%
+		),
+		linear-gradient(to bottom,
+			var(--sideFadeColor) 0,
+			var(--sideFadeColor) 75%,
+			$backgroundTransparent 98%
+		),
+		linear-gradient(to bottom,
+			var(--leftFadeColor) 0,
+			var(--leftFadeColor) 75%,
+			$backgroundTransparent 98%
+		),
+		linear-gradient(to bottom,
+			var(--rightFadeColor) 0,
+			var(--rightFadeColor) 75%,
+			$backgroundTransparent 98%
+		),
+		url("/images/themes/sgl/hex-bg.png");
+	background-position:
+		1760px 130px,
+		60px 130px,
+		60px 130px,
+		1060px 130px,
+		center center;
+	background-size:
+		100px 880px,
+		100px 880px,
+		800px 980px,
+		800px 980px,
+		100% 100%;
+	background-repeat:
+		no-repeat,
+		no-repeat,
+		no-repeat,
+		no-repeat,
+		no-repeat;
+
+	.matchdayScheduleHeader {
+		@include smallHeader;
+
+		.matchdayScheduleTitle {
+			position: absolute;
+			top: -100px;
+			right: 50%;
+			transform: rotate(-90deg) translateX(-50%);
+			transform-origin: right center;
+			color: $textColor;
+			font-family: var(--fontHexagle);
+			font-size: 68px;
+			font-weight: bold;
+			font-style: italic;
+			text-align: right;
+			text-transform: uppercase;
+			letter-spacing: .15em;
+		}
+
+	}
+
+	.tier {
+		position: absolute;
+		top: 200px;
+		width: 650px;
+		// background: blue;
+
+		.tierName {
+			position: absolute;
+			top: -60px;
+			height: 1px;
+			color: transparent;
+
+			&:after {
+				content: attr(data-tier-name);
+				display: block;
+				transform: rotate(-90deg);
+				transform-origin: right center;
+				font-family: var(--fontHexagle);
+				font-size: 70px;
+				color: $textColor;
+				text-align: right;
+				letter-spacing: .1em;
+			}
+
+		}
+
+		&:nth-child(1) {
+			left: 185px;
+
+			.tierName {
+				right: 725px;
+			}
+		}
+
+		&:nth-child(2) {
+			right: 185px;
+
+			.tierName {
+				right: -75px;
+			}
+
+		}
+
+		.match {
+			margin-bottom: 40px;
+
+			.matchTime {
+				text-align: right;
+				color: $textColor;
+				font-family: var(--fontRajdhani);
+				font-size: 30px;
+				font-weight: bold;
+			}
+
+			.matchTeam {
+				--bgColor: black;
+
+				display: grid;
+				grid-template-areas: "logo name score";
+				grid-template-columns:
+					calc($scheduleTeamLogoSize + $borderSize)
+					1fr
+					$scheduleScoreWidth;
+				grid-gap: 15px;
+
+				margin-bottom: $borderSize;
+				background-image: linear-gradient(to right,
+					$backgroundTransparent 0,
+					$backgroundTransparent calc($scheduleTeamLogoSize + 14px),
+					var(--bgColor) calc($scheduleTeamLogoSize + 14px),
+					var(--bgColor) 100%
+				);
+				background-position: 100% calc($scheduleTeamLogoSize * $hexRatio * $scheduleTeamBoxMargin);
+				background-size: 100% calc(100% - ($scheduleTeamLogoSize * $hexRatio * $scheduleTeamBoxMargin * 2));
+				background-repeat: no-repeat;
+			}
+
+
+			.teamLogo {
+				grid-area: logo;
+				@include teamLogoHex($scheduleTeamLogoSize);
+			}
+
+			.teamName {
+				grid-area: name;
+				font-family: var(--fontHexagle);
+				font-size: 50px;
+				color: $textColor;
+				line-height: calc($scheduleTeamLogoSize * $hexRatio);
+			}
+
+			.teamScore {
+				grid-area: score;
+				font-family: var(--fontHexagle);
+				font-size: 70px;
+				color: black;
+				line-height: calc($scheduleTeamLogoSize * $hexRatio);
+				text-align: right;
+				padding: 0 7.5px;
+				background-image: linear-gradient(white, white);
+				background-position: 100% calc($scheduleTeamLogoSize * $hexRatio * $scheduleTeamBoxMargin);
+				background-size: 100% calc(100% - ($scheduleTeamLogoSize * $hexRatio * $scheduleTeamBoxMargin * 2));
+				background-repeat: no-repeat;
+			}
+
+		}
+
+	}
+
+	.matchdayScheduleCaption {
+		position: absolute;
+		width: $windowWidth;
+		bottom: 40px;
+		text-align: center;
+		color: $secondaryTextColor;
+		font-family: var(--fontRajdhani);
+		font-size: 30px;
+		font-weight: bold;
+
+
+
+	}
+
+
+}

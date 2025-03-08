@@ -2,9 +2,10 @@ import React, { useEffect, useState, useRef } from "react";
 
 import { v4 as uuidv4 } from "uuid";
 
+import { getSchedule } from "@/services/scheduleService";
+import { getPlayerStatsByTeams, getTeamStatsByTeams } from "@/services/statService";
 import { getTeamList } from "@/services/teamService";
 import { getTierList } from "@/services/tierService";
-import { getPlayerStatsByTeams, getTeamStatsByTeams } from "@/services/statService";
 
 import Button from "@mui/material/Button";
 import Container from "@mui/material/Container";
@@ -257,7 +258,8 @@ const ControlPanel = () => {
 		openDialog("loading");
 		Promise.all([
 			loadTeamList(),
-			loadTierList()
+			loadTierList(),
+			loadSchedule(),
 		])
 			.then(() => {
 				setTeamFields(["", ""]);
@@ -352,13 +354,37 @@ const ControlPanel = () => {
 				.then((loadedTierList) => {
 					setTierList(loadedTierList);
 					setTeamFields(["", ""]);
+					localStorage.setItem("tierList", JSON.stringify(loadedTierList));
 				})
 				.catch((error) => {
 					closeDialog();
 					console.error(error);
 					openSnackbar("Error getting tier list from sheets");
 				});
+
 		}
+	}
+
+	const loadSchedule = async () => {
+
+		getSchedule()
+			.then((loadedSchedule) => {
+				localStorage.setItem("matchSchedule", JSON.stringify(loadedSchedule));
+			})
+			.catch((error) => {
+				console.error(error);
+				openSnackbar("Error getting schedule from sheets");
+			});
+
+	}
+
+	const loadScheduleManual = () => {
+		openDialog("loading");
+		loadSchedule()
+			.finally(() => {
+				closeDialog();
+			});
+
 	}
 
 	const loadTeamList = async () => {
@@ -373,6 +399,7 @@ const ControlPanel = () => {
 					const currentTeamFields = [...teamFields];
 					const currentTeamNameFields = [...teamNameFieldsRef.current];
 					const currentSoccerTeamFields = [...soccerTeamFields];
+					localStorage.setItem("teamList", JSON.stringify(loadedTeamList));
 
 					for (let teamNum in currentTeamNameFields) {
 						const matchedTeam = loadedTeamList.filter((team) => team.name === currentTeamNameFields[teamNum]);
@@ -860,12 +887,18 @@ const ControlPanel = () => {
 										Reset
 									</Button>
 									<Button
-										// disabled={!hasChanges}
 										variant="outlined"
 										color="error"
 										onClick={() => openDialog("confirmDefault")}
 									>
 										Set to Default
+									</Button>
+									<Button
+										variant="outlined"
+										color="secondary"
+										onClick={() => loadScheduleManual()}
+									>
+										Refresh Schedule
 									</Button>
 								</Grid>
 
@@ -1145,6 +1178,19 @@ const ControlPanel = () => {
 												<Item justifyContent={"center"}>
 
 													<Button
+														color="secondary"
+														variant={viewState === "schedule" ? "contained" : "outlined"}
+														disabled={viewState === "schedule" || viewState === "triggerSchedule"}
+														style={{
+															borderWidth: "2px",
+															borderStyle: "solid",
+															borderColor: viewState === "schedule" ? "yellowgreen" : "",
+														}}
+														onClick={() => {triggerViewState("triggerSchedule", "schedule")}}
+													>Schedule</Button>
+
+													<Button
+														color="primary"
 														variant={viewState === "matchup" ? "contained" : "outlined"}
 														disabled={viewState === "matchup" || viewState === "triggerMatchup"}
 														style={{
@@ -1152,12 +1198,11 @@ const ControlPanel = () => {
 															borderStyle: "solid",
 															borderColor: viewState === "matchup" ? "yellowgreen" : "",
 														}}
-														color="primary"
 														onClick={() => {triggerViewState("triggerMatchup", "matchup")}}
 													>Matchup</Button>
 
 													<Button
-														color="secondary"
+														color="success"
 														variant={viewState === "teamStats" ? "contained" : "outlined"}
 														disabled={viewState === "teamStats" || viewState === "triggerTeamStats"}
 														style={{
