@@ -208,7 +208,7 @@ $statPadding: 12px;
 
 				}
 
-				.logo {
+				.teamLogo {
 					position: absolute;
 					top: -30px;
 					@include teamLogoHex($statsTeamLogoSize);
@@ -311,7 +311,7 @@ $statPadding: 12px;
 		.playerStatsTable {
 			left: 310px;
 
-			thead th.teamName .logo {
+			thead th.teamName .teamLogo {
 				left: -242px;
 				@include placeholderTeamlogo(var(--team0tone));
 			}
@@ -335,7 +335,7 @@ $statPadding: 12px;
 		.playerStatsTable {
 			left: 110px;
 
-			thead th.teamName .logo {
+			thead th.teamName .teamLogo {
 				left: 1559px;
 				@include placeholderTeamlogo(var(--team1tone));
 			}

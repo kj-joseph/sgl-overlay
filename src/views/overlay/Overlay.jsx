@@ -303,9 +303,7 @@ const Overlay = () => {
 									: activeConfigRef.current.general.hasOwnProperty("brandLogo") && activeConfigRef.current.general.brandLogo ?
 										imageLocation(activeConfigRef.current.general.brandLogo, "images/logos")
 									: null,
-									activeConfigRef.current.teams[0].hasOwnProperty("logo") && activeConfigRef.current.teams[0].logo && activeConfigRef.current.teams[0].bgColor ?
-										activeConfigRef.current.teams[0].bgColor
-									: null,
+								bgColor(0),
 								0,
 								0,
 							);
@@ -324,9 +322,7 @@ const Overlay = () => {
 									: activeConfigRef.current.general.hasOwnProperty("brandLogo") && activeConfigRef.current.general.brandLogo ?
 										imageLocation(activeConfigRef.current.general.brandLogo, "images/logos")
 									: null,
-								activeConfigRef.current.teams[1].hasOwnProperty("logo") && activeConfigRef.current.teams[1].logo && activeConfigRef.current.teams[1].bgColor ?
-										activeConfigRef.current.teams[1].bgColor
-									: null,
+								bgColor(1),
 								1,
 								0,
 							);
@@ -453,9 +449,7 @@ const Overlay = () => {
 						: activeConfig.general.hasOwnProperty("brandLogo") && activeConfig.general.brandLogo ?
 							imageLocation(activeConfig.general.brandLogo, "images/logos")
 						: null,
-					activeConfig.teams[data.scorer.teamnum].hasOwnProperty("logo") && activeConfig.teams[data.scorer.teamnum].logo && activeConfig.teams[data.scorer.teamnum].bgColor ?
-						activeConfig.teams[data.scorer.teamnum].bgColor
-						: null,
+					bgColor(data.scorer.teamnum),
 					data.scorer.teamnum,
 					3,
 				);
@@ -480,9 +474,7 @@ const Overlay = () => {
 							: activeConfig.general.hasOwnProperty("brandLogo") && activeConfig.general.brandLogo ?
 								imageLocation(activeConfig.general.brandLogo, "images/logos")
 							: null,
-						activeConfig.teams[winningTeam].hasOwnProperty("logo") && activeConfig.teams[winningTeam].logo && activeConfig.teams[winningTeam].bgColor ?
-							activeConfig.teams[winningTeam].bgColor
-							: null,
+						bgColor(winningTeam),
 						winningTeam,
 						0,
 					);
@@ -646,6 +638,18 @@ const Overlay = () => {
 		}, delay ? 4600 : 1600);
 	}
 
+	const bgColor = (teamnum) => activeConfig.general.theme === "sgl" ?
+		activeConfig.teams[teamnum].bgColor
+		? activeConfig.teams[teamnum].bgColor
+			: activeConfig.teams[teamnum].color ?
+					activeConfig.teams[teamnum].color
+					: gameData.hasOwnProperty("teams")
+						&& Array.isArray(gameData.teams)
+						&& gameData.teams[teamnum].hasOwnProperty("color_primary")
+						? gameData.teams[teamnum].color_primary
+							: teamColorsDefault[teamnum]
+	: ""
+
 	//TODO: There's got to be some better way to get the alpha channel values into CSS without generating them all individually here
 
 	return (
@@ -731,6 +735,7 @@ const Overlay = () => {
 					pregameStats={pregameStats}
 					seriesScore={seriesScore}
 					seriesGame={seriesScore[0] + seriesScore[1] + 1}
+					teamColorsDefault={teamColorsDefault}
 				/>
 			) : viewState ==="playerStats0" ? (
 				<PlayerStats
@@ -740,6 +745,7 @@ const Overlay = () => {
 					seriesScore={seriesScore}
 					seriesGame={seriesScore[0] + seriesScore[1] + 1}
 					team={0}
+					teamColorsDefault={teamColorsDefault}
 				/>
 			) : viewState ==="playerStats1" ? (
 				<PlayerStats
@@ -749,6 +755,7 @@ const Overlay = () => {
 					seriesScore={seriesScore}
 					seriesGame={seriesScore[0] + seriesScore[1] + 1}
 					team={1}
+					teamColorsDefault={teamColorsDefault}
 				/>
 			) : (
 				<Live

@@ -1,7 +1,7 @@
 import React, { Fragment } from "react";
 
 import Header from "@/components/Header";
-import SeriesInfo from "@/components/SeriesInfo";
+import TeamLogo from "@/components/TeamLogo";
 
 import imageLocation from "@/utils/imageLocation";
 
@@ -11,19 +11,6 @@ const longFranchiseName = 25;
 const Matchup = (props) => {
 
 	const teamName = (teamnum) => props.config.teams[teamnum].name ? props.config.teams[teamnum].name : props.gameData.teams[teamnum].name;
-
-	const bgColor = (teamnum) =>
-		props.config.general.theme === "sgl" ?
-			props.config.teams[teamnum].bgColor
-			? props.config.teams[teamnum].bgColor
-				: props.config.teams[teamnum].color ?
-						props.config.teams[teamnum].color
-						: props.gameData.hasOwnProperty("teams")
-							&& Array.isArray(props.gameData.teams)
-							&& props.gameData.teams[teamnum].hasOwnProperty("color_primary")
-							? props.gameData.teams[teamnum].color_primary
-								: props.teamColorsDefault[teamnum]
-		: "";
 
 	return (
 		<div className={`matchup ${(props.config.series.show && props.config.series.type !== "unlimited") || props.config.series.override ? "hasSeriesInfo" : ""}`}>
@@ -58,22 +45,23 @@ const Matchup = (props) => {
 				{props.gameData.teams.map((team, teamnum) => (
 					<Fragment key={`matchupTeam${teamnum}`}>
 						<div
-							className={`team team${teamnum} ${props.config.teams[teamnum].hasOwnProperty("logo") && props.config.teams[teamnum].logo ? "hasLogo" : ""}`}
+							className={`team team${teamnum}`}
 						>
-							{props.config.teams[teamnum].logo ? (
-								<div className="logo">
-									<img
-										src={imageLocation(props.config.teams[teamnum].logo, "images/logos/teams")}
-										style={bgColor(teamnum) ?
-											{
-												backgroundColor: `#${bgColor(teamnum)}`,
-											} : {}
-										}
-									/>
-								</div>
-							) :
-								<div className="logo"></div>
-							}
+							<TeamLogo
+								team={teamnum}
+								logo={props.config.teams[teamnum].hasOwnProperty("logo") && props.config.teams[teamnum].logo ? props.config.teams[teamnum].logo : null}
+								bgColor={props.config.general.theme === "sgl" ?
+									props.config.teams[teamnum].bgColor
+									? props.config.teams[teamnum].bgColor
+										: props.config.teams[teamnum].color ?
+												props.config.teams[teamnum].color
+												: props.gameData.hasOwnProperty("teams")
+													&& Array.isArray(props.gameData.teams)
+													&& props.gameData.teams[teamnum].hasOwnProperty("color_primary")
+													? props.gameData.teams[teamnum].color_primary
+														: props.teamColorsDefault[teamnum]
+								: ""}
+							/>
 
 							<div className="teamText">
 								<div className={`name ${teamName(teamnum).length >= longTeamName ? "long" : ""}`}>{teamName(teamnum)}</div>

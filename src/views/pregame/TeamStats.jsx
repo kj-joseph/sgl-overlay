@@ -58,7 +58,7 @@ const statList = [
 
 const TeamStats = (props) => {
 
-	const teamName = (teamnum) => props.config.teams[teamnum].name ? props.config.teams[teamnum].name : props.gameData.teams[teamnum].name;
+	const teamName = (teamnum) => team.name ? team.name : props.gameData.teams[teamnum].name;
 
 	return (
 		<div className={`teamStats ${(props.config.series.show && props.config.series.type !== "unlimited") || props.config.series.override ? "hasSeriesInfo" : ""}`}>
@@ -86,10 +86,22 @@ const TeamStats = (props) => {
 			</div>
 
 			<TeamStatsTable
+				bgColors={props.config.teams.map((team, teamnum) =>
+					props.config.general.theme === "sgl" ?
+						team.bgColor ? team.bgColor
+							: team.color ? team.color
+								: props.gameData.hasOwnProperty("teams")
+									&& Array.isArray(props.gameData.teams)
+									&& props.gameData.teams[teamnum].hasOwnProperty("color_primary")
+									? props.gameData.teams[teamnum].color_primary
+										: props.teamColorsDefault[teamnum]
+					: ""
+				)}
 				config={props.config}
 				pregameStats={props.pregameStats}
 				statList={statList}
 				showLogos={true}
+				teamColorsDefault={props.teamColorsDefault}
 			></TeamStatsTable>
 
 		</div>

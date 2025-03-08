@@ -235,7 +235,7 @@ $tableCenterColumnWidth: 400px;
 
 				}
 
-				.logo {
+				.teamLogo {
 					position: absolute;
 					top: -4px;
 					@include teamLogoHex($statsTeamLogoSize);
@@ -243,7 +243,7 @@ $tableCenterColumnWidth: 400px;
 
 				&.team0 {
 
-					.logo {
+					.teamLogo {
 						left: -286px;
 						@include placeholderTeamlogo(var(--team0tone));
 					}
@@ -256,7 +256,7 @@ $tableCenterColumnWidth: 400px;
 
 				&.team1 {
 
-					.logo {
+					.teamLogo {
 						right: -1109px;
 						@include placeholderTeamlogo(var(--team1tone));
 					}

@@ -1,8 +1,9 @@
 import React from "react";
 
-import imageLocation from "@/utils/imageLocation";
+import TeamLogo from "@/components/TeamLogo";
 
 import displayDecimal from "@/utils/displayDecimal";
+import imageLocation from "@/utils/imageLocation";
 
 const longTeamName = 16;
 const longFranchiseName = 25;
@@ -20,18 +21,13 @@ const PlayerStatsTable = (props) => {
 				<tr>
 
 					<th className={`teamName team${props.team} ${!props.config.teams[props.team].logo ? "noLogo" : ""}`} colSpan={props.statList.length + 1} style={props.teamColors ? {backgroundColor: `#${props.teamColors[props.team]}`} : null}>
-						<div className="logo">
-							{props.showLogos && props.config.teams[props.team].logo ?
-								<img
-									src={imageLocation(props.config.teams[props.team].logo, "images/logos/teams")}
-									style={props.bgColor ?
-										{
-											backgroundColor: `#${props.bgColor}`,
-										} : {}
-									}
-								/>
-								: null}
-						</div>
+						{props.showLogos ?
+							<TeamLogo
+								team={props.team}
+								logo={props.config.teams[props.team].hasOwnProperty("logo") && props.config.teams[props.team].logo ? props.config.teams[props.team].logo : null}
+								bgColor={props.bgColor}
+							/>
+						: null}
 						<div className="teamText">
 							<div className={`name ${teamName(props.team).length >= longTeamName ? "long" : ""}`}>{teamName(props.team)}</div>
 

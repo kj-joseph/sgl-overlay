@@ -78,12 +78,23 @@ const PlayerStats = (props) => {
 			</div>
 
 			<PlayerStatsTable
+				bgColor={props.config.general.theme === "sgl" ?
+					props.config.teams[props.team].bgColor
+					? props.config.teams[props.team].bgColor
+						: props.config.teams[props.team].color ?
+								props.config.teams[props.team].color
+								: props.gameData.hasOwnProperty("teams")
+									&& Array.isArray(props.gameData.teams)
+									&& props.gameData.teams[props.team].hasOwnProperty("color_primary")
+									? props.gameData.teams[props.team].color_primary
+										: props.teamColorsDefault[props.team]
+					: null}
 				config={props.config}
 				pregameStats={props.pregameStats}
 				statList={statList}
 				showLogos={true}
 				team={props.team}
-				bgColor={props.config.teams[props.team].hasOwnProperty("logo") && props.config.teams[props.team].logo && props.config.teams[props.team].bgColor ? props.config.teams[props.team].bgColor : null}
+
 			></PlayerStatsTable>
 
 		</div>

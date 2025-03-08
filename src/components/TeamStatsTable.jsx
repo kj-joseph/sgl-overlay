@@ -1,5 +1,7 @@
 import React from "react";
 
+import TeamLogo from "@/components/TeamLogo";
+
 import displayDecimal from "@/utils/displayDecimal";
 import imageLocation from "@/utils/imageLocation";
 
@@ -17,18 +19,13 @@ const TeamStatsTable = (props) => {
 			<thead>
 				<tr>
 					<th className="teamName team0" style={props.teamColors ? {backgroundColor: `#${props.teamColors[0]}`} : null}>
-						<div className="logo">
-							{props.showLogos && props.config.teams[0].logo ?
-								<img
-									src={imageLocation(props.config.teams[0].logo, "images/logos/teams")}
-									style={props.config.teams[0].bgColor ?
-										{
-											backgroundColor: `#${props.config.teams[0].bgColor}`,
-										} : {}
-									}
-								/>
-							: null}
-						</div>
+						{props.showLogos && props.config.teams[0].logo ?
+							<TeamLogo
+								team={0}
+								logo={props.config.teams[0].hasOwnProperty("logo") && props.config.teams[0].logo ? props.config.teams[0].logo : null}
+								bgColor={props.bgColors[0]}
+							/>
+						: null}
 						<div className="teamText">
 							<div className={`name ${teamName(0).length >= longTeamName ? "long" : ""}`}>{teamName(0)}</div>
 
@@ -41,18 +38,13 @@ const TeamStatsTable = (props) => {
 					<td className="centerColumn"></td>
 
 					<th className="teamName team1" style={props.teamColors ? {backgroundColor: `#${props.teamColors[1]}`} : null}>
-						<div className="logo">
-							{props.showLogos && props.config.teams[1].logo ?
-								<img
-									src={imageLocation(props.config.teams[1].logo, "images/logos/teams")}
-									style={props.config.teams[1].bgColor ?
-										{
-											backgroundColor: `#${props.config.teams[1].bgColor}`,
-										} : {}
-									}
-								/>
-							: null}
-						</div>
+						{props.showLogos && props.config.teams[1].logo ?
+							<TeamLogo
+								team={1}
+								logo={props.config.teams[1].hasOwnProperty("logo") && props.config.teams[1].logo ? props.config.teams[1].logo : null}
+								bgColor={props.bgColors[1]}
+							/>
+						: null}
 						<div className="teamText">
 							<div className={`name ${teamName(1).length >= longTeamName ? "long" : ""}`}>{teamName(1)}</div>
 
