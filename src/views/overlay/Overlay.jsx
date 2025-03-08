@@ -313,7 +313,7 @@ const Overlay = () => {
 					}
 					break;
 
-				case "teamList":
+				case "tierList":
 					if(event.newValue !== null) {
 						setTierList(JSON.parse(event.newValue));
 					} else {
