@@ -130,7 +130,7 @@ const TeamStatsTable = (props) => {
 								<td
 									key={`team1${statIndex}`}
 									className={`team1 ${props.pregameStats.teamStats[0] && props.pregameStats.teamStats[0].hasOwnProperty("gameWins") && props.pregameStats.teamStats[0].hasOwnProperty("gameLosses") && (props.pregameStats.teamStats[1].gameWins / props.pregameStats.teamStats[1].gameLosses) >= (props.pregameStats.teamStats[0].gameWins / props.pregameStats.teamStats[0].gameLosses) ? "better" : ""}`}>
-									{props.pregameStats.teamStats[1].gameWins}<span className="hyphen">-</span>{props.pregameStats.teamStats[1].seriesLosses}
+									{props.pregameStats.teamStats[1].gameWins}<span className="hyphen">-</span>{props.pregameStats.teamStats[1].gameLosses}
 								</td>
 							:
 								<td key={`team1${statIndex}`} className={`team1`}>
