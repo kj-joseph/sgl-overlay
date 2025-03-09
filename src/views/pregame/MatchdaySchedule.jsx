@@ -98,7 +98,7 @@ const MatchdaySchedule = (props) => {
 
 			</div>
 
-			<div class="matchdayScheduleCaption">(All times Eastern)</div>
+			<div className="matchdayScheduleCaption">(All times Eastern)</div>
 
 		</div>
 	)
