@@ -25,7 +25,6 @@ import Switch from "@mui/material/Switch";
 import TextField from "@mui/material/TextField";
 import { createTheme, styled, ThemeProvider } from "@mui/material/styles";
 
-import ("@/style/appMain.scss");
 import ("@/style/imageGen.scss");
 
 const currentSeason = 9; // TODO: set on new season
