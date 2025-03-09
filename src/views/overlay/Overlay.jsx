@@ -840,7 +840,6 @@ const Overlay = () => {
 					schedule={scheduleListRef.current}
 					teamList={teamListRef.current}
 					tierList={tierListRef.current}
-					viewOptions={["scores", "streams", "times", "today"]}
 				/>
 			) : viewState ==="teamStats" ? (
 				<TeamStats
