@@ -40,7 +40,6 @@ export const getPlayerStatsByTeams = async (teamCodes) =>
 						const teamStatRecord = response.filter(tm => tm.Code === t);
 
 						if (teamStatRecord.length === 1) {
-							console.log()
 							teamStats.push({
 								teamName: teamStatRecord[0].Team,
 								seriesWins: Number(teamStatRecord[0].SeriesWins),
