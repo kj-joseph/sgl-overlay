@@ -49,23 +49,6 @@
 
 	.matchdayScheduleHeader {
 		@include smallHeader;
-
-		.matchdayScheduleTitle {
-			position: absolute;
-			top: -100px;
-			right: 50%;
-			transform: rotate(-90deg) translateX(-50%);
-			transform-origin: right center;
-			color: $textColor;
-			font-family: var(--fontHexagle);
-			font-size: 68px;
-			font-weight: bold;
-			font-style: italic;
-			text-align: right;
-			text-transform: uppercase;
-			letter-spacing: .15em;
-		}
-
 	}
 
 	.tier {
@@ -116,7 +99,7 @@
 			font-family: var(--fontRajdhani);
 			font-weight: bold;
 			font-size: 38px;
-			line-height: calc($scheduleTeamLogoSize * $hexRatio);
+			line-height: calc($scheduleTeamLogoWidth * $hexRatio);
 			text-align: center;
 		}
 
@@ -129,7 +112,7 @@
 				font-size: 30px;
 				font-weight: bold;
 				text-align: left;
-				padding-left: calc($scheduleTeamLogoSize + 22px);
+				padding-left: calc($scheduleTeamLogoWidth + 22px);
 
 				&.today {
 					color: $highlightColor;
@@ -149,7 +132,7 @@
 				display: grid;
 				grid-template-areas: "logo name score";
 				grid-template-columns:
-					calc($scheduleTeamLogoSize + $borderSize)
+					calc($scheduleTeamLogoWidth + $borderSize)
 					1fr
 					$scheduleScoreWidth;
 				grid-gap: 15px;
@@ -157,19 +140,19 @@
 				margin-bottom: $borderSize;
 				background-image: linear-gradient(to right,
 					$backgroundTransparent 0,
-					$backgroundTransparent calc($scheduleTeamLogoSize + 14px),
-					var(--bgColor) calc($scheduleTeamLogoSize + 14px),
+					$backgroundTransparent calc($scheduleTeamLogoWidth + 14px),
+					var(--bgColor) calc($scheduleTeamLogoWidth + 14px),
 					var(--bgColor) 100%
 				);
-				background-position: 100% calc($scheduleTeamLogoSize * $hexRatio * $scheduleTeamBoxMargin);
-				background-size: 100% calc(100% - ($scheduleTeamLogoSize * $hexRatio * $scheduleTeamBoxMargin * 2));
+				background-position: 100% calc($scheduleTeamLogoWidth * $hexRatio * $scheduleTeamBoxMargin);
+				background-size: 100% calc(100% - ($scheduleTeamLogoWidth * $hexRatio * $scheduleTeamBoxMargin * 2));
 				background-repeat: no-repeat;
 			}
 
 
 			.teamLogo {
 				grid-area: logo;
-				@include teamLogoHex($scheduleTeamLogoSize);
+				@include teamLogoHex($scheduleTeamLogoWidth);
 			}
 
 			.teamName {
@@ -177,7 +160,7 @@
 				font-family: var(--fontHexagle);
 				font-size: 50px;
 				color: $textColor;
-				line-height: calc($scheduleTeamLogoSize * $hexRatio);
+				line-height: calc($scheduleTeamLogoWidth * $hexRatio);
 			}
 
 			.teamScore {
@@ -185,12 +168,12 @@
 				font-family: var(--fontHexagle);
 				font-size: 70px;
 				color: black;
-				line-height: calc($scheduleTeamLogoSize * $hexRatio);
+				line-height: calc($scheduleTeamLogoWidth * $hexRatio);
 				text-align: right;
 				padding: 0 7.5px;
 				background-image: linear-gradient(white, white);
-				background-position: 100% calc($scheduleTeamLogoSize * $hexRatio * $scheduleTeamBoxMargin);
-				background-size: 100% calc(100% - ($scheduleTeamLogoSize * $hexRatio * $scheduleTeamBoxMargin * 2));
+				background-position: 100% calc($scheduleTeamLogoWidth * $hexRatio * $scheduleTeamBoxMargin);
+				background-size: 100% calc(100% - ($scheduleTeamLogoWidth * $hexRatio * $scheduleTeamBoxMargin * 2));
 				background-repeat: no-repeat;
 
 				&.winner {

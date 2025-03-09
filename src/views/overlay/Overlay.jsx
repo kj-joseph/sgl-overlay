@@ -9,6 +9,7 @@ import Matchup from "@/views/pregame/Matchup";
 import Postgame from "@/views/overlay/Postgame";
 import PlayerStats from "@/views/pregame/PlayerStats";
 import MatchdaySchedule from "../pregame/MatchdaySchedule";
+import Standings from "../pregame/Standings";
 import TeamStats from "@/views/pregame/TeamStats";
 import Transition from "@/views/overlay/Transition";
 
@@ -354,6 +355,23 @@ const Overlay = () => {
 							);
 							setTimeout(() => {
 								applyViewState("schedule");
+							}, 750);
+							break;
+						}
+
+						case "triggerStandings": {
+							triggerTransition(
+								activeConfigRef.current.general.hasOwnProperty("transition") && activeConfigRef.current.general.transition ? activeConfigRef.current.general.transition : transitionDefault.name,
+								"",
+								activeConfigRef.current.general.hasOwnProperty("brandLogo") && activeConfigRef.current.general.brandLogo ?
+									imageLocation(activeConfigRef.current.general.brandLogo, "images/logos")
+									: null,
+								null,
+								null,
+								0,
+							);
+							setTimeout(() => {
+								applyViewState("standings");
 							}, 750);
 							break;
 						}
@@ -811,6 +829,15 @@ const Overlay = () => {
 				/>
 			) : viewState ==="schedule" ? (
 				<MatchdaySchedule
+					config={activeConfig}
+					schedule={scheduleListRef.current}
+					viewOptions={["scores", "streams", "times", "today"]}
+					teamList={teamListRef.current}
+					tierList={tierListRef.current}
+					gameData={gameData}
+				/>
+			) : viewState ==="standings" ? (
+				<Standings
 					config={activeConfig}
 					schedule={scheduleListRef.current}
 					viewOptions={["scores", "streams", "times", "today"]}

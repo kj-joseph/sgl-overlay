@@ -9,24 +9,29 @@ const Header = (props) => {
 				<>
 					<div className={`header header0 pipes`}>
 						<span className="leagueName">Supporters Gaming League</span>
-						{props.streamType !== "SGL-event" ?
+						{props.streamType !== "SGL-event" && props.view !== "standings" ?
 							<span className="season">Season {props.season}
 								{props.streamType === "SGL-playoffs" ? " Cup" : null}
 							</span>
-
-
-
 						: null}
-
 					</div>
 
 					{props.streamType !== "SGL-event" ?
 
 						<div className={`header header1 pipes`}>
-							{(props.streamType === "SGL-regular" || props.streamType === "SGL-playoffs") && props.tier ?
+							{props.view === "standings" ?
+								<span className="standings">Season {props.season} Standings</span>
+							: props.view === "schedule" ?
+								<>
+									<span className="label">Game Schedule</span>
+									<span className="matchday">Matchday {props.matchday}</span>
+								</>
+							: (props.streamType === "SGL-regular" || props.streamType === "SGL-playoffs") && props.tier ?
 								<span className="tier">{props.tier}</span>
 							: null}
-							{props.streamType === "SGL-regular" ?
+							{props.view ?
+								null
+							: props.streamType === "SGL-regular" ?
 								<span className="matchday">Matchday {props.matchday}</span>
 							: props.streamType === "SGL-playoffs" ?
 								<span className="matchday">{props.round}</span>

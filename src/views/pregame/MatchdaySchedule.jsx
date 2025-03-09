@@ -6,9 +6,6 @@ import TeamLogo from "@/components/TeamLogo";
 import hexToRgba from "@/utils/hexToRgba";
 import imageLocation from "@/utils/imageLocation";
 
-const longTeamName = 16;
-const longFranchiseName = 25;
-
 const MatchdaySchedule = (props) => {
 
 	const teamData = (code) => props.teamList.filter(team => team.code === code)[0];
@@ -25,12 +22,13 @@ const MatchdaySchedule = (props) => {
 				</div>
 
 				<Header
-					theme={props.config.general.theme}
 					headers={props.config.general.headers}
-					streamType={props.config.general.streamType}
-					season={props.config.general.season}
-					matchday={`${props.config.general.matchday} Schedule`}
+					matchday={props.config.general.matchday}
 					round={props.config.general.round}
+					season={props.config.general.season}
+					streamType={props.config.general.streamType}
+					view="schedule"
+					theme={props.config.general.theme}
 				/>
 
 			</div>
@@ -39,6 +37,7 @@ const MatchdaySchedule = (props) => {
 
 				{props.tierList.map((tier, tierIndex) =>
 					<div className="tier" key={tierIndex}>
+
 						<div className="tierName" data-tier-name={tier.name}>{tier.name}</div>
 
 						<div className="tierMatches">

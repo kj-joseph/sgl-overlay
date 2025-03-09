@@ -1,0 +1,143 @@
+.leagueStandings {
+	position: absolute;
+    left: 0;
+    top: 0;
+	width: $windowWidth;
+	height: $windowHeight;
+	color: $textColor;
+	padding-top: 20px;
+	background-image:
+		linear-gradient(to bottom,
+			$sglRedFade 0,
+			$sglRedFade 75%,
+			$backgroundTransparent 98%
+		),
+		linear-gradient(to bottom,
+			$sglBlueFade 0,
+			$sglBlueFade 75%,
+			$backgroundTransparent 98%
+		),
+		url("/images/themes/sgl/hex-bg.png");
+	background-position:
+		60px 130px,
+		1060px 130px,
+		center center;
+	background-size:
+		800px 980px,
+		800px 980px,
+		100% 100%;
+	background-repeat:
+		no-repeat,
+		no-repeat,
+		no-repeat,
+		no-repeat,
+		no-repeat;
+
+	.leagueStandingsHeader {
+		@include smallHeader;
+	}
+
+	.tier {
+		--tierBackground: #{$backgroundColor};
+
+		position: absolute;
+		top: 190px;
+		width: 750px;
+
+		&:nth-child(1) {
+			--tierBackground: #{$sglRedTone};
+			left: 85px;
+
+			.tierName {
+				right: 725px;
+			}
+
+		}
+
+		&:nth-child(2) {
+			--tierBackground: #{$sglBlueTone};
+			right: 85px;
+
+			.tierName {
+				right: -75px;
+			}
+
+		}
+
+		.tierStandingsTable {
+			width: 660px;
+			text-transform: uppercase;
+			table-layout: fixed;
+			margin-left: 90px;
+			background: $backgroundTranslucent;
+			border-collapse: collapse;
+			border: $borderSize solid $backgroundColor;
+
+			th, td {
+				width: 55px;
+				color: #ffffff;
+				font-family: var(--fontHexagle);
+				text-align: right;
+				font-size: 50px;
+				line-height: calc($standingsTeamLogoWidth * $hexRatio - $borderSize);
+				padding: $borderSize;
+				background: var(--bgColor);
+				border: $borderSize solid $backgroundColor;
+
+				&.team {
+					position: relative;
+					width: auto;
+					text-align: left;
+					font-size: 38px;
+
+					.teamLogo {
+						position: absolute;
+						left: calc(0px - $standingsTeamLogoWidth - 22px);
+						@include teamLogoHex($standingsTeamLogoWidth);
+					}
+
+				}
+
+				&.pct {
+					width: 70px;
+					font-size: 28px;
+				}
+
+				&.pts {
+					width: 70px;
+					font-size: 50px;
+				}
+
+			}
+
+			thead th {
+				vertical-align: baseline;
+				font-family: var(--fontRajdhani);
+				font-size: 26px;
+				line-height: 48px;
+				background: $backgroundColor;
+				padding-bottom: 0;
+
+				&.team {
+
+					font-family: var(--fontHexagle);
+					font-size: 46px;
+					background-image: linear-gradient(to right,
+						var(--tierBackground) 0,
+						$backgroundColor 55%,
+					),
+					linear-gradient(to right, $sglRed, $backgroundColor);
+
+				}
+
+				&.pts {
+					font-size: 32px;
+				}
+			}
+
+
+		}
+
+	}
+
+}

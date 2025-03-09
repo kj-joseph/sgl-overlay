@@ -1155,11 +1155,13 @@ const ControlPanel = () => {
 									{streamTypeField === "SGL-regular" || streamTypeField === "SGL-playoffs" ?
 
 										<Grid container size={12} spacing={0} className="gridRow pregameButtons">
-
 											<Grid size={12}>
-												<h2>Pregame cards</h2>
+												<h2 >Pregame cards</h2>
+											</Grid>
 
-												<Item justifyContent={"center"}>
+											<Grid container size={12} justifyItems={"center"}>
+
+												<Item justifyItems={"center"}>
 
 													<Button
 														color="secondary"
@@ -1172,6 +1174,22 @@ const ControlPanel = () => {
 														}}
 														onClick={() => {triggerViewState("triggerSchedule", "schedule")}}
 													>Schedule</Button>
+
+													<Button
+														color="secondary"
+														variant={viewState === "standings" ? "contained" : "outlined"}
+														disabled={viewState === "standings" || viewState === "triggerStandings"}
+														style={{
+															borderWidth: "2px",
+															borderStyle: "solid",
+															borderColor: viewState === "standings" ? "yellowgreen" : "",
+														}}
+														onClick={() => {triggerViewState("triggerStandings", "standings")}}
+													>Standings</Button>
+
+												</Item>
+
+												<Item textAlign={"center"}>
 
 													<Button
 														color="primary"
@@ -1222,6 +1240,10 @@ const ControlPanel = () => {
 														}}
 														onClick={() => {triggerViewState("triggerPlayerStats1", "playerStats1")}}
 													>Player stats 2</Button>
+
+												</Item>
+
+												<Item textAlign={"center"}>
 
 													<Button
 														variant={viewState === "live" ? "contained" : "outlined"}

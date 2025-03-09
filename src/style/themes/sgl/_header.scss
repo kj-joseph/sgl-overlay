@@ -1,7 +1,6 @@
 .scoreboard .header {
 	position: absolute;
 	width: $headerWidth;
-	// height: $mainHeaderHeight;
 	font-family: var(--fontHexagle);
 	font-size: 24px;
 	color: $textColor;
@@ -9,7 +8,6 @@
 	text-align: center;
 	line-height: $mainHeaderHeight;
 	margin: 0 auto;
-	// background: $backgroundColor;
 
 	&.header0 {
 		top: 0;
