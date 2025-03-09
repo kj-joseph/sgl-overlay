@@ -419,10 +419,8 @@ const ControlPanel = () => {
 						setSoccerTeamFields(currentSoccerTeamFields);
 					}
 
-					closeDialog();
 				})
 				.catch((error) => {
-					closeDialog();
 					console.error(error);
 					openSnackbar("Error getting team list from sheets");
 				});
