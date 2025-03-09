@@ -79,12 +79,18 @@ const MatchdaySchedule = (props) => {
 										)}
 
 										{props.viewOptions.indexOf("times") > -1 ?
-											<div className={`matchTime ${props.viewOptions.indexOf("today") > -1 &&
-												new Date(match.scheduled).toLocaleDateString("en-us", { month: "long", day: "numeric" }) === new Date().toLocaleDateString("en-us", { month: "long", day: "numeric" }) ? "today" : ""
-											}`}>
+											<div className={`matchTime ${
+												props.viewOptions.indexOf("today") > -1 &&
+													new Date(match.scheduled).toLocaleDateString("en-us", { month: "long", day: "numeric" }) === new Date().toLocaleDateString("en-us", { month: "long", day: "numeric" }) ? "today"
+											: ""} ${match.onStream ?
+												"stream"
+											: ""}`}>
 												{match.scheduled !== "TBD" ?
 													`${new Date(match.scheduled).toLocaleDateString("en-us", { month: "long", day: "numeric" })} - ${new Date(match.scheduled).toLocaleTimeString("en-us", { hour12: true, hour: "numeric", minute: "numeric" })}`
 												: "TBD"}
+												{match.onStream ?
+													<img class="streamIcon" src="/images/social/twitch.png" />
+												: null}
 											</div>
 										: null}
 

@@ -813,7 +813,7 @@ const Overlay = () => {
 				<MatchdaySchedule
 					config={activeConfig}
 					schedule={scheduleListRef.current}
-					viewOptions={["scores", "times", "today"]}
+					viewOptions={["scores", "streams", "times", "today"]}
 					teamList={teamListRef.current}
 					tierList={tierListRef.current}
 					gameData={gameData}

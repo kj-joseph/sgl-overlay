@@ -16,6 +16,7 @@ export const getSchedule = async () =>
 					],
 					tier: series.tier,
 					scheduled: series.scheduled || "TBD",
+					onStream: series.onStream === "TRUE",
 				})))
 			)
 

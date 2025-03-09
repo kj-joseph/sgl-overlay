@@ -85,6 +85,7 @@ const ImageGenerator = () => {
 
 	const [viewOptions, setViewOptions] = useState({
 		scores: true,
+		streams: true,
 		times: true,
 		today: true,
 	})
@@ -396,14 +397,26 @@ const ImageGenerator = () => {
 									</span>
 
 									{viewOptions.times ?
-										<span className="switchControl">
-											<strong>Highlight today's games?</strong>
-											<Switch
-												checked={viewOptions.today}
-												onChange={(e) => toggleViewOption("today")}
-												color={viewOptions.today ? "success" : "primary"}
-											/>
-										</span>
+										<>
+											<span className="switchControl">
+												<strong>Highlight today's games?</strong>
+												<Switch
+													checked={viewOptions.today}
+													onChange={(e) => toggleViewOption("today")}
+													color={viewOptions.today ? "success" : "primary"}
+												/>
+											</span>
+
+											<span className="switchControl">
+												<strong>Show stream icons?</strong>
+												<Switch
+													checked={viewOptions.streams}
+													onChange={(e) => toggleViewOption("streams")}
+													color={viewOptions.streams ? "success" : "primary"}
+												/>
+											</span>
+										</>
+
 									: null}
 
 

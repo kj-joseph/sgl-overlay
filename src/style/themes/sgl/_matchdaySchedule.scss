@@ -114,14 +114,21 @@
 			margin-bottom: 40px;
 
 			.matchTime {
-				text-align: right;
 				color: $textColor;
 				font-family: var(--fontRajdhani);
 				font-size: 30px;
 				font-weight: bold;
+				text-align: left;
+				padding-left: calc($scheduleTeamLogoSize + 22px);
 
 				&.today {
 					color: $highlightColor;
+				}
+
+				.streamIcon {
+					height: 1.1em;
+					vertical-align: middle;
+					margin-left: .2em;
 				}
 
 			}
