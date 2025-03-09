@@ -129,6 +129,11 @@
 				font-family: var(--fontRajdhani);
 				font-size: 30px;
 				font-weight: bold;
+
+				&.today {
+					color: $highlightColor;
+				}
+
 			}
 
 			.matchTeam {
@@ -180,6 +185,17 @@
 				background-position: 100% calc($scheduleTeamLogoSize * $hexRatio * $scheduleTeamBoxMargin);
 				background-size: 100% calc(100% - ($scheduleTeamLogoSize * $hexRatio * $scheduleTeamBoxMargin * 2));
 				background-repeat: no-repeat;
+
+				&.winner {
+					background-image: linear-gradient(to right,
+						white 0,
+						rgba($highlightColor, .6) 60%,
+						rgba($highlightColor, .6) 100%,
+						),
+						linear-gradient(white, white)
+					;
+				}
+
 			}
 
 		}

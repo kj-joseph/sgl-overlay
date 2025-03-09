@@ -68,8 +68,8 @@ const MatchdaySchedule = (props) => {
 
 												<div className="teamName">{teamData(teamCode).shortName}</div>
 
-												{match.played && match.score.indexOf("") === -1 ?
-													<div className={`teamScore ${(matchIndex === 0 && match.score[0] > match.score[1]) || (matchIndex === 1 && match.score[1] > match.score[0]) ? "winner" : ""}`}>
+												{props.show.indexOf("scores") > -1 && match.played && match.score.indexOf("") === -1 ?
+													<div className={`teamScore ${(teamIndex === 0 && match.score[0] > match.score[1]) || (teamIndex === 1 && match.score[1] > match.score[0]) ? "winner" : ""}`}>
 														{match.score[teamIndex]}
 													</div>
 
@@ -78,7 +78,9 @@ const MatchdaySchedule = (props) => {
 											</div>
 										)}
 
-										<div className="matchTime">
+										<div className={`matchTime ${props.show.indexOf("today") > -1 &&
+											new Date(match.scheduled).toLocaleDateString("en-us", { month: "long", day: "numeric" }) === new Date().toLocaleDateString("en-us", { month: "long", day: "numeric" }) ? "today" : ""
+										}`}>
 											{match.scheduled !== "TBD" ?
 												`${new Date(match.scheduled).toLocaleDateString("en-us", { month: "long", day: "numeric" })} - ${new Date(match.scheduled).toLocaleTimeString("en-us", { hour12: true, hour: "numeric", minute: "numeric" })}`
 											: "TBD"}
