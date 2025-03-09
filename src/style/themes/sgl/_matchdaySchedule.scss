@@ -67,9 +67,9 @@
 				display: block;
 				transform: rotate(-90deg);
 				transform-origin: right center;
+				color: $highlightColor;
 				font-family: var(--fontHexagle);
 				font-size: 70px;
-				color: $textColor;
 				text-align: right;
 				letter-spacing: .1em;
 			}

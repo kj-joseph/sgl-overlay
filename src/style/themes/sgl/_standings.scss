@@ -119,7 +119,7 @@
 				padding-bottom: 0;
 
 				&.team {
-
+					color: $highlightColor;
 					font-family: var(--fontHexagle);
 					font-size: 46px;
 					background-image: linear-gradient(to right,
@@ -127,7 +127,6 @@
 						$backgroundColor 55%,
 					),
 					linear-gradient(to right, $sglRed, $backgroundColor);
-
 				}
 
 				&.pts {
