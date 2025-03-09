@@ -45,7 +45,7 @@ const MatchdaySchedule = (props) => {
 						<div className="tierMatches">
 
 							{props.schedule
-								.filter(m => m.matchday === Number(props.matchday) && m.tier === tier.id)
+								.filter(m => m.matchday === Number(props.config.general.matchday) && m.tier === tier.id)
 								.sort((a, b) =>
 									a.scheduled < b.scheduled ? -1 :
 										a.scheduled > b.scheduled ? 1 : 0

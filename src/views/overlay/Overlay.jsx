@@ -812,7 +812,6 @@ const Overlay = () => {
 			) : viewState ==="schedule" ? (
 				<MatchdaySchedule
 					config={activeConfig}
-					matchday={activeConfig.general.matchday}
 					schedule={scheduleListRef.current}
 					show={["scores", "today"]}
 					teamList={teamListRef.current}
