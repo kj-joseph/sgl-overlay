@@ -156,7 +156,6 @@ const Statboard = () => {
 									streamType={config.general.streamType}
 									season={config.general.season}
 									matchday={config.general.matchday}
-									league={config.general.league}
 									round={config.general.round}
 								/>
 

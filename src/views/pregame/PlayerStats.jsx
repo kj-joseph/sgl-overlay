@@ -70,7 +70,6 @@ const PlayerStats = (props) => {
 					streamType={props.config.general.streamType}
 					season={props.config.general.season}
 					matchday={props.config.general.matchday}
-					league={props.config.general.league}
 					round={props.config.general.round}
 					tier={props.config.general.tier}
 				/>

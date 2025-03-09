@@ -30,7 +30,6 @@ const MatchdaySchedule = (props) => {
 					streamType={props.config.general.streamType}
 					season={props.config.general.season}
 					matchday={`${props.config.general.matchday} Schedule`}
-					league={props.config.general.league}
 					round={props.config.general.round}
 				/>
 
