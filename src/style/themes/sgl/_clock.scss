@@ -54,7 +54,7 @@
  	.time {
 		position: absolute;
 		left: 50%;
-		top: calc($headerHeight + 10px);
+		top: calc($mainHeaderHeight + 5px);
 
 		font-family: var(--fontHexagle);
 		font-size: 58px;
