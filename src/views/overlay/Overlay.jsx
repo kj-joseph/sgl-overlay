@@ -8,8 +8,8 @@ import Live from "@/views/overlay/Live";
 import Matchup from "@/views/pregame/Matchup";
 import Postgame from "@/views/overlay/Postgame";
 import PlayerStats from "@/views/pregame/PlayerStats";
-import MatchdaySchedule from "../pregame/MatchdaySchedule";
-import Standings from "../pregame/Standings";
+import MatchdaySchedule from "@/views/pregame/MatchdaySchedule";
+import Standings from "@/views/pregame/Standings";
 import TeamStats from "@/views/pregame/TeamStats";
 import Transition from "@/views/overlay/Transition";
 
@@ -831,19 +831,17 @@ const Overlay = () => {
 				<MatchdaySchedule
 					config={activeConfig}
 					schedule={scheduleListRef.current}
-					viewOptions={["scores", "streams", "times", "today"]}
 					teamList={teamListRef.current}
 					tierList={tierListRef.current}
-					gameData={gameData}
+					viewOptions={["scores", "streams", "times", "today"]}
 				/>
 			) : viewState ==="standings" ? (
 				<Standings
 					config={activeConfig}
 					schedule={scheduleListRef.current}
-					viewOptions={["scores", "streams", "times", "today"]}
 					teamList={teamListRef.current}
 					tierList={tierListRef.current}
-					gameData={gameData}
+					viewOptions={["scores", "streams", "times", "today"]}
 				/>
 			) : viewState ==="teamStats" ? (
 				<TeamStats

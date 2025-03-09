@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
 import * as htmlToImage from "html-to-image";
 
-// import MatchdaySchedule from "../pregame/MatchdaySchedule";
 import GeneratedMatchdaySchedule from "@/views/imageGenerator/GeneratedMatchdaySchedule";
+import GeneratedStandings from "@/views/imageGenerator/GeneratedStandings";
 // TODO: daily schedule
 
 import { getSchedule } from "@/services/scheduleService";
@@ -334,10 +334,11 @@ const ImageGenerator = () => {
 											id="imageType"
 											value={imageType}
 											required
-											label="Game Type"
+											label="Image Type"
 											onChange={(e) => setImageType(e.target.value)}
 										>
 											<MenuItem value="matchdaySchedule">Matchday Schedule</MenuItem>
+											<MenuItem value="standings">Standings</MenuItem>
 										</Select>
 									</FormControl>
 
@@ -359,66 +360,73 @@ const ImageGenerator = () => {
 										className={season === "" || season < 1 || season > currentSeason ? "errorField" : ""}
 									/>
 
-									<TextField
-										fullWidth
-										required
-										inputProps={{
-											min: 1,
-											step: 1,
-										}}
-										id="matchday"
-										type="number"
-										size="small"
-										label="Matchday"
-										value={matchday}
-										// disabled={imageType !== "regular"}
-										onKeyDown={(e) => ["e", "E", "+", "-", "."].includes(e.key) && e.preventDefault()}
-										onChange={(e) => setMatchday(e.target.value)}
-										className={matchday === "" || matchday < 1 ? "errorField" : ""}
-									/>
+									{imageType === "matchdaySchedule" ?
 
-
-									<span className="switchControl">
-										<strong>Show times?</strong>
-										<Switch
-											checked={viewOptions.times}
-											onChange={(e) => toggleViewOption("times")}
-											color={viewOptions.times ? "success" : "primary"}
-										/>
-									</span>
-
-									<span className="switchControl">
-										<strong>Show scores?</strong>
-										<Switch
-											checked={viewOptions.scores}
-											onChange={(e) => toggleViewOption("scores")}
-											color={viewOptions.scores ? "success" : "primary"}
-										/>
-									</span>
-
-									{viewOptions.times ?
 										<>
+
+											<TextField
+												fullWidth
+												required
+												inputProps={{
+													min: 1,
+													step: 1,
+												}}
+												id="matchday"
+												type="number"
+												size="small"
+												label="Matchday"
+												value={matchday}
+												// disabled={imageType !== "regular"}
+												onKeyDown={(e) => ["e", "E", "+", "-", "."].includes(e.key) && e.preventDefault()}
+												onChange={(e) => setMatchday(e.target.value)}
+												className={matchday === "" || matchday < 1 ? "errorField" : ""}
+											/>
+
+
 											<span className="switchControl">
-												<strong>Highlight today's games?</strong>
+												<strong>Show times?</strong>
 												<Switch
-													checked={viewOptions.today}
-													onChange={(e) => toggleViewOption("today")}
-													color={viewOptions.today ? "success" : "primary"}
+													checked={viewOptions.times}
+													onChange={(e) => toggleViewOption("times")}
+													color={viewOptions.times ? "success" : "primary"}
 												/>
 											</span>
 
 											<span className="switchControl">
-												<strong>Show stream icons?</strong>
+												<strong>Show scores?</strong>
 												<Switch
-													checked={viewOptions.streams}
-													onChange={(e) => toggleViewOption("streams")}
-													color={viewOptions.streams ? "success" : "primary"}
+													checked={viewOptions.scores}
+													onChange={(e) => toggleViewOption("scores")}
+													color={viewOptions.scores ? "success" : "primary"}
 												/>
 											</span>
+
+											{viewOptions.times ?
+												<>
+													<span className="switchControl">
+														<strong>Highlight today's games?</strong>
+														<Switch
+															checked={viewOptions.today}
+															onChange={(e) => toggleViewOption("today")}
+															color={viewOptions.today ? "success" : "primary"}
+														/>
+													</span>
+
+													<span className="switchControl">
+														<strong>Show stream icons?</strong>
+														<Switch
+															checked={viewOptions.streams}
+															onChange={(e) => toggleViewOption("streams")}
+															color={viewOptions.streams ? "success" : "primary"}
+														/>
+													</span>
+												</>
+
+											: null}
+
 										</>
 
 									: null}
-
 
 									<div className="buttons">
 										<Button onClick={generate} variant="contained">Generate</Button>
@@ -426,6 +434,7 @@ const ImageGenerator = () => {
 									</div>
 
 								</Item>
+
 							</Grid>
 
 						</Grid>
@@ -441,19 +450,27 @@ const ImageGenerator = () => {
 
 					<div className="sources">
 
-						{imageSizes.map((img, index) => (
+						{imageSizes.map((img, index) =>
 
-							<GeneratedMatchdaySchedule
-								key={index}
-								config={generatorData.config}
-								schedule={generatorData.schedule}
-								viewOptions={generatorData.viewOptions}
-								teamList={generatorData.teamList}
-								tierList={generatorData.tierList}
-								imageData={img}
-							/>
+							generatorData.imageType === "matchdaySchedule" ?
 
-						))}
+								<GeneratedMatchdaySchedule
+									key={index}
+									genData={generatorData}
+									imageData={img}
+								/>
+
+							: generatorData.imageType === "standings" ?
+
+								<GeneratedStandings
+									key={index}
+									genData={generatorData}
+									imageData={img}
+								/>
+
+							: null
+
+						)}
 
 					</div>
 

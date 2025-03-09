@@ -1,13 +1,15 @@
 import React, { Fragment } from "react";
 
-import MatchdaySchedule from "@/views/pregame/MatchdaySchedule";
+import Standings from "@/views/pregame/Standings";
 
-const GeneratedMatchdaySchedule = (props) => {
+const GeneratedStandings = (props) => {
 
 	return (
-		<div id={props.imageData.id} className="generatedMatchdaySchedule">
+		<div id={props.imageData.id} className="generatedStandings">
 
-			<MatchdaySchedule
+			<div>PANTS</div>
+
+			<Standings
 				config={props.genData.config}
 				schedule={props.genData.schedule}
 				teamList={props.genData.teamList}
@@ -21,4 +23,4 @@ const GeneratedMatchdaySchedule = (props) => {
 
 }
 
-export default GeneratedMatchdaySchedule;
+export default GeneratedStandings;
