@@ -1,10 +1,12 @@
+@use "variables";
+
 .livePlay {
 	position: absolute;
 	left: 0;
 	top: 0;
 	z-index: 10;
-	width: $windowWidth;
-	height: $windowHeight;
+	width: variables.$windowWidth;
+	height: variables.$windowHeight;
 	font-family: var(--fontHexagle);
 	font-weight: bold;
 	background: transparent;

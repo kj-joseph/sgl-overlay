@@ -1,4 +1,5 @@
 @use "sass:math";
+@use "variables";
 
 $tableWidth: 1200px;
 $tableCenterColumnWidth: 400px;
@@ -7,30 +8,30 @@ $tableCenterColumnWidth: 400px;
 	position: absolute;
     left: 0;
     top: 0;
-	width: $windowWidth;
-	height: $windowHeight;
-	color: $textColor;
+	width: variables.$windowWidth;
+	height: variables.$windowHeight;
+	color: variables.$textColor;
 	padding-top: 20px;
 	background-image:
 		linear-gradient(to bottom,
 			var(--team0fade) 0,
 			var(--team0fade) 75%,
-			$backgroundTransparent 98%
+			variables.$backgroundTransparent 98%
 		),
 		linear-gradient(to bottom,
 			var(--team1fade) 0,
 			var(--team1fade) 75%,
-			$backgroundTransparent 98%
+			variables.$backgroundTransparent 98%
 		),
 		linear-gradient(to bottom,
 			var(--team0fade) 0,
 			var(--team0fade) 75%,
-			$backgroundTransparent 98%
+			variables.$backgroundTransparent 98%
 		),
 		linear-gradient(to bottom,
 			var(--team1fade) 0,
 			var(--team1fade) 75%,
-			$backgroundTransparent 98%
+			variables.$backgroundTransparent 98%
 		),
 		url("/images/themes/sgl/hex-bg.png");
 	background-position:
@@ -57,9 +58,9 @@ $tableCenterColumnWidth: 400px;
 			position: absolute;
 			top: 205px;
 			left: 0;
-			width: $windowWidth;
+			width: variables.$windowWidth;
 			z-index: 25;
-			color: $textColor;
+			color: variables.$textColor;
 			font-family: var(--fontRajdhani);
 			font-size: 44px;
 			font-weight: bold;
@@ -81,18 +82,18 @@ $tableCenterColumnWidth: 400px;
 		width: $tableWidth;
 		text-transform: uppercase;
 		table-layout: fixed;
-		background: $backgroundTranslucent;
+		background: variables.$backgroundTranslucent;
 		border-collapse: collapse;
-		border: $borderSize solid $backgroundColor;
+		border: variables.$borderSize solid variables.$backgroundColor;
 
 		th, td {
 			text-align: center;
-			width: calc(($tableWidth - $tableCenterColumnWidth - $borderSize * 10) * .5);
-			padding: calc($borderSize * 2.5) $borderSize;
-			border: $borderSize solid $backgroundColor;
+			width: calc(($tableWidth - $tableCenterColumnWidth - variables.$borderSize * 10) * .5);
+			padding: calc(variables.$borderSize * 2.5) variables.$borderSize;
+			border: variables.$borderSize solid variables.$backgroundColor;
 
 			&.centerColumn {
-				width: calc($tableCenterColumnWidth - $borderSize * 4);
+				width: calc($tableCenterColumnWidth - variables.$borderSize * 4);
 			}
 
 		}
@@ -100,13 +101,13 @@ $tableCenterColumnWidth: 400px;
 		thead {
 
 			tr {
-				background: $backgroundColor;
+				background: variables.$backgroundColor;
 			}
 
 			th {
 				height: 65px;
 				padding: 0;
-				background: $backgroundColor;
+				background: variables.$backgroundColor;
 
 				&.teamName {
 					position: absolute;
@@ -130,7 +131,7 @@ $tableCenterColumnWidth: 400px;
 						font-size: 70px;
 						font-weight: bold;
 						white-space: nowrap;
-						color: $textColor;
+						color: variables.$textColor;
 						line-height: 70px;
 
 						&.long {
@@ -144,7 +145,7 @@ $tableCenterColumnWidth: 400px;
 						font-size: 30px;
 						font-weight: normal;
 						white-space: nowrap;
-						color: $secondaryTextColor;
+						color: variables.$secondaryTextColor;
 						padding-right: .12em;
 					}
 
@@ -153,7 +154,7 @@ $tableCenterColumnWidth: 400px;
 				.teamLogo {
 					position: absolute;
 					top: -4px;
-					@include teamLogoHex($statsTeamLogoSize);
+					@include teamLogoHex(variables.$statsTeamLogoSize);
 				}
 
 				&.team0 {
@@ -186,25 +187,25 @@ $tableCenterColumnWidth: 400px;
 
 			td.centerColumn {
 				height: 30px;
-				width: calc($tableCenterColumnWidth - $borderSize * 4);
-				background-color: $backgroundColor;
+				width: calc($tableCenterColumnWidth - variables.$borderSize * 4);
+				background-color: variables.$backgroundColor;
 			}
 
 		}
 
 		tbody {
-			--postgameTeamFade: $backgroundTranslucent;
-			--postgameTeamTone: $backgroundHighlight;
+			--postgameTeamFade: variables.$backgroundTranslucent;
+			--postgameTeamTone: variables.$backgroundHighlight;
 
 			th {
-				color: $secondaryTextColor;
+				color: variables.$secondaryTextColor;
 				font-family: var(--fontRajdhani);
 				font-size: 30px;
-				background: $backgroundColor;
+				background: variables.$backgroundColor;
 			}
 
 			td {
-				width: calc(($tableWidth - $tableCenterColumnWidth - $borderSize * 10) * .5);
+				width: calc(($tableWidth - $tableCenterColumnWidth - variables.$borderSize * 10) * .5);
 				font-family: var(--fontHexagle);
 				font-size: 50px;
 				font-weight: bold;

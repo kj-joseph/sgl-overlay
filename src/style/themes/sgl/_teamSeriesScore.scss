@@ -1,27 +1,27 @@
-@use "sass:math";
+@use "variables";
 
 .teamSeriesScore {
     position: absolute;
-    top: calc($mainHeaderHeight + $mainBarHeight + $topHeaderHeight);
+    top: calc(variables.$mainHeaderHeight + variables.$mainBarHeight + variables.$topHeaderHeight);
 	z-index: 35;
-	width: $seriesScoreWidth;
-	height: $seriesScoreHeight;
+	width: variables.$seriesScoreWidth;
+	height: variables.$seriesScoreHeight;
 
 	.number {
 		display: none;
 	}
 
 	.icons {
-		margin: (($seriesScoreHeight - $seriesScoreIconHeight) * .5) 0;
-		width: $seriesScoreWidth;
-		height: calc($seriesScoreIconHeight);
+		margin: ((variables.$seriesScoreHeight - variables.$seriesScoreIconHeight) * .5) 0;
+		width: variables.$seriesScoreWidth;
+		height: calc(variables.$seriesScoreIconHeight);
 		display: flex;
-		column-gap: $seriesScoreIconGap;
+		column-gap: variables.$seriesScoreIconGap;
 
 		.gameIcon {
 			display: block;
-			width: $seriesScoreIconWidth;
-			height: $seriesScoreIconHeight;
+			width: variables.$seriesScoreIconWidth;
+			height: variables.$seriesScoreIconHeight;
 			flex-grow: 0;
 		}
 
@@ -29,7 +29,7 @@
 
 
 	&.team0 {
-		right: calc($scoreboardWidth * .5 + $clockWidth * .5 + $teamScoreWidth + 2px);
+		right: calc(variables.$scoreboardWidth * .5 + variables.$clockWidth * .5 + variables.$teamScoreWidth + 2px);
 
 		.icons {
 			flex-direction: row-reverse;
@@ -38,7 +38,7 @@
 			.gameIcon {
 				background:
 					linear-gradient(var(--team0fade), var(--team0fade)),
-					$backgroundColor;
+					variables.$backgroundColor;
 
 				&.on {
 					background: var(--team0);
@@ -51,7 +51,7 @@
 	}
 
 	&.team1 {
-		left: calc($scoreboardWidth * .5 + $clockWidth * .5 + $teamScoreWidth + 2px);
+		left: calc(variables.$scoreboardWidth * .5 + variables.$clockWidth * .5 + variables.$teamScoreWidth + 2px);
 
 		.icons {
 			flex-direction: row;
@@ -59,7 +59,7 @@
 			.gameIcon {
 				background:
 					linear-gradient(var(--team1fade), var(--team1fade)),
-					$backgroundColor;
+					variables.$backgroundColor;
 
 				&.on {
 					background: var(--team1);

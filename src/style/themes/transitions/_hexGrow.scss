@@ -1,7 +1,7 @@
 @use "sass:math";
+@use "../sgl/variables";
 
 $logoFinal: 600px;
-
 $transitionDuration: 1.5s;
 
 #Transition.hexGrow {
@@ -12,8 +12,8 @@ $transitionDuration: 1.5s;
     left: 0;
     top: 0;
     z-index: 255;
-	width: $windowWidth;
-	height: $windowHeight;
+	width: variables.$windowWidth;
+	height: variables.$windowHeight;
     overflow: hidden;
     visibility: hidden;
 
@@ -32,9 +32,9 @@ $transitionDuration: 1.5s;
 
 	.bg {
 		z-index: 1;
-		width: $windowWidth;
-		height: $windowHeight;
-		background-color: $backgroundColor;
+		width: variables.$windowWidth;
+		height: variables.$windowHeight;
+		background-color: variables.$backgroundColor;
 		background-image:
 			linear-gradient(var(--washColor), var(--washColor)),
 			url("/images/themes/sgl/hex-grow-bg.png");
@@ -82,10 +82,10 @@ $transitionDuration: 1.5s;
 		mask-size: 0 0;
     }
     6% {
-		mask-size: $logoFinal calc($logoFinal * $hexRatio);
+		mask-size: $logoFinal calc($logoFinal * variables.$hexRatio);
 	}
     95% {
-		mask-size: $logoFinal calc($logoFinal * $hexRatio);
+		mask-size: $logoFinal calc($logoFinal * variables.$hexRatio);
 	}
     100% {
 		mask-size: 0 0;
@@ -100,10 +100,10 @@ $transitionDuration: 1.5s;
 		mask-size: 0 0;
     }
     20% {
-        mask-size: $windowWidth calc($windowWidth * $hexRatio);
+        mask-size: variables.$windowWidth calc(variables.$windowWidth * variables.$hexRatio);
 	}
     88% {
-        mask-size: $windowWidth calc($windowWidth * $hexRatio);
+        mask-size: variables.$windowWidth calc(variables.$windowWidth * variables.$hexRatio);
 	}
     100% {
 		mask-size: 0 0;

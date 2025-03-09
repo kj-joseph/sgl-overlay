@@ -1,28 +1,30 @@
-$postgameTopHeight: $scoreboardHeight;
-$postgameTitleWidth: $scoreboardWidth;
+@use "variables";
+
+$postgameTopHeight: variables.$scoreboardHeight;
+$postgameTitleWidth: variables.$scoreboardWidth;
 $mvpIconSize: 125px;
 
-$postGameTableWidth: calc($windowWidth - 300px);
+$postGameTableWidth: calc(variables.$windowWidth - 300px);
 
 
 .postgame {
 	position: absolute;
     left: 0;
     top: 0;
-	width: $windowWidth;
-	height: $windowHeight;
-	color: $textColor;
+	width: variables.$windowWidth;
+	height: variables.$windowHeight;
+	color: variables.$textColor;
 	padding-top: $postgameTopHeight;
 	background-image:
 		linear-gradient(to bottom,
 			var(--team0fade) 0,
 			var(--team0fade) 75%,
-			$backgroundTransparent 98%
+			variables.$backgroundTransparent 98%
 		),
 		linear-gradient(to bottom,
 			var(--team1fade) 0,
 			var(--team1fade) 75%,
-			$backgroundTransparent 98%
+			variables.$backgroundTransparent 98%
 		),
 		url("/images/themes/sgl/hex-bg.png");
 	background-position:
@@ -76,22 +78,22 @@ $postGameTableWidth: calc($windowWidth - 300px);
 	}
 
 	.seriesScoreText {
-		color: $textColor;
+		color: variables.$textColor;
 		font-family: var(--fontRajdhani);
 		font-size: 34px;
 		font-weight: bold;
 		font-style: italic;
 		text-align: center;
-		margin: calc($borderSize * 2) 0 0;
+		margin: calc(variables.$borderSize * 2) 0 0;
 	}
 
 	.title {
 		position: absolute;
 		left: 0;
 		top: 251px;
-		width: $windowWidth;
+		width: variables.$windowWidth;
 		height: 44px;
-		color: $textColor;
+		color: variables.$textColor;
 		font-family: var(--fontRajdhani);
 		font-size: 44px;
 		font-weight: bold;
@@ -100,19 +102,19 @@ $postGameTableWidth: calc($windowWidth - 300px);
 		text-align: center;
 		text-transform: uppercase;
 		letter-spacing: .5em;
-		padding: $borderSize 0;
+		padding: variables.$borderSize 0;
 		margin: 0 auto;
 		background: #1f1f1f;
 		border-top-style: solid;
-		border-top-width: $borderSize;
+		border-top-width: variables.$borderSize;
 		border-bottom-style: solid;
-		border-bottom-width: $borderSize;
+		border-bottom-width: variables.$borderSize;
 		border-image: linear-gradient(to right,
-			$sglRed 0,
-			$sglRed 860px,
+			variables.$sglRed 0,
+			variables.$sglRed 860px,
 			#ffffff 860px,
 			#ffffff 1060px,
-			$sglBlue 1060px
+			variables.$sglBlue 1060px
 		) 1;
 	}
 
@@ -126,16 +128,16 @@ $postGameTableWidth: calc($windowWidth - 300px);
 		margin: 0 auto;
 		table-layout: fixed;
 		border-collapse: collapse;
-		background-color: $backgroundTranslucent;
+		background-color: variables.$backgroundTranslucent;
 
 		th, td {
 			width: 255px;
 			text-align: center;
-			padding: calc($borderSize * 2) $borderSize;
-			border: $borderSize solid $backgroundColor;
+			padding: calc(variables.$borderSize * 2) variables.$borderSize;
+			border: variables.$borderSize solid variables.$backgroundColor;
 
 			&.centerColumn {
-				background: $backgroundColor;
+				background: variables.$backgroundColor;
 				width: 188px;
 			}
 
@@ -147,7 +149,7 @@ $postGameTableWidth: calc($windowWidth - 300px);
 				width: 255px;
 				border-top: none;
 				padding: 0;
-				background: $backgroundColor;
+				background: variables.$backgroundColor;
 
 				span {
 					color: var(--playerBoxColor);
@@ -161,19 +163,19 @@ $postGameTableWidth: calc($windowWidth - 300px);
 					font-style: italic;
 					text-align: center;
 					line-height: 1.2em;
-					padding: calc($borderSize * 2) 0;
+					padding: calc(variables.$borderSize * 2) 0;
 				}
 
 				&:has(.mvpIcon) {
 
 					span {
-						color: $highlightColor;
+						color: variables.$highlightColor;
 						background-image:
 							linear-gradient(to right,
-								$backgroundColor 0,
-								rgba($highlightColor, .2) 20%,
-								rgba($highlightColor, .2) 80%,
-								$backgroundColor 100%
+								variables.$backgroundColor 0,
+								rgba(variables.$highlightColor, .2) 20%,
+								rgba(variables.$highlightColor, .2) 80%,
+								variables.$backgroundColor 100%
 							),
 							url("/images/themes/sgl/mvp.png?4");
 						background-position:
@@ -207,7 +209,7 @@ $postGameTableWidth: calc($windowWidth - 300px);
 				}
 
 				&.centerColumn {
-					background: $backgroundColor;
+					background: variables.$backgroundColor;
 				}
 
 				&.long span {
@@ -223,8 +225,8 @@ $postGameTableWidth: calc($windowWidth - 300px);
 		}
 
 		tbody {
-			--postgameTeamFade: #{$backgroundTranslucent};
-			--postgameTeamTone: #{$backgroundHighlight};
+			--postgameTeamFade: #{variables.$backgroundTranslucent};
+			--postgameTeamTone: #{variables.$backgroundHighlight};
 
 
 			tr:nth-child(odd) td {
@@ -239,7 +241,7 @@ $postGameTableWidth: calc($windowWidth - 300px);
 			}
 
 			th {
-				color: $secondaryTextColor;
+				color: variables.$secondaryTextColor;
 				font-family: var(--fontRajdhani);
 				font-size: 28px;
 			}

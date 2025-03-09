@@ -1,5 +1,4 @@
 import React, { useEffect, useRef, useState } from "react";
-import { useParams } from "react-router-dom";
 import useWebSocket from "react-use-websocket";
 
 import defaultConfig from "@/data/config.json";

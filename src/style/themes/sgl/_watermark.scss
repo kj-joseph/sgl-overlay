@@ -1,7 +1,7 @@
 .watermark {
 	position: absolute;
-	left: $watchingHeight + 20px;
-	bottom: $watchingHeight + 20px;
+	left: variables.$watchingHeight + 20px;
+	bottom: variables.$watchingHeight + 20px;
 	width: 150px;
 	height: 150px;
 	opacity: .35;

@@ -1,17 +1,19 @@
+@use "variables";
+
 .scoreboard .header {
 	position: absolute;
-	width: $headerWidth;
+	width: variables.$headerWidth;
 	font-family: var(--fontHexagle);
 	font-size: 24px;
-	color: $textColor;
+	color: variables.$textColor;
 	text-transform: uppercase;
 	text-align: center;
-	line-height: $mainHeaderHeight;
+	line-height: variables.$mainHeaderHeight;
 	margin: 0 auto;
 
 	&.header0 {
 		top: 0;
-		width: calc($scoreboardWidth - 300px);
+		width: calc(variables.$scoreboardWidth - 300px);
 		left: 50%;
 		transform: translateX(-50%);
 	}
@@ -20,8 +22,8 @@
 		font-size: 21px;
 		font-family: var(--fontRajdhani);
 		font-weight: bold;
-		top: $topHeaderHeight;
-		left: ($teamLogoWidth * .5);
+		top: variables.$topHeaderHeight;
+		left: (variables.$teamLogoWidth * .5);
 	}
 
 	span {

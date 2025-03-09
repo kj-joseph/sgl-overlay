@@ -1,4 +1,5 @@
 @use "sass:math";
+@use "variables";
 
 $statPlayerWidth: 420px;
 $statWidth: 100px;
@@ -11,20 +12,20 @@ $statPadding: 12px;
 	position: absolute;
     left: 0;
     top: 0;
-	width: $windowWidth;
-	height: $windowHeight;
-	color: $textColor;
+	width: variables.$windowWidth;
+	height: variables.$windowHeight;
+	color: variables.$textColor;
 	padding-top: 20px;
 	background-image:
 		linear-gradient(to bottom,
 			var(--backgroundFadeColor) 0,
 			var(--backgroundFadeColor) 75%,
-			$backgroundTransparent 98%
+			variables.$backgroundTransparent 98%
 		),
 		linear-gradient(to bottom,
 			var(--backgroundFadeColor) 0,
 			var(--backgroundFadeColor) 75%,
-			$backgroundTransparent 98%
+			variables.$backgroundTransparent 98%
 		),
 		url("/images/themes/sgl/hex-bg.png");
 	background-position:
@@ -47,7 +48,7 @@ $statPadding: 12px;
 			position: absolute;
 			top: 227px;
 			z-index: 25;
-			color: $textColor;
+			color: variables.$textColor;
 			font-family: var(--fontRajdhani);
 			font-size: 42px;
 			font-weight: bold;
@@ -67,14 +68,14 @@ $statPadding: 12px;
 		top: 240px;
 		width: 1500px;
 		text-transform: uppercase;
-		background: $backgroundTranslucent;
+		background: variables.$backgroundTranslucent;
 		border-collapse: collapse;
-		border: $borderSize solid $backgroundColor;
+		border: variables.$borderSize solid variables.$backgroundColor;
 
 		th, td {
 			text-align: center;
-			padding: calc($borderSize * 2.5) $borderSize;
-			border: $borderSize solid $backgroundColor;
+			padding: calc(variables.$borderSize * 2.5) variables.$borderSize;
+			border: variables.$borderSize solid variables.$backgroundColor;
 
 			&.centerColumn {
 				width: 200px;
@@ -104,7 +105,7 @@ $statPadding: 12px;
 						font-size: 70px;
 						font-weight: bold;
 						white-space: nowrap;
-						color: $textColor;
+						color: variables.$textColor;
 
 						&.long {
 							font-size: 55px;
@@ -117,7 +118,7 @@ $statPadding: 12px;
 						font-size: 30px;
 						font-weight: normal;
 						white-space: nowrap;
-						color: $secondaryTextColor;
+						color: variables.$secondaryTextColor;
 						padding-right: .12em;
 					}
 
@@ -126,19 +127,19 @@ $statPadding: 12px;
 				.teamLogo {
 					position: absolute;
 					top: -30px;
-					@include teamLogoHex($statsTeamLogoSize);
+					@include teamLogoHex(variables.$statsTeamLogoSize);
 				}
 
 			}
 
 			th.statHeader {
-				background: $backgroundColor;
+				background: variables.$backgroundColor;
 			}
 
 			th.playerName,
 			th.statHeader {
 				width: $statWidth;
-				color: $secondaryTextColor;
+				color: variables.$secondaryTextColor;
 				font-family: var(--fontRajdhani);
 				font-weight: bold;
 				font-size: 26px;
@@ -159,8 +160,8 @@ $statPadding: 12px;
 
 
 		tbody {
-			--playerStatsTeamFade: #{$backgroundTranslucent};
-			--playerStatsTeamTone: #{$backgroundHighlight};
+			--playerStatsTeamFade: #{variables.$backgroundTranslucent};
+			--playerStatsTeamTone: #{variables.$backgroundHighlight};
 
 			tr:nth-child(odd) {
 				td, th {
@@ -178,7 +179,7 @@ $statPadding: 12px;
 			}
 
 			th {
-				color: $textColor;
+				color: variables.$textColor;
 				font-family: var(--fontHexagle);
 				font-size: 36px;
 				font-weight: bold;
@@ -220,7 +221,7 @@ $statPadding: 12px;
 		--backgroundFadeColor: var(--team0fade);
 
 		.playerStatsTitle {
-			left: calc(310px + $borderSize);
+			left: calc(310px + variables.$borderSize);
 		}
 
 		.playerStatsTable {
@@ -244,7 +245,7 @@ $statPadding: 12px;
 		--teamStripeLeft: 1660px;
 
 		.playerStatsTitle {
-			left: calc(110px + $borderSize);
+			left: calc(110px + variables.$borderSize);
 		}
 
 		.playerStatsTable {

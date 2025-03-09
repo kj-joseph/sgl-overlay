@@ -1,10 +1,12 @@
+@use "variables";
+
 .scoreboard {
 	position: absolute;
 	left: 50%;
 	top: 0;
 	transform: translateX(-50%);
-	width: $scoreboardWidth;
-	height: $scoreboardHeight;
+	width: variables.$scoreboardWidth;
+	height: variables.$scoreboardHeight;
 
 	// clip-path: polygon(0 0, 5% 75%, 45% 90%, 0% 40%);
 
@@ -13,42 +15,42 @@
 		position: absolute;
 		top: 0;
 		left: 0;
-		width: $scoreboardWidth;
-		height: $scoreboardHeight;
+		width: variables.$scoreboardWidth;
+		height: variables.$scoreboardHeight;
 		z-index: -1;
-		background-color: $backgroundColor;
+		background-color: variables.$backgroundColor;
 		background-image:
 			linear-gradient(to right,
-				$sglRed 0px,
-				$sglRed calc($teamLogoWidth * .5 + $teamNameWidth + $teamScoreWidth + $clockWidth * .5 - $topHeaderStripeGap * .5),
-				$backgroundColor calc($teamLogoWidth * .5 + $teamNameWidth + $teamScoreWidth + $clockWidth * .5 - $topHeaderStripeGap * .5),
-				$backgroundColor calc($teamLogoWidth * .5 + $teamNameWidth + $teamScoreWidth + $clockWidth * .5 + $topHeaderStripeGap * .5),
-				$sglBlue calc($teamLogoWidth * .5 + $teamNameWidth + $teamScoreWidth + $clockWidth * .5 + $topHeaderStripeGap * .5),
-				$sglBlue 100%
+				variables.$sglRed 0px,
+				variables.$sglRed calc(variables.$teamLogoWidth * .5 + variables.$teamNameWidth + variables.$teamScoreWidth + variables.$clockWidth * .5 - variables.$topHeaderStripeGap * .5),
+				variables.$backgroundColor calc(variables.$teamLogoWidth * .5 + variables.$teamNameWidth + variables.$teamScoreWidth + variables.$clockWidth * .5 - variables.$topHeaderStripeGap * .5),
+				variables.$backgroundColor calc(variables.$teamLogoWidth * .5 + variables.$teamNameWidth + variables.$teamScoreWidth + variables.$clockWidth * .5 + variables.$topHeaderStripeGap * .5),
+				variables.$sglBlue calc(variables.$teamLogoWidth * .5 + variables.$teamNameWidth + variables.$teamScoreWidth + variables.$clockWidth * .5 + variables.$topHeaderStripeGap * .5),
+				variables.$sglBlue 100%
 			),
 			linear-gradient(to right,
-				$sglRed 0,
-				$sglRed 26.278px,
-				$backgroundColor 26.278px,
-				$backgroundColor 38.237px,
-				$sglRed 38.237px,
-				$sglRed 64.519px
+				variables.$sglRed 0,
+				variables.$sglRed 26.278px,
+				variables.$backgroundColor 26.278px,
+				variables.$backgroundColor 38.237px,
+				variables.$sglRed 38.237px,
+				variables.$sglRed 64.519px
 			),
 			linear-gradient(to left,
-				$sglBlue 0,
-				$sglBlue 26.278px,
-				$backgroundColor 26.278px,
-				$backgroundColor 38.237px,
-				$sglBlue 38.237px,
-				$sglBlue 64.519px
+				variables.$sglBlue 0,
+				variables.$sglBlue 26.278px,
+				variables.$backgroundColor 26.278px,
+				variables.$backgroundColor 38.237px,
+				variables.$sglBlue 38.237px,
+				variables.$sglBlue 64.519px
 			),
 		;
 		background-size:
-			100% $topHeaderStripeHeight,
-			64.519px $topHeaderHeight,
-			64.519px $topHeaderHeight;
+			100% variables.$topHeaderStripeHeight,
+			64.519px variables.$topHeaderHeight,
+			64.519px variables.$topHeaderHeight;
 		background-position:
-			center calc($topHeaderHeight - $topHeaderStripeHeight),
+			center calc(variables.$topHeaderHeight - variables.$topHeaderStripeHeight),
 			left top,
 			right top;
 		background-repeat:
@@ -56,10 +58,10 @@
 			no-repeat,
 			no-repeat;
 		clip-path: polygon(
-			0 $topHeaderHeight,
-			calc($topHeaderHeight * $hexSlopeRatio) 0,
-			calc(100% - $topHeaderHeight * $hexSlopeRatio) 0,
-			100% $topHeaderHeight,
+			0 variables.$topHeaderHeight,
+			calc(variables.$topHeaderHeight * variables.$hexSlopeRatio) 0,
+			calc(100% - variables.$topHeaderHeight * variables.$hexSlopeRatio) 0,
+			100% variables.$topHeaderHeight,
 			100% 100%,
 			0 100%
 		);

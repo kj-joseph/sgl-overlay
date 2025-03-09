@@ -1,4 +1,6 @@
-$watchingOffScreen: calc(0px - $watchingWidth - 100px);
+@use "variables";
+
+$watchingOffScreen: calc(0px - variables.$watchingWidth - 100px);
 
 .watchingView {
     position: absolute;
@@ -21,36 +23,36 @@ $watchingOffScreen: calc(0px - $watchingWidth - 100px);
 		right: 0;
 		bottom: 0;
 		z-index: 10;
-		width: $watchingWidth;
-		height: $watchingHeight;
+		width: variables.$watchingWidth;
+		height: variables.$watchingHeight;
 		line-height: 40px;
 		vertical-align: baseline;
-		padding: $borderSize;
-		padding-right: calc($borderSize * 3);
-		background: $backgroundTranslucent;
+		padding: variables.$borderSize;
+		padding-right: calc(variables.$borderSize * 3);
+		background: variables.$backgroundTranslucent;
 
 		.name {
 			position: absolute;
 			z-index: 5;
-			bottom: calc($watchingHeight + $borderSize * 2);
+			bottom: calc(variables.$watchingHeight + variables.$borderSize * 2);
 			left: 0;
-			width: calc($watchingWidth - 200px + $borderSize * 2);
-			height: $watchingNameHeight;
+			width: calc(variables.$watchingWidth - 200px + variables.$borderSize * 2);
+			height: variables.$watchingNameHeight;
 			overflow: hidden;
-			color: $textColor;
+			color: variables.$textColor;
 			font-family: var(--fontHexagle);
 			font-size: 25px;
 			font-weight: bold;
 			font-style: italic;
 			text-align: left;
 			text-transform: uppercase;
-			line-height: $watchingNameHeight;
+			line-height: variables.$watchingNameHeight;
 			white-space: nowrap;
-			padding: $borderSize;
-			background: $backgroundTranslucent linear-gradient(to right,
+			padding: variables.$borderSize;
+			background: variables.$backgroundTranslucent linear-gradient(to right,
 				var(--watchingBackgroundColor) 0,
 				var(--watchingBackgroundColor) 75%,
-				$backgroundTransparent 98%
+				variables.$backgroundTransparent 98%
 			);
 			&.long {
 				font-size: 21px;
@@ -70,13 +72,13 @@ $watchingOffScreen: calc(0px - $watchingWidth - 100px);
 					font-family: var(--fontRajdhani);
 					font-size: 24px;
 					font-weight: bold;
-					color: $secondaryTextColor;
+					color: variables.$secondaryTextColor;
 					text-transform: uppercase;
-					margin-right: $borderSize;
+					margin-right: variables.$borderSize;
 				}
 
 				.value {
-					color: $textColor;
+					color: variables.$textColor;
 					font-family: var(--fontHexagle);
 					font-size: 30px;
 				}
@@ -106,10 +108,10 @@ $watchingOffScreen: calc(0px - $watchingWidth - 100px);
 	.boostDisplay {
 		position: absolute;
 		right: 0;
-		bottom: calc($watchingHeight + $borderSize * 2);
+		bottom: calc(variables.$watchingHeight + variables.$borderSize * 2);
 		width: 200px;
 		height: 205px;
-		background: $backgroundTranslucent;
+		background: variables.$backgroundTranslucent;
 		mask-image: url("/images/themes/sgl/boost-bg-mask.png");
 		mask-position: top center;
 
@@ -126,13 +128,13 @@ $watchingOffScreen: calc(0px - $watchingWidth - 100px);
 				font-size: 36px;
 				vertical-align: bottom;
 				font-weight: 700;
-				fill: $secondaryTextColor;
+				fill: variables.$secondaryTextColor;
 			}
 
 		}
 
 		.CircularProgressbar-trail {
-			stroke: $backgroundColor;
+			stroke: variables.$backgroundColor;
 		}
 
 	}

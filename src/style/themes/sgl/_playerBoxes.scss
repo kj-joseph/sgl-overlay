@@ -1,25 +1,27 @@
+@use "variables";
+
 .teamPlayerBoxes {
     position: absolute;
-    top: $playerBoxMargin;
+    top: variables.$playerBoxMargin;
 
 	.playerBox {
 		position: relative;
-		width: $playerBoxWidth;
-		height: $playerBoxHeight;
-		margin-bottom: calc($playerBoxMargin + $borderSize);
-		padding: $borderSize;
-		background: $backgroundColor;
+		width: variables.$playerBoxWidth;
+		height: variables.$playerBoxHeight;
+		margin-bottom: calc(variables.$playerBoxMargin + variables.$borderSize);
+		padding: variables.$borderSize;
+		background: variables.$backgroundColor;
 
 		.name {
 			position: absolute;
-			width: calc($playerBoxWidth - $borderSize * 3 - $playerBoxEventSize * 2 - $playerBoxBoostTextWidth);
-			height: $playerBoxHeight;
+			width: calc(variables.$playerBoxWidth - variables.$borderSize * 3 - variables.$playerBoxEventSize * 2 - variables.$playerBoxBoostTextWidth);
+			height: variables.$playerBoxHeight;
 			overflow: hidden;
 			font-family: var(--fontHexagle);
 			font-size: 22px;
-			color: $textColor;
+			color: variables.$textColor;
 			text-transform: uppercase;
-			line-height: $playerBoxHeight;
+			line-height: variables.$playerBoxHeight;
 
 			&.long {
 				font-size: 18px;
@@ -33,9 +35,9 @@
 
 		.events {
 			position: absolute;
-			top: $borderSize;
-			width: calc($playerBoxEventSize * 2);
-			height: $playerBoxHeight;
+			top: variables.$borderSize;
+			width: calc(variables.$playerBoxEventSize * 2);
+			height: variables.$playerBoxHeight;
 
 			.eventIcon {
 				display: inline;
@@ -45,9 +47,9 @@
 				}
 
 				svg {
-					fill: $textColor;
-					width: $playerBoxEventSize;
-					height: $playerBoxHeight;
+					fill: variables.$textColor;
+					width: variables.$playerBoxEventSize;
+					height: variables.$playerBoxHeight;
 				}
 
 			}
@@ -58,15 +60,15 @@
 
 			.boostText {
 				position: absolute;
-				top: $borderSize;
-				width: $playerBoxBoostTextWidth;
-				height: $playerBoxHeight;
+				top: variables.$borderSize;
+				width: variables.$playerBoxBoostTextWidth;
+				height: variables.$playerBoxHeight;
 				color: var(--playerBoxColor);
 				font-family: var(--fontHexagle);
 				font-size: 26px;
 				font-weight: bold;
 				font-style: italic;
-				line-height: $playerBoxHeight;
+				line-height: variables.$playerBoxHeight;
 			}
 
 			.boostBar {
@@ -75,13 +77,13 @@
 				top: 100%;
 				z-index: 11;
 				width: 100%;
-				height: $playerBoxBoostBarSize;
-				background: $backgroundHighlight;
+				height: variables.$playerBoxBoostBarSize;
+				background: variables.$backgroundHighlight;
 
 				.fill {
 					position: absolute;
 					bottom: 0;
-					height: $playerBoxBoostBarSize;
+					height: variables.$playerBoxBoostBarSize;
 					background: var(--playerBoxColor);
 					transition: width 100ms linear;
 				}
@@ -91,7 +93,7 @@
 		&.watching {
 
 			.boost .boostText {
-				color: $textColor;
+				color: variables.$textColor;
 			}
 
 		}
@@ -109,20 +111,20 @@
 			&.watching {
 				background-image: linear-gradient(to left,
 					var(--team0) 0,
-					var(--team0) calc($borderSize * 3),
-					$backgroundColor calc($playerBoxBoostTextWidth + $borderSize * 6)
+					var(--team0) calc(variables.$borderSize * 3),
+					variables.$backgroundColor calc(variables.$playerBoxBoostTextWidth + variables.$borderSize * 6)
 				);
 			}
 
 			.name {
-				left: calc($borderSize * 2);
+				left: calc(variables.$borderSize * 2);
 			}
 
 			.boost {
 				text-align: right;
 
 				.boostText {
-					right: $borderSize;
+					right: variables.$borderSize;
 				}
 
 				.boostBar {
@@ -136,7 +138,7 @@
 			}
 
 			.events {
-				right: calc($playerBoxBoostTextWidth + $borderSize * 2);
+				right: calc(variables.$playerBoxBoostTextWidth + variables.$borderSize * 2);
 				text-align: right;
 			}
 
@@ -153,13 +155,13 @@
 			&.watching {
 				background-image: linear-gradient(to right,
 					var(--team1) 0,
-					var(--team1) calc($borderSize * 3),
-					$backgroundColor calc($playerBoxBoostTextWidth + $borderSize * 6)
+					var(--team1) calc(variables.$borderSize * 3),
+					variables.$backgroundColor calc(variables.$playerBoxBoostTextWidth + variables.$borderSize * 6)
 				);
 			}
 
 			.name {
-				right: calc($borderSize * 2);
+				right: calc(variables.$borderSize * 2);
 				text-align: right;
 			}
 
@@ -167,7 +169,7 @@
 				text-align: right;
 
 				.boostText {
-					left: $borderSize;
+					left: variables.$borderSize;
 				}
 
 				.boostBar {
@@ -181,7 +183,7 @@
 			}
 
 			.events {
-				left: calc($playerBoxBoostTextWidth + $borderSize * 2);
+				left: calc(variables.$playerBoxBoostTextWidth + variables.$borderSize * 2);
 				text-align: left;
 			}
 
@@ -191,7 +193,7 @@
 
 	.playerBox.dead {
 		opacity: .5;
-		background: $backgroundColor;
+		background: variables.$backgroundColor;
 
 		.boost .boostText {
 			opacity: 0;

@@ -1,21 +1,23 @@
+@use "variables";
+
 .leagueStandings {
 	position: absolute;
     left: 0;
     top: 0;
-	width: $windowWidth;
-	height: $windowHeight;
-	color: $textColor;
+	width: variables.$windowWidth;
+	height: variables.$windowHeight;
+	color: variables.$textColor;
 	padding-top: 20px;
 	background-image:
 		linear-gradient(to bottom,
-			$sglRedFade 0,
-			$sglRedFade 75%,
-			$backgroundTransparent 98%
+			variables.$sglRedFade 0,
+			variables.$sglRedFade 75%,
+			variables.$backgroundTransparent 98%
 		),
 		linear-gradient(to bottom,
-			$sglBlueFade 0,
-			$sglBlueFade 75%,
-			$backgroundTransparent 98%
+			variables.$sglBlueFade 0,
+			variables.$sglBlueFade 75%,
+			variables.$backgroundTransparent 98%
 		),
 		url("/images/themes/sgl/hex-bg.png");
 	background-position:
@@ -38,14 +40,14 @@
 	}
 
 	.tier {
-		--tierBackground: #{$backgroundColor};
+		--tierBackground: #{variables.$backgroundColor};
 
 		position: absolute;
 		top: 190px;
 		width: 750px;
 
 		&:nth-child(1) {
-			--tierBackground: #{$sglRedTone};
+			--tierBackground: #{variables.$sglRedTone};
 			left: 85px;
 
 			.tierName {
@@ -55,7 +57,7 @@
 		}
 
 		&:nth-child(2) {
-			--tierBackground: #{$sglBlueTone};
+			--tierBackground: #{variables.$sglBlueTone};
 			right: 85px;
 
 			.tierName {
@@ -69,9 +71,9 @@
 			text-transform: uppercase;
 			table-layout: fixed;
 			margin-left: 90px;
-			background: $backgroundTranslucent;
+			background: variables.$backgroundTranslucent;
 			border-collapse: collapse;
-			border: $borderSize solid $backgroundColor;
+			border: variables.$borderSize solid variables.$backgroundColor;
 
 			th, td {
 				width: 55px;
@@ -79,10 +81,10 @@
 				font-family: var(--fontHexagle);
 				text-align: right;
 				font-size: 50px;
-				line-height: calc($standingsTeamLogoWidth * $hexRatio - $borderSize);
-				padding: $borderSize;
+				line-height: calc(variables.$standingsTeamLogoWidth * variables.$hexRatio - variables.$borderSize);
+				padding: variables.$borderSize;
 				background: var(--bgColor);
-				border: $borderSize solid $backgroundColor;
+				border: variables.$borderSize solid variables.$backgroundColor;
 
 				&.team {
 					position: relative;
@@ -92,8 +94,8 @@
 
 					.teamLogo {
 						position: absolute;
-						left: calc(0px - $standingsTeamLogoWidth - 22px);
-						@include teamLogoHex($standingsTeamLogoWidth);
+						left: calc(0px - variables.$standingsTeamLogoWidth - 22px);
+						@include teamLogoHex(variables.$standingsTeamLogoWidth);
 					}
 
 				}
@@ -115,18 +117,18 @@
 				font-family: var(--fontRajdhani);
 				font-size: 26px;
 				line-height: 48px;
-				background: $backgroundColor;
+				background: variables.$backgroundColor;
 				padding-bottom: 0;
 
 				&.team {
-					color: $highlightColor;
+					color: variables.$highlightColor;
 					font-family: var(--fontHexagle);
 					font-size: 46px;
 					background-image: linear-gradient(to right,
 						var(--tierBackground) 0,
-						$backgroundColor 55%,
+						variables.$backgroundColor 55%,
 					),
-					linear-gradient(to right, $sglRed, $backgroundColor);
+					linear-gradient(to right, variables.$sglRed, variables.$backgroundColor);
 				}
 
 				&.pts {

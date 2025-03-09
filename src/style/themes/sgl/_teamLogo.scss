@@ -1,16 +1,18 @@
+@use "variables";
+
 .teamLogo {
-	@include teamLogoHex($teamLogoWidth);
+	@include teamLogoHex(variables.$teamLogoWidth);
 	position: absolute;
-	top: $topHeaderHeight;
+	top: variables.$topHeaderHeight;
 	z-index: 80;
 
 	&.team0 {
-		left: calc(0px - $teamLogoWidth * .5);
+		left: calc(0px - variables.$teamLogoWidth * .5);
 		@include placeholderTeamlogo(var(--team0tone));
 	}
 
 	&.team1 {
-		right: calc(0px - $teamLogoWidth * .5);
+		right: calc(0px - variables.$teamLogoWidth * .5);
 		@include placeholderTeamlogo(var(--team1tone));
 	}
 

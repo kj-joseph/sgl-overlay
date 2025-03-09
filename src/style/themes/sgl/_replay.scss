@@ -1,16 +1,18 @@
+@use "variables";
+
 .replay {
     position: absolute;
-    right: calc(-100px - $replayWidth);
+    right: calc(-100px - variables.$replayWidth);
     bottom: 0;
-    width: $replayWidth;
-    height: $replayHeight;
+    width: variables.$replayWidth;
+    height: variables.$replayHeight;
     vertical-align: baseline;
-	padding-top: $borderSize;
+	padding-top: variables.$borderSize;
     // transition: right .25s ease-in;
-	background: $backgroundTranslucent linear-gradient(to right,
+	background: variables.$backgroundTranslucent linear-gradient(to right,
 		var(--replayColorFade) 0,
 		var(--replayColorFade) 75%,
-		$backgroundTransparent 98%
+		variables.$backgroundTransparent 98%
 	);
 
 	&.showReplay {
@@ -19,11 +21,11 @@
 
 	.replayLabel {
 		position: absolute;
-		// top: calc(0px - $borderSize * 2 - $replayLabelHeight);
+		// top: calc(0px - variables.$borderSize * 2 - variables.$replayLabelHeight);
 		bottom: 0;
 		z-index: 5;
-		width: calc($replayWidth - $borderSize * 4);
-		height: $replayLabelHeight;
+		width: calc(variables.$replayWidth - variables.$borderSize * 4);
+		height: variables.$replayLabelHeight;
 		color: var(--replayColor);
 		font-family: var(--fontHexagle);
 		font-size: 32px;
@@ -31,11 +33,11 @@
 		font-style: italic;
 		text-align: right;
 		// letter-spacing: .5em;
-		padding: $borderSize calc($borderSize * 2);
-		background: $backgroundTranslucent linear-gradient(to right,
+		padding: variables.$borderSize calc(variables.$borderSize * 2);
+		background: variables.$backgroundTranslucent linear-gradient(to right,
 			var(--replayColorTone) 0,
 			var(--replayColorTone) 75%,
-			$backgroundTransparent 98%
+			variables.$backgroundTransparent 98%
 		);
 	}
 
@@ -49,17 +51,17 @@
 
 	.statLine {
 		line-height: 38px;
-		padding: $borderSize;
+		padding: variables.$borderSize;
 
 		.stat {
 			height: 40px;
-			margin-bottom: $borderSize;
+			margin-bottom: variables.$borderSize;
 
 			.label {
 				display: inline-block;
 				font-size: 22px;
 				width: 20%;
-				color: $secondaryTextColor;
+				color: variables.$secondaryTextColor;
 				font-family: var(--fontRajdhani);
 				text-transform: uppercase;
 				text-align: right;
@@ -73,7 +75,7 @@
 				font-size: 32px;
 				font-weight: bold;
 				font-style: italic;
-				color: $textColor;
+				color: variables.$textColor;
 				text-transform: uppercase;
 				vertical-align: baseline;
 
@@ -86,19 +88,19 @@
 			&.speed {
 				position: absolute;
 				bottom: 0;
-				left: calc(20% + 15px + $borderSize);
+				left: calc(20% + 15px + variables.$borderSize);
 				z-index: 69;
 				text-align: right;
-				line-height: $replayLabelHeight;
+				line-height: variables.$replayLabelHeight;
 
 				.value {
 					text-transform: uppercase;
-					color: $textColor;
+					color: variables.$textColor;
 				}
 
 				.label {
 					width: auto;
-					color: $secondaryTextColor;
+					color: variables.$secondaryTextColor;
 					text-transform: uppercase;
 					margin-left: 7px;
 					margin-right: 60px;

@@ -1,22 +1,24 @@
+@use "variables";
+
 .teamScore {
 	position: absolute;
-	top: calc($mainHeaderHeight + $topHeaderHeight);
-	width: calc($teamScoreWidth - $borderSize);
-	height: $mainBarHeight;
+	top: calc(variables.$mainHeaderHeight + variables.$topHeaderHeight);
+	width: calc(variables.$teamScoreWidth - variables.$borderSize);
+	height: variables.$mainBarHeight;
 	font-family: var(--fontHexagle);
 	font-weight: bold;
 	font-size: 72px;
 	text-align: center;
-	line-height: $mainBarHeight;
+	line-height: variables.$mainBarHeight;
 	letter-spacing: -.2rem;
 
 	&.team0 {
-		left: calc($scoreboardWidth * .5 - $teamScoreFromMiddle - $teamScoreWidth + $borderSize * .5);
+		left: calc(variables.$scoreboardWidth * .5 - variables.$teamScoreFromMiddle - variables.$teamScoreWidth + variables.$borderSize * .5);
 		color: var(--team0);
 	}
 
 	&.team1 {
-		left: calc($scoreboardWidth * .5 + $teamScoreFromMiddle);
+		left: calc(variables.$scoreboardWidth * .5 + variables.$teamScoreFromMiddle);
 		color: var(--team1);
 	}
 

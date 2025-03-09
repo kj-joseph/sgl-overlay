@@ -1,47 +1,49 @@
+@use "variables";
+
 .clock {
 	--clockBackgroundImage: url("/images/themes/sgl/clock-bg.png");
-	--team0ScoreBackgroundColor: #{$clockBackgroundColor};
-	--team1ScoreBackgroundColor: #{$clockBackgroundColor};
+	--team0ScoreBackgroundColor: #{variables.$clockBackgroundColor};
+	--team1ScoreBackgroundColor: #{variables.$clockBackgroundColor};
 
 	&.overtime {
 		--clockBackgroundImage: url("/images/themes/sgl/clock-bg-ot.png");
 	}
 
 	&.goal0 {
-		--team0ScoreBackgroundColor: #{$goalColor};
+		--team0ScoreBackgroundColor: #{variables.$goalColor};
 	}
 
 	&.goal1 {
-		--team1ScoreBackgroundColor: #{$goalColor};
+		--team1ScoreBackgroundColor: #{variables.$goalColor};
 	}
 
 	position: absolute;
 	left: 0;
-	top: $topHeaderHeight;
-	width: $scoreboardWidth;
-	height: calc($scoreboardHeight - $topHeaderHeight);
+	top: variables.$topHeaderHeight;
+	width: variables.$scoreboardWidth;
+	height: calc(variables.$scoreboardHeight - variables.$topHeaderHeight);
 	background-image:
 		var(--clockBackgroundImage),
 		linear-gradient(to right,
-			$backgroundColor 0px,
-			$backgroundColor calc($teamLogoWidth * .5 + $teamNameWidth * .02),
-			var(--team0) calc($teamLogoWidth * .5 + $teamNameWidth * .25),
-			var(--team0) calc($teamLogoWidth * .5 + $teamNameWidth),
-			var(--team0ScoreBackgroundColor) calc($teamLogoWidth * .5 + $teamNameWidth),
+			variables.$backgroundColor 0px,
+			variables.$backgroundColor calc(variables.$teamLogoWidth * .5 + variables.$teamNameWidth * .02),
+			var(--team0) calc(variables.$teamLogoWidth * .5 + variables.$teamNameWidth * .25),
+			var(--team0) calc(variables.$teamLogoWidth * .5 + variables.$teamNameWidth),
+			var(--team0ScoreBackgroundColor) calc(variables.$teamLogoWidth * .5 + variables.$teamNameWidth),
 			var(--team0ScoreBackgroundColor) 100%
 		),
 		linear-gradient(to left,
-			$backgroundColor 0px,
-			$backgroundColor calc($teamLogoWidth * .5 + $teamNameWidth * .02),
-			var(--team1) calc($teamLogoWidth * .5 + $teamNameWidth * .25),
-			var(--team1) calc($teamLogoWidth * .5 + $teamNameWidth),
-			var(--team1ScoreBackgroundColor) calc($teamLogoWidth * .5 + $teamNameWidth),
+			variables.$backgroundColor 0px,
+			variables.$backgroundColor calc(variables.$teamLogoWidth * .5 + variables.$teamNameWidth * .02),
+			var(--team1) calc(variables.$teamLogoWidth * .5 + variables.$teamNameWidth * .25),
+			var(--team1) calc(variables.$teamLogoWidth * .5 + variables.$teamNameWidth),
+			var(--team1ScoreBackgroundColor) calc(variables.$teamLogoWidth * .5 + variables.$teamNameWidth),
 			var(--team1ScoreBackgroundColor) 100%
 		);
 	background-size:
-		$clockWidth calc($scoreboardHeight - $topHeaderHeight),
-		50% $mainBarHeight,
-		50% $mainBarHeight;
+		variables.$clockWidth calc(variables.$scoreboardHeight - variables.$topHeaderHeight),
+		50% variables.$mainBarHeight,
+		50% variables.$mainBarHeight;
 	background-position:
 		center top,
 		left center,
@@ -54,15 +56,15 @@
  	.time {
 		position: absolute;
 		left: 50%;
-		top: calc($mainHeaderHeight + 5px);
+		top: calc(variables.$mainHeaderHeight + 5px);
 
 		font-family: var(--fontHexagle);
 		font-size: 58px;
 		font-weight: bold;
 		font-style: italic;
-		color: $timeColor;
+		color: variables.$timeColor;
 		text-align: center;
-		line-height: calc($mainBarHeight - 15px);
+		line-height: calc(variables.$mainBarHeight - 15px);
 		letter-spacing: -.15rem;
 		transform: translateX(-50%);
 

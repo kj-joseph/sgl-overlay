@@ -1,22 +1,24 @@
+@use "variables";
+
 .seriesInfo {
 	position: absolute;
-	width: $headerWidth;
-	top: $topHeaderHeight;
-	right: ($teamLogoWidth * .5);
-	width: $headerWidth;
-	height: $seriesInfoHeight;
+	width: variables.$headerWidth;
+	top: variables.$topHeaderHeight;
+	right: (variables.$teamLogoWidth * .5);
+	width: variables.$headerWidth;
+	height: variables.$seriesInfoHeight;
 	font-family: var(--fontRajdhani);
 	font-size: 21px;
 	font-weight: bold;
-	color: $textColor;
+	color: variables.$textColor;
 	text-transform: uppercase;
 	text-align: center;
-	line-height: $mainHeaderHeight;
+	line-height: variables.$mainHeaderHeight;
 }
 
 .pipe {
-	color: $secondaryTextColor;
+	color: variables.$secondaryTextColor;
 	font-family: var(--fontSans);
 	font-size: 20px;
-	margin: 0 $pipeSpacing;
+	margin: 0 variables.$pipeSpacing;
 }
