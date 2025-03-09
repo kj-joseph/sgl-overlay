@@ -86,7 +86,7 @@ const MatchdaySchedule = (props) => {
 												"stream"
 											: ""}`}>
 												{match.scheduled !== "TBD" ?
-													`${new Date(match.scheduled).toLocaleDateString("en-us", { month: "long", day: "numeric" })} - ${new Date(match.scheduled).toLocaleTimeString("en-us", { hour12: true, hour: "numeric", minute: "numeric" })}`
+													`${new Date(match.scheduled).toLocaleDateString("en-us", { weekday: "long", month: "long", day: "numeric" })} - ${new Date(match.scheduled).toLocaleTimeString("en-us", { hour12: true, hour: "numeric", minute: "numeric" })}`
 												: "TBD"}
 												{match.onStream ?
 													<img class="streamIcon" src="/images/social/twitch.png" />
