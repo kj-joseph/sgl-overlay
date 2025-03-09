@@ -9,11 +9,11 @@ body:has(#ImageGenerator) {
 	overflow: auto;
 }
 
-@import "themes/rsc/fonts";
+@import "themes/sgl/fonts";
 
 #ImageGenerator {
-	--fontCooper: "CooperHewitt", Helvetica, Arial, sans-serif;
-	--fontUltimatum: "Ultimatum", Helvetica, Arial, sans-serif;
+	--fontHexagle: "Hexagle", Helvetica, Arial, sans-serif;
+	--fontRajdhani: "Rajdhani", Helvetica, Arial, sans-serif;
 
 	.selectors {
 		margin-bottom: 20px;
@@ -38,6 +38,15 @@ body:has(#ImageGenerator) {
 			border-color: red;
 		}
 
+		.switchControl {
+			display: inline-block;
+			margin-right: .7em;
+		}
+
+	}
+
+	.buttons {
+		margin-top: 1em;
 	}
 
 	.sources {
@@ -51,7 +60,7 @@ body:has(#ImageGenerator) {
 			top: 0;
 		}
 
-		@import "themes/rsc/imageGen/streamSchedule";
+		@import "themes/sgl/imageGen/matchdaySchedule";
 
 	}
 

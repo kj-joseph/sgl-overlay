@@ -1,10 +1,12 @@
 import React, { useEffect, useState } from "react";
 import * as htmlToImage from "html-to-image";
 
-import StreamSchedule from "@/views/imageGenerator/StreamSchedule";
+// import MatchdaySchedule from "../pregame/MatchdaySchedule";
+import GeneratedMatchdaySchedule from "@/views/imageGenerator/GeneratedMatchdaySchedule";
+// TODO: daily schedule
 
-import { getFranchiseList } from "@/services/franchiseService";
-import { getTeamListByTier, getTeamPlayerStats, getTeamStatsByTier } from "@/services/teamService";
+import { getSchedule } from "@/services/scheduleService";
+import { getTeamList } from "@/services/teamService";
 import { getTierList } from "@/services/tierService";
 
 import Button from "@mui/material/Button";
@@ -26,14 +28,8 @@ import { createTheme, styled, ThemeProvider } from "@mui/material/styles";
 import ("@/style/appMain.scss");
 import ("@/style/imageGen.scss");
 
-const teamColors = ["#206cff", "#f88521"];
-const defaultTimes = {
-	regular: ["10:50", "11:30"],
-	finals: ["9:30", "10:30"],
-}
-const currentSeason = 22; // TODO: set on new season (or dynamically?)
+const currentSeason = 9; // TODO: set on new season
 
-// TODO: don't have formats yet
 const imageSizes = [
 	{
 		id: "base",
@@ -41,7 +37,7 @@ const imageSizes = [
 		width: 1920,
 		height: 1080,
 	},
-]
+];
 
 let panelTheme = createTheme({
 	palette: {
@@ -74,24 +70,26 @@ const Item = styled("div")(({ theme }) => ({
 	color: "#ffffff",
 }));
 
-// NOTE: This is iniitally just set up for RSC 3s and will need a serious rework to handle multiple leagues
+// TODO: Make version for cup tournament (bracket?)
 
 const ImageGenerator = () => {
 
-	const [franchiseLists, setFranchiseLists] = useState({});
-	const [leagueId, setLeagueId] = useState(-1);
-	const [tierLists, setTierLists] = useState({});
-	const [teamLists, setTeamLists] = useState({});
+	const [scheduleList, setScheduleList] = useState({});
+	const [tierList, setTierList] = useState({});
+	const [teamList, setTeamList] = useState({});
 
-	const [gameType, setGameType] = useState("regular"); // TODO: create finals styles
-	const [season, setSeason] = useState(currentSeason); // TODO: Update default each season?
+	const [season, setSeason] = useState(currentSeason);
 	const [matchday, setMatchday] = useState(1);
-	const [gameCount, setGameCount] = useState(2);
-	const [times, setTimes] = useState(["",""]);
+	const [gameCount, setGameCount] = useState(1);
 	const [tiers, setTiers] = useState(["",""]);
-	const [teams, setTeams] = useState([["",""],["",""]]);
 
-	const [sameTeams, setSameTeams] = useState([false, false]);
+	const [viewOptions, setViewOptions] = useState({
+		scores: true,
+		times: true,
+		today: true,
+	})
+
+	const [imageType, setImageType] = useState("matchdaySchedule");
 
 	const [generatorData, setGeneratorData] = useState({});
 	const [generatedImages, setGeneratedImages] = useState([]);
@@ -101,12 +99,20 @@ const ImageGenerator = () => {
 	const [snackbarMessage, setSnackbarMessage] = useState("");
 
 	useEffect(() => {
-		if(leagueId > -1) {
-			loadTierList(leagueId);
-		} else {
-			setLeagueId(1); // default 1 for RSC 3s; handle elsewhere for multiple leagues
-		}
-	}, [leagueId]);
+		openDialog("loading");
+		Promise.all([
+			loadTeamList(),
+			loadTierList(),
+			loadSchedule(),
+		])
+			.then(() => {
+				closeDialog();
+			})
+			.catch((error) => {
+				closeDialog();
+			});
+		;
+	}, []);
 
 	const openDialog = (dialog) => {
 		setCurrentDialog(dialog);
@@ -129,181 +135,94 @@ const ImageGenerator = () => {
 		setSnackbarIsOpen(false);
 	}
 
-	const loadTierList = (league) => {
-		if(!Array.isArray(tierLists[league]) || tierLists[league].length < 1 ) {
-			const currentTierLists = {...tierLists};
-			const apiPromises = [];
+	const loadTierList = async () => {
 
-			openDialog("loading");
-
-			apiPromises.push(
-				getTierList(league)
-					.then((loadedTierList) => {
-						currentTierLists[league] = loadedTierList;
-						setTierLists(currentTierLists);
-
-						// create new empty entry in teams object for league
-						const currentTeamLists = {...teamLists}
-						currentTeamLists[league] = {};
-						setTeamLists(currentTeamLists);
-					})
-					.catch((error) => {
-						console.error(error);
-						openSnackbar("Error getting tier list from API");
-					})
-			);
-
-			// if franchise list isn't loaded, load it
-			if (!(Array.isArray(franchiseLists[league]) && franchiseLists[league].length)) {
-				const currentFranchiseLists = {...franchiseLists};
-
-				apiPromises.push(
-					getFranchiseList(league)
-						.then((loadedFranchiseList) => {
-							currentFranchiseLists[league] = loadedFranchiseList;
-							setFranchiseLists(currentFranchiseLists);
-						})
-						.catch((error) => {
-							console.error(error);
-							openSnackbar("Error getting franchise list from API");
-						})
-				);
-			}
-
-			Promise.all(apiPromises)
-				.then(() => {
-					closeDialog();
+		if (!Array.isArray(tierList) || tierList.length < 1 ) {
+			getTierList()
+				.then((loadedTierList) => {
+					setTierList(loadedTierList);
 				})
 				.catch((error) => {
 					closeDialog();
 					console.error(error);
-					openSnackbar("Error loading from API");
+					openSnackbar("Error getting tier list from sheets");
 				});
 
 		}
 	}
 
-	const loadTeamList = (league, tier) => {
+	const loadSchedule = async () => {
 
-		if (league === -1 || !tier) {
-			return;
-		}
+		getSchedule()
+			.then((loadedSchedule) => {
+				setScheduleList(loadedSchedule);
+			})
+			.catch((error) => {
+				console.error(error);
+				openSnackbar("Error getting schedule from sheets");
+			});
 
-		const currentTeamLists = {...teamLists}
+	}
 
-		if (!currentTeamLists.hasOwnProperty(league)) {
-			currentTeamLists[league] = {};
-		}
+	const loadTeamList = async () => {
 
-		if (!Array.isArray(currentTeamLists[league][tier]) || currentTeamLists[league][tier] < 1 ) {
-			openDialog("loading");
+		if (!Array.isArray(teamList) || teamList.length < 1 ) {
 
-			getTeamListByTier(league, tier, currentSeason)
+			getTeamList()
 				.then((loadedTeamList) => {
-					currentTeamLists[league][tier] = loadedTeamList;
-					setTeamLists(currentTeamLists);
-
-					closeDialog();
+					setTeamList(loadedTeamList);
 				})
 				.catch((error) => {
-					closeDialog();
 					console.error(error);
-					openSnackbar("Error getting team list from API");
+					openSnackbar("Error getting team list from sheets");
 				});
 		}
 
 	}
 
-	const changeTierField = (game, value) => {
-		const currentTiers = [...tiers];
-		currentTiers[game] = value;
-		setTiers(currentTiers);
-		loadTeamList(leagueId, value);
-
-		changeTeamField(game, 0, "");
-		changeTeamField(game, 1, "");
-	}
-
-	const changeTimeField = (game, value) => {
-		const currentTimes = [...times];
-		currentTimes[game] = value;
-		setTimes(currentTimes);
-	}
-
-	const changeTeamField = (game, teamNum, value) => {
-		const currentTeams = [...teams];
-		const currentSameTeams = [...sameTeams];
-
-		currentTeams[game][teamNum] = value;
-		setTeams(currentTeams);
-
-		for (let gm = 0; gm < gameCount; gm++) {
-			if (currentTeams[gm][0].hasOwnProperty("name") && currentTeams[gm][1].hasOwnProperty("name")) {
-				currentSameTeams[gm] = (currentTeams[gm][0].name === currentTeams[gm][1].name);
-			} else {
-				currentSameTeams[gm] = false;
-			}
-		}
-		setSameTeams(currentSameTeams);
-
-	}
-
-	const clearFields = () => {
+	const resetFields = () => {
 
 		setSeason(currentSeason);
 		setMatchday(1);
-		setGameCount(2);
-		setTimes(["",""]);
-		setTiers(["",""]);
-		setTeams([["",""],["",""]]);
 
+	}
+
+	const toggleViewOption = (option) => {
+		const options = Object.assign({}, JSON.parse(JSON.stringify(viewOptions)));
+		options[option] = !options[option];
+		setViewOptions(options);
 	}
 
 	const generate = () => {
 		if (!season
-			|| (gameType === "regular" && !matchday)
-			|| !tiers[0]
-			|| !teams[0][0].hasOwnProperty("name")
-			|| !teams[0][1].hasOwnProperty("name")
-			|| (gameCount === 2 && (
-				!tiers[1]
-				|| !teams[1][0].hasOwnProperty("name")
-				|| !teams[1][1].hasOwnProperty("name")
-			))
+			|| (imageType === "matchdaySchedule" && !matchday)
 		) {
 			openSnackbar("Please fill all fields.")
 			return;
 		}
 
-		if (teams[0][0].name === teams[0][1].name
-			|| (gameCount === 2 && teams[1][0].name === teams[1][1].name)
-		) {
-			openSnackbar("A team can't play against themselves.")
-			return;
-		}
-
 		const genData = {
-			gameType,
-			games: [],
+			imageType,
+			ready: true,
+			config: {
+				general: {
+					headers: [],
+					theme: "sgl",
+					streamType: "SGL-regular",
+					matchday,
+					season,
+					brandLogo: "sgl-logo.png",
+				}
+			},
 			matchday,
 			season,
+			schedule: scheduleList,
+			teamList,
+			tierList,
+			viewOptions: Object.keys(viewOptions)
+				.filter(option => !!viewOptions[option])
+				.map((option) => option),
 		};
-
-		for (let gm = 0; gm < gameCount; gm++) {
-
-			const gameData = {
-				time: times[gm] || defaultTimes[gameType][gm],
-				tier: tiers[gm],
-				teams: [...teams[gm]],
-			}
-
-			for (let tm = 0; tm < 2; tm++) {
-				gameData.teams[tm].logo = franchiseLists[leagueId].filter((franchise) => franchise.id === teams[gm][tm].franchise.id)[0].logo
-			}
-
-			genData.games.push(gameData);
-
-		}
 
 		setGeneratorData(genData);
 		openDialog("generating");
@@ -407,19 +326,17 @@ const ImageGenerator = () => {
 									<p>Options</p>
 
 									<FormControl size="small" fullWidth>
-										<InputLabel id="gameTypeLabel" shrink>Game Type</InputLabel>
+										<InputLabel id="imageTypeLabel" shrink>Image Type</InputLabel>
 										<Select
 											notched
 											labelId="gameTypeLabel"
-											id="gameType"
-											value={gameType}
+											id="imageType"
+											value={imageType}
 											required
 											label="Game Type"
-											// className={""}
-											onChange={(e) => setGameType(e.target.value)}
+											onChange={(e) => setImageType(e.target.value)}
 										>
-											<MenuItem value="regular">Regular Season</MenuItem>
-											<MenuItem value="finals">Finals</MenuItem>
+											<MenuItem value="matchdaySchedule">Matchday Schedule</MenuItem>
 										</Select>
 									</FormControl>
 
@@ -453,108 +370,50 @@ const ImageGenerator = () => {
 										size="small"
 										label="Matchday"
 										value={matchday}
-										disabled={gameType !== "regular"}
+										// disabled={imageType !== "regular"}
 										onKeyDown={(e) => ["e", "E", "+", "-", "."].includes(e.key) && e.preventDefault()}
 										onChange={(e) => setMatchday(e.target.value)}
 										className={matchday === "" || matchday < 1 ? "errorField" : ""}
 									/>
 
-									<FormControl size="small" fullWidth>
-										<InputLabel id="gameCountLabel" shrink>Games</InputLabel>
-										<Select
-											notched
-											labelId="gameCountLabel"
-											id="gameCount"
-											value={gameCount}
-											required
-											label="Game"
-											onChange={(e) => setGameCount(e.target.value)}
-										>
-											<MenuItem value={1}>1</MenuItem>
-											<MenuItem value={2}>2</MenuItem>
-										</Select>
-									</FormControl>
 
-									<Button onClick={generate} variant="contained">Generate</Button>
-									<Button onClick={clearFields} color="error" variant="contained">Clear</Button>
+									<span className="switchControl">
+										<strong>Show times?</strong>
+										<Switch
+											checked={viewOptions.times}
+											onChange={(e) => toggleViewOption("times")}
+											color={viewOptions.times ? "success" : "primary"}
+										/>
+									</span>
+
+									<span className="switchControl">
+										<strong>Show scores?</strong>
+										<Switch
+											checked={viewOptions.scores}
+											onChange={(e) => toggleViewOption("scores")}
+											color={viewOptions.scores ? "success" : "primary"}
+										/>
+									</span>
+
+									{viewOptions.times ?
+										<span className="switchControl">
+											<strong>Highlight today's games?</strong>
+											<Switch
+												checked={viewOptions.today}
+												onChange={(e) => toggleViewOption("today")}
+												color={viewOptions.today ? "success" : "primary"}
+											/>
+										</span>
+									: null}
+
+
+									<div className="buttons">
+										<Button onClick={generate} variant="contained">Generate</Button>
+										<Button onClick={resetFields} color="error" variant="contained">Reset</Button>
+									</div>
 
 								</Item>
 							</Grid>
-
-							{ Array.isArray(tierLists[leagueId]) && tierLists[leagueId].length ?
-
-								Array.from({length: gameCount}).map((dummy, gameIndex) =>
-
-									<Grid size={{xs: 12, md: 4}} key={`game${gameIndex}`}>
-										<Item>
-
-											<p>Game {gameIndex + 1}</p>
-
-											<FormControl variant="outlined" size="small" fullWidth>
-												<InputLabel shrink htmlFor={`time${gameIndex}`}>Time</InputLabel>
-												<OutlinedInput
-													notched
-													id={`time${gameIndex}`}
-													label="Time"
-													onChange={(e) => changeTimeField(gameIndex, e.target.value)}
-													value={times[gameIndex]}
-													placeholder={defaultTimes[gameType][gameIndex]}
-												/>
-											</FormControl><br />
-
-											<FormControl size="small" fullWidth>
-												<InputLabel id={`tier${gameIndex}Label`} shrink>Tier</InputLabel>
-												<Select
-													notched
-													labelId={`tier${gameIndex}Label`}
-													id={`tier${gameIndex}`}
-													value={tiers[gameIndex]}
-													required
-													label="Tier"
-													onChange={(e) => changeTierField(gameIndex, e.target.value)}
-													className={!tiers[gameIndex] ? "errorField" : ""}
-												>
-													{tierLists[leagueId]
-														.sort((a,b) => Number(a.position) < Number(b.position) ? 1 : Number(a.position) > Number(b.position) ? -1 : 0)
-														.map(tier => (
-															<MenuItem key={tier.id} value={tier.name}>{tier.name}</MenuItem>
-													))}
-												</Select>
-											</FormControl>
-
-											{tiers[gameIndex] && teamLists[leagueId].hasOwnProperty(tiers[gameIndex]) ?
-
-												Array.from({length: 2}).map((dummyTeam, teamIndex) =>
-
-													<FormControl size="small" fullWidth key={`game${gameIndex}team${teamIndex}`}>
-														<InputLabel id={`game${gameIndex}team${teamIndex}Label`} shrink>Team {teamIndex + 1}</InputLabel>
-														<Select
-															notched
-															labelId={`game${gameIndex}team${teamIndex}Label`}
-															id={`game${gameIndex}team${teamIndex}`}
-															value={teams[gameIndex][teamIndex]}
-															required
-															label={`Team ${teamIndex + 1}`}
-															onChange={(e) => changeTeamField(gameIndex, teamIndex, e.target.value)}
-															className={!teams[gameIndex][teamIndex].hasOwnProperty("name") || sameTeams[gameIndex] ? "errorField" : ""}
-														>
-															{teamLists[leagueId][tiers[gameIndex]]
-																.sort((a,b) => a.name > b.name ? 1 : a.name < b.name ? -1 : 0)
-																.map(team => (
-																	<MenuItem key={team.id} value={team}>{team.name}</MenuItem>
-															))}
-														</Select>
-													</FormControl>
-
-												)
-											: null}
-
-
-										</Item>
-									</Grid>
-
-								)
-							: null}
 
 						</Grid>
 
@@ -563,7 +422,7 @@ const ImageGenerator = () => {
 
 			</div>
 
-			{generatorData.hasOwnProperty("games") ?
+			{generatorData.hasOwnProperty("ready") && generatorData.ready ?
 
 				<>
 
@@ -571,8 +430,13 @@ const ImageGenerator = () => {
 
 						{imageSizes.map((img, index) => (
 
-							<StreamSchedule key={index}
-								gameData={generatorData}
+							<GeneratedMatchdaySchedule
+								key={index}
+								config={generatorData.config}
+								schedule={generatorData.schedule}
+								viewOptions={generatorData.viewOptions}
+								teamList={generatorData.teamList}
+								tierList={generatorData.tierList}
 								imageData={img}
 							/>
 
@@ -582,7 +446,7 @@ const ImageGenerator = () => {
 
 					<div className="output">
 						{generatedImages.map((img, index) => (
-							<div key={index} id={img.id} className="generatedImage">
+							<div key={index} className="generatedImage">
 								<div className="label">{img.label} ({img.width} x {img.height})</div>
 								<img src={img.url} />
 							</div>
