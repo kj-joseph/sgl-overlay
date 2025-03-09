@@ -29,6 +29,12 @@ import ("@/style/appMain.scss");
 import ("@/style/imageGen.scss");
 
 const currentSeason = 9; // TODO: set on new season
+const defaultViewOptions = {
+	scores: true,
+	streams: true,
+	times: true,
+	today: true,
+};
 
 const imageSizes = [
 	{
@@ -83,12 +89,7 @@ const ImageGenerator = () => {
 	const [gameCount, setGameCount] = useState(1);
 	const [tiers, setTiers] = useState(["",""]);
 
-	const [viewOptions, setViewOptions] = useState({
-		scores: true,
-		streams: true,
-		times: true,
-		today: true,
-	})
+	const [viewOptions, setViewOptions] = useState(defaultViewOptions)
 
 	const [imageType, setImageType] = useState("matchdaySchedule");
 
@@ -182,10 +183,9 @@ const ImageGenerator = () => {
 	}
 
 	const resetFields = () => {
-
 		setSeason(currentSeason);
 		setMatchday(1);
-
+		setViewOptions(defaultViewOptions);
 	}
 
 	const toggleViewOption = (option) => {
