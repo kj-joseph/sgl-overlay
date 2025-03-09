@@ -1,8 +1,4 @@
 .matchdaySchedule {
-	--sideFadeColor: #{rgba(#666666, .4)};
-	--leftFadeColor: #{rgba($sglRed, .35)};
-	--rightFadeColor: #{rgba($sglBlue, .35)};
-
 	position: absolute;
     left: 0;
     top: 0;
@@ -11,29 +7,24 @@
 	color: $textColor;
 	padding-top: 20px;
 	background-image:
-		// linear-gradient(to bottom,
-		// 	var(--sideFadeColor) 0,
-		// 	var(--sideFadeColor) 75%,
-		// 	$backgroundTransparent 98%
-		// ),
 		linear-gradient(to bottom,
-			var(--sideFadeColor) 0,
-			var(--sideFadeColor) 75%,
+			$sglBlueFade 0,
+			$sglBlueFade 75%,
 			$backgroundTransparent 98%
 		),
 		linear-gradient(to bottom,
-			var(--sideFadeColor) 0,
-			var(--sideFadeColor) 75%,
+			$sglRedFade 0,
+			$sglRedFade 75%,
 			$backgroundTransparent 98%
 		),
 		linear-gradient(to bottom,
-			var(--leftFadeColor) 0,
-			var(--leftFadeColor) 75%,
+			$sglRedFade 0,
+			$sglRedFade 75%,
 			$backgroundTransparent 98%
 		),
 		linear-gradient(to bottom,
-			var(--rightFadeColor) 0,
-			var(--rightFadeColor) 75%,
+			$sglBlueFade 0,
+			$sglBlueFade 75%,
 			$backgroundTransparent 98%
 		),
 		url("/images/themes/sgl/hex-bg.png");
@@ -81,7 +72,6 @@
 		position: absolute;
 		top: 200px;
 		width: 650px;
-		// background: blue;
 
 		.tierName {
 			position: absolute;
