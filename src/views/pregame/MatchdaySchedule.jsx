@@ -54,6 +54,7 @@ const MatchdaySchedule = (props) => {
 
 										{match.teams.map((teamCode, teamIndex) =>
 											<div
+												key={teamIndex}
 												className={`matchTeam team${teamIndex}`}
 												style={{
 													"--bgColor": hexToRgba(teamData(teamCode).bgColor, 90),
