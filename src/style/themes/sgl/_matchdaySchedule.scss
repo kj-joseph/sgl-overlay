@@ -99,6 +99,7 @@
 			.tierName {
 				right: 725px;
 			}
+
 		}
 
 		&:nth-child(2) {
@@ -108,6 +109,15 @@
 				right: -75px;
 			}
 
+		}
+
+		.noGames {
+			color: $secondaryTextColor;
+			font-family: var(--fontRajdhani);
+			font-weight: bold;
+			font-size: 38px;
+			line-height: calc($scheduleTeamLogoSize * $hexRatio);
+			text-align: center;
 		}
 
 		.match {

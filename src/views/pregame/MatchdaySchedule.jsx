@@ -14,7 +14,7 @@ const MatchdaySchedule = (props) => {
 	const teamData = (code) => props.teamList.filter(team => team.code === code)[0];
 
 	return (
-		<div className={`matchdaySchedule`}>
+		<div className="matchdaySchedule">
 
 			<div className="matchdayScheduleHeader">
 
@@ -45,57 +45,66 @@ const MatchdaySchedule = (props) => {
 
 							{props.schedule
 								.filter(m => m.matchday === Number(props.config.general.matchday) && m.tier === tier.id)
-								.sort((a, b) =>
-									a.scheduled < b.scheduled ? -1 :
-										a.scheduled > b.scheduled ? 1 : 0
-								)
-								.map((match, matchIndex) =>
-									<div className="match" key={matchIndex}>
+								.length > 0 ?
 
-										{match.teams.map((teamCode, teamIndex) =>
-											<div
-												key={teamIndex}
-												className={`matchTeam team${teamIndex}`}
-												style={{
-													"--bgColor": hexToRgba(teamData(teamCode).bgColor, 90),
-												}}
-											>
-												<TeamLogo
-													team={teamIndex}
-													logo={teamData(teamCode).logo}
-													bgColor={teamData(teamCode).bgColor}
-												/>
+								props.schedule
+									.filter(m => m.matchday === Number(props.config.general.matchday) && m.tier === tier.id)
+									.sort((a, b) =>
+										a.scheduled < b.scheduled ? -1 :
+											a.scheduled > b.scheduled ? 1 : 0
+									)
+									.map((match, matchIndex) =>
+										<div className="match" key={matchIndex}>
 
-												<div className="teamName">{teamData(teamCode).shortName}</div>
+											{match.teams.map((teamCode, teamIndex) =>
+												<div
+													key={teamIndex}
+													className={`matchTeam team${teamIndex}`}
+													style={{
+														"--bgColor": hexToRgba(teamData(teamCode).bgColor, 90),
+													}}
+												>
+													<TeamLogo
+														team={teamIndex}
+														logo={teamData(teamCode).logo}
+														bgColor={teamData(teamCode).bgColor}
+													/>
 
-												{props.viewOptions.indexOf("scores") > -1 && match.played && match.score.indexOf("") === -1 ?
-													<div className={`teamScore ${(teamIndex === 0 && match.score[0] > match.score[1]) || (teamIndex === 1 && match.score[1] > match.score[0]) ? "winner" : ""}`}>
-														{match.score[teamIndex]}
-													</div>
+													<div className="teamName">{teamData(teamCode).shortName}</div>
 
-												: null}
+													{props.viewOptions.indexOf("scores") > -1 && match.played && match.score.indexOf("") === -1 ?
+														<div className={`teamScore ${(teamIndex === 0 && match.score[0] > match.score[1]) || (teamIndex === 1 && match.score[1] > match.score[0]) ? "winner" : ""}`}>
+															{match.score[teamIndex]}
+														</div>
 
-											</div>
-										)}
+													: null}
 
-										{props.viewOptions.indexOf("times") > -1 ?
-											<div className={`matchTime ${
-												props.viewOptions.indexOf("today") > -1 &&
-													new Date(match.scheduled).toLocaleDateString("en-us", { month: "long", day: "numeric" }) === new Date().toLocaleDateString("en-us", { month: "long", day: "numeric" }) ? "today"
-											: ""} ${match.onStream ?
-												"stream"
-											: ""}`}>
-												{match.scheduled !== "TBD" ?
-													`${new Date(match.scheduled).toLocaleDateString("en-us", { weekday: "long", month: "long", day: "numeric" })} - ${new Date(match.scheduled).toLocaleTimeString("en-us", { hour12: true, hour: "numeric", minute: "numeric" })}`
-												: "TBD"}
-												{match.onStream ?
-													<img class="streamIcon" src="/images/social/twitch.png" />
-												: null}
-											</div>
-										: null}
+												</div>
+											)}
 
-									</div>
-								)
+											{props.viewOptions.indexOf("times") > -1 ?
+												<div className={`matchTime ${
+													props.viewOptions.indexOf("today") > -1 &&
+														new Date(match.scheduled).toLocaleDateString("en-us", { month: "long", day: "numeric" }) === new Date().toLocaleDateString("en-us", { month: "long", day: "numeric" }) ? "today"
+												: ""} ${match.onStream ?
+													"stream"
+												: ""}`}>
+													{match.scheduled !== "TBD" ?
+														`${new Date(match.scheduled).toLocaleDateString("en-us", { weekday: "long", month: "long", day: "numeric" })} - ${new Date(match.scheduled).toLocaleTimeString("en-us", { hour12: true, hour: "numeric", minute: "numeric" })}`
+													: "TBD"}
+													{match.onStream ?
+														<img class="streamIcon" src="/images/social/twitch.png" />
+													: null}
+												</div>
+											: null}
+
+										</div>
+									)
+
+							:
+
+								<div class="noGames">No games scheduled</div>
+
 
 							}
 
