@@ -18,7 +18,7 @@ const Standings = (props) => {
 
 				<div className="leagueLogo">
 					{props.config.general.brandLogo ?
-						<img src={imageLocation(props.config.general.brandLogo, "images/logos")} />
+						<img src={imageLocation(props.config.general.brandLogo, "images/logos")} alt="" />
 					: null}
 				</div>
 

@@ -16,6 +16,7 @@ const TeamLogo = (props) => {
 							backgroundColor: `#${props.bgColor}`,
 						} : {}
 					}
+					alt=""
 				/>
 			: null}
         </div>
