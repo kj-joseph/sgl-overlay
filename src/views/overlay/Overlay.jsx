@@ -520,10 +520,10 @@ const Overlay = () => {
 				// only trigger transition if not already on game view
 				if (viewState !== "live") {
 					triggerTransition(
-						activeConfig.general.hasOwnProperty("transition") && activeConfig.general.transition ? activeConfig.general.transition : transitionDefault.name,
+						activeConfigRef.current.general.hasOwnProperty("transition") && activeConfigRef.current.general.transition ? activeConfigRef.current.general.transition : transitionDefault.name,
 						"GO!",
-						activeConfig.general.hasOwnProperty("brandLogo") && activeConfig.general.brandLogo ?
-							imageLocation(activeConfig.general.brandLogo, "images/logos")
+						activeConfigRef.current.general.hasOwnProperty("brandLogo") && activeConfigRef.current.general.brandLogo ?
+							imageLocation(activeConfigRef.current.general.brandLogo, "images/logos")
 							: null,
 						null,
 						null,
@@ -540,12 +540,12 @@ const Overlay = () => {
 				setLastGoal(data);
 				setShowGoalTeam(true);
 				triggerTransition(
-					activeConfig.general.hasOwnProperty("transition") && activeConfig.general.transition ? activeConfig.general.transition : transitionDefault.name,
+					activeConfigRef.current.general.hasOwnProperty("transition") && activeConfigRef.current.general.transition ? activeConfigRef.current.general.transition : transitionDefault.name,
 					"GOAL!",
-					activeConfig.teams[data.scorer.teamnum].hasOwnProperty("logo") && activeConfig.teams[data.scorer.teamnum].logo ?
-						imageLocation(activeConfig.teams[data.scorer.teamnum].logo, "images/logos/teams/")
-						: activeConfig.general.hasOwnProperty("brandLogo") && activeConfig.general.brandLogo ?
-							imageLocation(activeConfig.general.brandLogo, "images/logos")
+					activeConfigRef.current.teams[data.scorer.teamnum].hasOwnProperty("logo") && activeConfigRef.current.teams[data.scorer.teamnum].logo ?
+						imageLocation(activeConfigRef.current.teams[data.scorer.teamnum].logo, "images/logos/teams/")
+						: activeConfigRef.current.general.hasOwnProperty("brandLogo") && activeConfigRef.current.general.brandLogo ?
+							imageLocation(activeConfigRef.current.general.brandLogo, "images/logos")
 						: null,
 					bgColor(data.scorer.teamnum),
 					data.scorer.teamnum,
@@ -565,12 +565,12 @@ const Overlay = () => {
 				});
 				setTimeout(() => {
 					triggerTransition(
-						activeConfig.general.hasOwnProperty("transition") && activeConfig.general.transition ? activeConfig.general.transition : transitionDefault.name,
+						activeConfigRef.current.general.hasOwnProperty("transition") && activeConfigRef.current.general.transition ? activeConfigRef.current.general.transition : transitionDefault.name,
 						"WINNER!",
-						activeConfig.teams[winningTeam].hasOwnProperty("logo") && activeConfig.teams[winningTeam].logo ?
-							imageLocation(activeConfig.teams[winningTeam].logo, "images/logos/teams/")
-							: activeConfig.general.hasOwnProperty("brandLogo") && activeConfig.general.brandLogo ?
-								imageLocation(activeConfig.general.brandLogo, "images/logos")
+						activeConfigRef.current.teams[winningTeam].hasOwnProperty("logo") && activeConfigRef.current.teams[winningTeam].logo ?
+							imageLocation(activeConfigRef.current.teams[winningTeam].logo, "images/logos/teams/")
+							: activeConfigRef.current.general.hasOwnProperty("brandLogo") && activeConfigRef.current.general.brandLogo ?
+								imageLocation(activeConfigRef.current.general.brandLogo, "images/logos")
 							: null,
 						bgColor(winningTeam),
 						winningTeam,
@@ -656,10 +656,10 @@ const Overlay = () => {
 
 			case "game:replay_will_end":
 				triggerTransition(
-					activeConfig.general.hasOwnProperty("transition") && activeConfig.general.transition ? activeConfig.general.transition : transitionDefault.name,
+					activeConfigRef.current.general.hasOwnProperty("transition") && activeConfigRef.current.general.transition ? activeConfigRef.current.general.transition : transitionDefault.name,
 					"",
-					activeConfig.general.hasOwnProperty("brandLogo") && activeConfig.general.brandLogo ?
-						imageLocation(activeConfig.general.brandLogo, "images/logos")
+					activeConfigRef.current.general.hasOwnProperty("brandLogo") && activeConfigRef.current.general.brandLogo ?
+						imageLocation(activeConfigRef.current.general.brandLogo, "images/logos")
 						: null,
 					null,
 					null,
@@ -736,29 +736,29 @@ const Overlay = () => {
 		}, delay ? 4600 : 1600);
 	}
 
-	const bgColor = (teamnum) => activeConfig.general.theme === "sgl" ?
-		activeConfig.teams[teamnum].bgColor
-		? activeConfig.teams[teamnum].bgColor
-			: activeConfig.teams[teamnum].color ?
-					activeConfig.teams[teamnum].color
+	const bgColor = (teamnum) => activeConfigRef.current.general.theme === "sgl" ?
+		activeConfigRef.current.teams[teamnum].bgColor
+		? activeConfigRef.current.teams[teamnum].bgColor
+			: activeConfigRef.current.teams[teamnum].color ?
+					activeConfigRef.current.teams[teamnum].color
 					: gameData.hasOwnProperty("teams")
 						&& Array.isArray(gameData.teams)
 						&& gameData.teams[teamnum].hasOwnProperty("color_primary")
 						? gameData.teams[teamnum].color_primary
 							: teamColorsDefault[teamnum]
-	: ""
+		: "";
 
 	//TODO: There's got to be some better way to get the alpha channel values into CSS without generating them all individually here
 
 	return (
-		activeConfig.hasOwnProperty("teams") ?
+		activeConfigRef.current.hasOwnProperty("teams") ?
 
 		<div
 			className={`App ${activeConfig?.general?.theme || "default"}`}
 			id="Overlay"
 			style={{
 				"--team0": hexToRgba(
-					activeConfig.teams[0].color ? activeConfig.teams[0].color
+					activeConfigRef.current.teams[0].color ? activeConfigRef.current.teams[0].color
 						: gameData.hasOwnProperty("teams")
 							&& Array.isArray(gameData.teams)
 							&& gameData.teams[0].hasOwnProperty("color_primary")
@@ -766,7 +766,7 @@ const Overlay = () => {
 								: teamColorsDefault[0]
 				, 100),
 				"--team0tone": hexToRgba(
-					activeConfig.teams[0].color ? activeConfig.teams[0].color
+					activeConfigRef.current.teams[0].color ? activeConfigRef.current.teams[0].color
 						: gameData.hasOwnProperty("teams")
 							&& Array.isArray(gameData.teams)
 							&& gameData.teams[0].hasOwnProperty("color_primary")
@@ -774,7 +774,7 @@ const Overlay = () => {
 								: teamColorsDefault[0]
 				, 70),
 				"--team0fade": hexToRgba(
-					activeConfig.teams[0].color ? activeConfig.teams[0].color
+					activeConfigRef.current.teams[0].color ? activeConfigRef.current.teams[0].color
 						: gameData.hasOwnProperty("teams")
 							&& Array.isArray(gameData.teams)
 							&& gameData.teams[0].hasOwnProperty("color_primary")
@@ -782,7 +782,7 @@ const Overlay = () => {
 								: teamColorsDefault[0]
 				, 25),
 				"--team1": hexToRgba(
-					activeConfig.teams[1].color ? activeConfig.teams[1].color
+					activeConfigRef.current.teams[1].color ? activeConfigRef.current.teams[1].color
 						: gameData.hasOwnProperty("teams")
 							&& Array.isArray(gameData.teams)
 							&& gameData.teams[1].hasOwnProperty("color_primary")
@@ -790,7 +790,7 @@ const Overlay = () => {
 								: teamColorsDefault[1]
 				, 100),
 				"--team1tone": hexToRgba(
-					activeConfig.teams[1].color ? activeConfig.teams[1].color
+					activeConfigRef.current.teams[1].color ? activeConfigRef.current.teams[1].color
 						: gameData.hasOwnProperty("teams")
 							&& Array.isArray(gameData.teams)
 							&& gameData.teams[1].hasOwnProperty("color_primary")
@@ -798,7 +798,7 @@ const Overlay = () => {
 								: teamColorsDefault[1]
 				, 70),
 				"--team1fade": hexToRgba(
-					activeConfig.teams[1].color ? activeConfig.teams[1].color
+					activeConfigRef.current.teams[1].color ? activeConfigRef.current.teams[1].color
 						: gameData.hasOwnProperty("teams")
 							&& Array.isArray(gameData.teams)
 							&& gameData.teams[1].hasOwnProperty("color_primary")
