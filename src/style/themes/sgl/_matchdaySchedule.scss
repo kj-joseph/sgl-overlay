@@ -29,7 +29,7 @@
 			variables.$sglBlueFade 75%,
 			variables.$backgroundTransparent 98%
 		),
-		url("/images/themes/sgl/hex-bg.png");
+		variables.$patternBackground;
 	background-position:
 		1760px 130px,
 		60px 130px,

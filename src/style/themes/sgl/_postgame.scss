@@ -26,7 +26,7 @@ $postGameTableWidth: calc(variables.$windowWidth - 300px);
 			var(--team1fade) 75%,
 			variables.$backgroundTransparent 98%
 		),
-		url("/images/themes/sgl/hex-bg.png");
+		variables.$patternBackground;
 	background-position:
 		60px 250px,
 		1060px 250px,

@@ -1,0 +1,169 @@
+@use "variables";
+
+body:has(#Standalone) {
+	height: auto;
+	width: auto;
+	overflow: auto;
+
+	background: variables.$backgroundColor variables.$patternBackgroundRepeat repeat left top;
+
+	@media screen and (max-width: 800px) {
+		background: variables.$backgroundColor;
+	}
+}
+
+#Standalone.sgl {
+	@import "mixins";
+	@import "fonts";
+
+	--fontHexagle: "Hexagle", Helvetica, Arial, sans-serif;
+	--fontRajdhani: "Rajdhani", Helvetica, Arial, sans-serif;
+
+	@import "standings";
+
+	.leagueStandings {
+		width: auto;
+		height: auto;
+		position: relative;
+
+		background: none;
+
+		// min-width: 100vw;
+		// min-height: 100vh;
+
+		.leagueStandingsHeader {
+			width: 100%;
+		}
+
+		.tierBlocks {
+			display: flex;
+			flex-wrap: wrap;
+			justify-content: space-evenly;
+			margin: 160px auto 40px;
+		}
+
+		.tier {
+			position: static;
+			margin: 30px;
+		}
+
+		@media screen and (max-width: 800px) {
+			.leagueStandingsHeader .header {
+				font-size: 18px;
+			}
+
+			.tier {
+
+				.tierStandingsTable {
+					width: auto;
+					margin: 20px auto 0;
+
+					th, td {
+						font-size: 32px;
+						line-height: 38px;
+						padding: calc($borderSize * .5);
+
+						&.team {
+							font-size: 30px;
+							width: 100px;
+
+							.teamLogo {
+								display: none;
+							}
+
+							.teamName {
+								display: none;
+							}
+
+							.teamCode {
+								display: block;
+							}
+
+						}
+
+						&.pct {
+							font-size: 28px;
+						}
+
+						&.pts {
+							font-size: 38px;
+						}
+
+					}
+
+					thead th {
+						vertical-align: baseline;
+						font-family: var(--fontRajdhani);
+						font-size: 20px;
+						line-height: 28px;
+						background: variables.$backgroundColor;
+						padding-bottom: 0;
+
+						&.team {
+							position: relative;
+							width: 100px;
+							font-size: 38px;
+
+							span {
+								position: absolute;
+								top: -40px;
+								left: $borderSize;
+							}
+
+						}
+
+						&.pct {
+							font-size: 18px;
+						}
+
+						&.pts {
+							font-size: 24px;
+						}
+					}
+
+
+					th, td {
+
+						&.pct {
+							font-size: 22px;
+						}
+
+					}
+
+					tbody {
+
+						th.team {
+
+							.teamLogo {
+								display: none;
+							}
+
+							.teamName {
+								display: none;
+							}
+
+							.teamCode {
+								display: block;
+							}
+
+						}
+
+					}
+
+				}
+
+			}
+
+		}
+
+		@media screen and (max-width: 600px) {
+			.leagueStandingsHeader .header {
+				font-size: 14px;
+			}
+		}
+
+	}
+
+
+
+}

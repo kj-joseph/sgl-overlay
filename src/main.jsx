@@ -2,10 +2,11 @@ import React, { lazy, Suspense } from "react";
 import ReactDOM from "react-dom/client";
 import { createBrowserRouter, createRoutesFromElements, Route, RouterProvider } from "react-router-dom";
 
-const ControlPanel = lazy(() => import("@/views/ControlPanel") )
-const ImageGenerator = lazy(() => import("@/views/imageGenerator/ImageGenerator") )
-const Overlay = lazy(() => import("@/views/overlay/Overlay") )
-const Statboard = lazy(() => import("@/views/statboard/Statboard") )
+const ControlPanel = lazy(() => import("@/views/ControlPanel") );
+const ImageGenerator = lazy(() => import("@/views/imageGenerator/ImageGenerator") );
+const Overlay = lazy(() => import("@/views/overlay/Overlay") );
+const StandaloneStandings = lazy(() => import("@/views/standalone/Standings") );
+const Statboard = lazy(() => import("@/views/statboard/Statboard") );
 
 import ("@/style/appMain.scss");
 
@@ -41,6 +42,14 @@ const router = createBrowserRouter(
                 element={
                     <Suspense fallback={<>Loading app...</>}>
                         <ImageGenerator />
+                    </Suspense>
+                }
+            />
+			<Route
+                path="/standings"
+                element={
+                    <Suspense fallback={<>Loading app...</>}>
+                        <StandaloneStandings />
                     </Suspense>
                 }
             />

@@ -19,7 +19,7 @@
 			variables.$sglBlueFade 75%,
 			variables.$backgroundTransparent 98%
 		),
-		url("/images/themes/sgl/hex-bg.png");
+		variables.$patternBackground;
 	background-position:
 		60px 130px,
 		1060px 130px,
@@ -70,7 +70,7 @@
 			width: 660px;
 			text-transform: uppercase;
 			table-layout: fixed;
-			margin-left: 90px;
+			margin-left: calc(variables.$standingsTeamLogoWidth + 14px);
 			background: variables.$backgroundTranslucent;
 			border-collapse: collapse;
 			border: variables.$borderSize solid variables.$backgroundColor;
@@ -94,8 +94,13 @@
 
 					.teamLogo {
 						position: absolute;
-						left: calc(0px - variables.$standingsTeamLogoWidth - 22px);
+						top: calc(100% - variables.$standingsTeamLogoWidth * variables.$hexRatio);
+						left: calc(0px - variables.$standingsTeamLogoWidth - 24px);
 						@include teamLogoHex(variables.$standingsTeamLogoWidth);
+					}
+
+					.teamCode {
+						display: none;
 					}
 
 				}
@@ -129,13 +134,17 @@
 						variables.$backgroundColor 55%,
 					),
 					linear-gradient(to right, variables.$sglRed, variables.$backgroundColor);
+
+				}
+
+				&.pct {
+					font-size: 24px;
 				}
 
 				&.pts {
 					font-size: 32px;
 				}
 			}
-
 
 		}
 

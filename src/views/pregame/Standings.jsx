@@ -42,7 +42,7 @@ const Standings = (props) => {
 
 							<thead>
 								<tr>
-									<th className="team">{tier.name}</th>
+									<th className="team"><span>{tier.name}</span></th>
 									<th className="w">W</th>
 									<th className="l">L</th>
 									<th className="pct">Gm%</th>
@@ -106,6 +106,7 @@ const Standings = (props) => {
 													bgColor={team.bgColor}
 												/>
 												<div className="teamName">{team.shortName}</div>
+												<div className="teamCode">{team.code}</div>
 
 												</th>
 											<td className="w">{team.seriesWins}</td>
