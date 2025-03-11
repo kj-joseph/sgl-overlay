@@ -37,7 +37,6 @@ const Overlay = () => {
 		// const transitionDefault = {
 		// 	delay: 0,
 		// 	logo: "/images/logos/sgl-logo.png",
-		// 	// logo: "/images/logos/teams/Locals-RL.png",
 		// 	name: "hexGrow",
 		// 	show: true,
 		// 	team: null,

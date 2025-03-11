@@ -75,6 +75,18 @@ const Item = styled("div")(({ theme }) => ({
 	color: "#ffffff",
 }));
 
+function b64toBlob(dataURI) {
+
+    var byteString = atob(dataURI.split(",")[1]);
+    var ab = new ArrayBuffer(byteString.length);
+    var ia = new Uint8Array(ab);
+
+    for (var i = 0; i < byteString.length; i++) {
+        ia[i] = byteString.charCodeAt(i);
+    }
+    return new Blob([ab], { type: "image/png" });
+}
+
 // TODO: Make version for cup tournament (bracket?)
 
 const ImageGenerator = () => {
@@ -477,7 +489,7 @@ const ImageGenerator = () => {
 						{generatedImages.map((img, index) => (
 							<div key={index} className="generatedImage">
 								<div className="label">{img.label} ({img.width} x {img.height})</div>
-								<img src={img.url} />
+								<img src={URL.createObjectURL(b64toBlob(img.url))} />
 							</div>
 						))}
 
