@@ -92,7 +92,7 @@ const MatchdaySchedule = (props) => {
 														`${new Date(match.scheduled).toLocaleDateString("en-us", { weekday: "long", month: "long", day: "numeric" })} - ${new Date(match.scheduled).toLocaleTimeString("en-us", { hour12: true, hour: "numeric", minute: "numeric" })}`
 													: "TBD"}
 													{match.onStream ?
-														<img class="streamIcon" src="/images/social/twitch.png" />
+														<img className="streamIcon" src="/images/social/twitch.png" />
 													: null}
 												</div>
 											: null}
@@ -102,7 +102,7 @@ const MatchdaySchedule = (props) => {
 
 							:
 
-								<div class="noGames">No games scheduled</div>
+								<div className="noGames">No games scheduled</div>
 
 
 							}
