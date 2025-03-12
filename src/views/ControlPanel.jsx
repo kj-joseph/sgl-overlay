@@ -61,6 +61,18 @@ const Item = styled("div")(({ theme }) => ({
 	color: "#ffffff",
 }));
 
+const interviewNoTeam = {
+	"name": "(none)",
+	"shortName": "",
+	"code": "SGL",
+	"soccerTeamAbbreviation": "",
+	"soccerTeamLocation": "",
+	"soccerTeamName": "",
+	"bgColor": "cccccc",
+	"tier": "",
+	"logo": "/images/logos/sgl-logo.png"
+}
+
 const ControlPanel = () => {
 
 	const [clientId, setClientId] = useState("");
@@ -78,21 +90,24 @@ const ControlPanel = () => {
 
 	const [fieldsWithChanges, setFieldsWithChanges] = useState([]);
 
-	const [streamTypeField, setStreamTypeField] = useState("SGL-regular"); // default to regular season if not already set
-	const [teamFields, setTeamFields] = useState(["", ""]);
 	const [brandLogoField, setBrandLogoField] = useState("");
 	const [headerField, setHeaderField] = useState(""); // TODO: handle multiple headers?
+	const [interviewSaved, setInterviewSaved] = useState({});
+	const [interviewNameField, setInterviewNameField] = useState("");
+	const [interviewTeamField, setInterviewTeamField] = useState(interviewNoTeam);
+	const [matchdayNumberField, setMatchdayNumberField] = useState(1);
 	const [roundField, setRoundField] = useState(""); // TODO: handle multiple headers?
 	const [seasonNumberField, setSeasonNumberField] = useState(currentSeason);
-	const [matchdayNumberField, setMatchdayNumberField] = useState(1);
-	const [tierField, setTierField] = useState("");
-	const [showSeriesField, setShowSeriesField] = useState(false);
-	const [seriesTypeField, setSeriesTypeField] = useState("");
 	const [seriesLengthField, setSeriesLengthField] = useState(0);
-	const [teamNameFields, _setTeamNameFields] = useState(["", ""]);
-	const [soccerTeamFields, setSoccerTeamFields] = useState(["", ""]);
-	const [teamLogoFields, setTeamLogoFields] = useState(["", ""]);
 	const [seriesScoreFields, setSeriesScoreFields] = useState(defaultSeriesScore);
+	const [seriesTypeField, setSeriesTypeField] = useState("");
+	const [showSeriesField, setShowSeriesField] = useState(false);
+	const [soccerTeamFields, setSoccerTeamFields] = useState(["", ""]);
+	const [streamTypeField, setStreamTypeField] = useState("SGL-regular"); // default to regular season if not already set
+	const [teamFields, setTeamFields] = useState(["", ""]);
+	const [teamLogoFields, setTeamLogoFields] = useState(["", ""]);
+	const [teamNameFields, _setTeamNameFields] = useState(["", ""]);
+	const [tierField, setTierField] = useState("");
 
 	const thisUrl = new URL(document.location.href);
 	const statsUrlPrefix = `${thisUrl.protocol}//${thisUrl.host}`;
@@ -117,6 +132,17 @@ const ControlPanel = () => {
 			setConfigValuesFromLocalStorage();
 		} else {
 			setConfigValuesToDefault();
+		}
+
+		if (localStorage.hasOwnProperty("interview")) {
+			const interviewIn = JSON.parse(localStorage.getItem("interview"));
+			setInterviewSaved(interviewIn);
+			setInterviewNameField(interviewIn.name);
+			// TODO: figure out why this is setting as blank
+			setInterviewTeamField(interviewIn.team);
+		} else {
+			setInterviewNameField("");
+			setInterviewTeamField(interviewNoTeam);
 		}
 
 		if (localStorage.hasOwnProperty("seriesScore")) {
@@ -218,6 +244,17 @@ const ControlPanel = () => {
 			if (Number(matchdayNumberField) !== Number(config.general.matchday)) {
 				tempFieldsWithChanges.push("matchdayNumberField");
 			}
+			if (interviewNameField !== interviewSaved.name) {
+				tempFieldsWithChanges.push("InterviewNameField");
+			}
+			if (interviewSaved.hasOwnProperty("team")) {
+				if (interviewTeamField.code !== interviewSaved.team.code) {
+					tempFieldsWithChanges.push("InterviewTeamField");
+				}
+			}
+			// if (headerField !== config.general.headers[0]) {
+			// 	tempFieldsWithChanges.push("headerField");
+			// }
 
 			setFieldsWithChanges(tempFieldsWithChanges);
 		}
@@ -225,6 +262,8 @@ const ControlPanel = () => {
 	}, [
 		soccerTeamFields,
 		headerField,
+		interviewNameField,
+		interviewTeamField,
 		roundField,
 		brandLogoField,
 		matchdayNumberField,
@@ -748,7 +787,18 @@ const ControlPanel = () => {
 		setConfig(newConfig);
 		setHeaderField(headerField);
 		setFieldsWithChanges([]);
+
+		localStorage.setItem("interview", JSON.stringify({
+			name: interviewNameField,
+			team: interviewTeamField,
+		}));
+		setInterviewSaved({
+			name: interviewNameField,
+			team: interviewTeamField,
+		});
+
 	}
+
 
 
 	return (
@@ -1156,7 +1206,7 @@ const ControlPanel = () => {
 
 										<Grid container size={12} spacing={0} className="gridRow pregameButtons">
 											<Grid size={12}>
-												<h2 >Pregame cards</h2>
+												<h2 >Overlay Card Control</h2>
 											</Grid>
 
 											<Grid container size={12} justifyItems={"center"}>
@@ -1256,6 +1306,18 @@ const ControlPanel = () => {
 														}}
 														onClick={() => {triggerViewState("triggerLive", "live")}}
 													>Live game</Button>
+
+													<Button
+														variant={viewState === "interview" ? "contained" : "outlined"}
+														disabled={viewState === "interview" || viewState === "triggerInterview"}
+														color="primary"
+														style={{
+															borderWidth: "2px",
+															borderStyle: "solid",
+															borderColor: viewState === "interview" ? "yellowgreen" : "",
+														}}
+														onClick={() => {triggerViewState("triggerInterview", "interview")}}
+													>Interview</Button>
 
 												</Item>
 
@@ -1383,6 +1445,63 @@ const ControlPanel = () => {
 							))}
 
 						</Grid>
+
+						{streamTypeField !== "other" ?
+
+							<Grid container size={12} spacing={0} border={1} marginTop={3} className="mainPanelGrid">
+
+								<Grid size={12} paddingLeft={1}>
+									<p>Interview</p>
+								</Grid>
+
+								{Array.isArray(teamList) && teamList.length > 0 ?
+									<Grid size={6} padding={1}>
+
+										<FormControl size="small" fullWidth>
+											<InputLabel id="interviewTeamFieldLabel" shrink>Team</InputLabel>
+											<Select
+												notched
+												labelId="interviewTeamFieldLabel"
+												id="interviewTeamField"
+												value={interviewTeamField}
+												label="Team"
+												className={`${fieldHasChanges("InterviewTeamField") ? "changedField" : ""}`}
+												onChange={(e) => setInterviewTeamField(e.target.value)}
+											>
+												<MenuItem value={interviewNoTeam}>(none)</MenuItem>
+												{teamList
+													.sort((a,b) => a.name > b.name ? 1 : a.name < b.name ? -1 : 0)
+													.map((team, i) => (
+														<MenuItem key={i} value={team}>{team.name} ({team.soccerTeamAbbreviation})</MenuItem>
+												))}
+											</Select>
+										</FormControl>
+
+									</Grid>
+
+								: null}
+
+								<Grid size={6}>
+									<Item>
+										<TextField
+											required
+											inputProps={{
+												min: 0,
+												step: 1,
+											}}
+											id="InterviewNameField"
+											size="small"
+											label="Name"
+											value={interviewNameField}
+											onChange={(e) => setInterviewNameField(e.target.value)}
+											className={`${fieldHasChanges("InterviewNameField") ? "changedField" : ""}`}
+										/>
+									</Item>
+								</Grid>
+
+							</Grid>
+
+						: null}
 
 					</Container>
 

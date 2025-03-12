@@ -1,0 +1,90 @@
+@use "sass:math";
+@use "variables";
+
+.interview {
+	--backgroundStripeColor: #{rgba(#cccccc, .25)};
+
+	position: absolute;
+    left: 0;
+    top: 0;
+	width: variables.$windowWidth;
+	height: variables.$windowHeight;
+    overflow: hidden;
+	background-image:
+		linear-gradient(to bottom,
+			var(--backgroundStripeColor) 0,
+			var(--backgroundStripeColor) 75%,
+			variables.$backgroundTransparent 98%
+		),
+		variables.$patternBackground;
+	background-position:
+		260px 130px,
+		center center;
+	background-size:
+		600px 980px,
+		100% 100%;
+	background-repeat:
+		no-repeat,
+		no-repeat;
+
+	.interviewHeader {
+		@include smallHeader;
+	}
+
+	.team {
+		position: absolute;
+		top: 309px;
+		left: 560px;
+		width: variables.$matchupTeamWidth;
+		transform: translateX(-50%);
+
+		.teamLogo {
+			@include teamLogoHex(variables.$matchupTeamLogoSize);
+			margin: 0 auto 15px;
+		}
+
+		.teamText {
+			text-transform: uppercase;
+			text-align: center;
+
+			.name {
+				font-family: var(--fontHexagle);
+				font-size: 62px;
+				font-weight: bold;
+				color: variables.$textColor;
+			}
+
+			.franchise {
+				font-family: var(--fontRajdhani);
+				font-size: 38px;
+				color: variables.$secondaryTextColor;
+			}
+
+		}
+
+	}
+
+	.interviewing {
+		position: absolute;
+		top: 420px;
+		left: calc(560px + variables.$matchupTeamWidth + 300px);
+		width: calc(variables.$matchupTeamWidth + 200px);
+		transform: translateX(-50%);
+		text-transform: uppercase;
+
+		.title {
+			font-family: var(--fontRajdhani);
+			font-weight: bold;
+			font-size: 30px;
+			margin-bottom: .6em;
+			margin-left: -.2em;
+		}
+
+		.name {
+			font-family: var(--fontHexagle);
+			font-size: 90px;
+			line-height: 84px;
+		}
+	}
+
+}

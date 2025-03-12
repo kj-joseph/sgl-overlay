@@ -3,6 +3,7 @@ import useWebSocket from "react-use-websocket";
 
 import defaultConfig from "@/data/config.json";
 
+import Interview from "@/views/overlay/Interview";
 import Live from "@/views/overlay/Live";
 import Matchup from "@/views/pregame/Matchup";
 import Postgame from "@/views/overlay/Postgame";
@@ -59,6 +60,7 @@ const Overlay = () => {
 		time_seconds: 0,
 	});
 	const [gameMode, _setGameMode] = useState("soccar");
+	const [interview, _setInterview] = useState({});
 	const [lastGoal, setLastGoal] = useState({});
     const [playerData, _setPlayerData] = useState({});
     const [playerEvents, _setPlayerEvents] = useState([]);
@@ -107,6 +109,12 @@ const Overlay = () => {
     const setGameMode = (data) => {
         gameModeRef.current = data;
         _setGameMode(data);
+    }
+
+	const interviewRef = useRef(interview);
+    const setInterview = (data) => {
+        interviewRef.current = data;
+        _setInterview(data);
     }
 
 	const playerDataRef = useRef(playerData);
@@ -174,6 +182,13 @@ const Overlay = () => {
 		} else {
 			localStorage.setItem("config", JSON.stringify(activeConfig));
 		}
+
+		if (localStorage.hasOwnProperty("interview")) {
+			setInterview(JSON.parse(localStorage.getItem("interview")));
+		} else {
+			localStorage.setItem("interview", JSON.stringify({}));
+		}
+
 
 		if (localStorage.hasOwnProperty("matchSchedule")) {
 			setScheduleList(JSON.parse(localStorage.getItem("matchSchedule")));
@@ -269,6 +284,33 @@ const Overlay = () => {
 					}
 					break;
 
+				case "interview":
+					if(event.newValue !== null) {
+						const newInterview = JSON.parse(event.newValue);
+						if (viewState === "interview") {
+							triggerTransition(
+								activeConfigRef.current.general.hasOwnProperty("transition") && activeConfigRef.current.general.transition ? activeConfigRef.current.general.transition : transitionDefault.name,
+								"",
+								newInterview.team.hasOwnProperty("logo") ?
+									newInterview.team.logo
+									: activeConfigRef.current.general.hasOwnProperty("brandLogo") && activeConfigRef.current.general.brandLogo ?
+										imageLocation(activeConfigRef.current.general.brandLogo, "images/logos")
+									: null,
+								null,
+								null,
+								0,
+							);
+							setTimeout(() => {
+								setInterview(newInterview);
+							}, 700);
+						} else {
+							setInterview(JSON.parse(event.newValue));
+						}
+					} else {
+						setInterview({});
+					}
+					break;
+
 				case "matchSchedule":
 					if(event.newValue !== null) {
 						setScheduleList(JSON.parse(event.newValue));
@@ -296,7 +338,6 @@ const Overlay = () => {
 
 				case "splash":
 					if(event.newValue !== null) {
-						console
 						setSplash(JSON.parse(event.newValue));
 					} else {
 						setSplash(splashDefault);
@@ -446,7 +487,27 @@ const Overlay = () => {
 							break;
 						}
 
+						case "triggerInterview": {
+							triggerTransition(
+								activeConfigRef.current.general.hasOwnProperty("transition") && activeConfigRef.current.general.transition ? activeConfigRef.current.general.transition : transitionDefault.name,
+								"",
+								interviewRef.current.team.hasOwnProperty("logo") ?
+									interviewRef.current.team.logo
+									: activeConfigRef.current.general.hasOwnProperty("brandLogo") && activeConfigRef.current.general.brandLogo ?
+										imageLocation(activeConfigRef.current.general.brandLogo, "images/logos")
+									: null,
+								null,
+								null,
+								0,
+							);
+							setTimeout(() => {
+								applyViewState("interview");
+							}, 750);
+							break;
+						}
+
 					}
+
 
 					break;
 
@@ -868,6 +929,12 @@ const Overlay = () => {
 					seriesGame={seriesScore[0] + seriesScore[1] + 1}
 					team={1}
 					teamColorsDefault={teamColorsDefault}
+				/>
+			) : viewState === "interview" ? (
+				<Interview
+					config={activeConfig}
+					name={interview.name}
+					team={interview.team}
 				/>
 			) : (
 				<Live
