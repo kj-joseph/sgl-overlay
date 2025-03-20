@@ -48,16 +48,16 @@
 			text-align: center;
 
 			.name {
+				color: variables.$textColor;
 				font-family: var(--fontHexagle);
 				font-size: 62px;
 				font-weight: bold;
-				color: variables.$textColor;
 			}
 
 			.franchise {
+				color: variables.$secondaryTextColor;
 				font-family: var(--fontRajdhani);
 				font-size: 38px;
-				color: variables.$secondaryTextColor;
 			}
 
 		}
@@ -73,6 +73,7 @@
 		text-transform: uppercase;
 
 		.title {
+			color: variables.$textColor;
 			font-family: var(--fontRajdhani);
 			font-weight: bold;
 			font-size: 30px;
@@ -81,6 +82,7 @@
 		}
 
 		.name {
+			color: variables.$textColor;
 			font-family: var(--fontHexagle);
 			font-size: 90px;
 			line-height: 84px;
