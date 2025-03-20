@@ -73,7 +73,7 @@ const Overlay = () => {
 	const [tierList, _setTierList] = useState([]);
 	const [teamDataSent, setTeamDataSent] = useState(false);
 	const [transition, setTransition] = useState(transitionDefault);
-	const [viewState, setViewState] = useState("");
+	const [viewState, _setViewState] = useState("");
 
 	const activeConfigRef = useRef(activeConfig);
 	const setActiveConfig = (data) => {
@@ -163,6 +163,12 @@ const Overlay = () => {
     const setTierList = (data) => {
         tierListRef.current = data;
         _setPlayerEvents(data);
+    }
+
+	const viewStateRef = useRef(viewState);
+    const setViewState = (data) => {
+        viewStateRef.current = data;
+        _setViewState(data);
     }
 
 	useEffect(() => {
@@ -285,9 +291,10 @@ const Overlay = () => {
 					break;
 
 				case "interview":
+					console.log("change", viewStateRef.current, event.newValue);
 					if(event.newValue !== null) {
 						const newInterview = JSON.parse(event.newValue);
-						if (viewState === "interview") {
+						if (viewStateRef.current === "interview" && newInterview.hasOwnProperty("team")) {
 							triggerTransition(
 								activeConfigRef.current.general.hasOwnProperty("transition") && activeConfigRef.current.general.transition ? activeConfigRef.current.general.transition : transitionDefault.name,
 								"",
@@ -296,7 +303,7 @@ const Overlay = () => {
 									: activeConfigRef.current.general.hasOwnProperty("brandLogo") && activeConfigRef.current.general.brandLogo ?
 										imageLocation(activeConfigRef.current.general.brandLogo, "images/logos")
 									: null,
-								null,
+								newInterview.team.bgColor,
 								null,
 								0,
 							);
@@ -578,7 +585,7 @@ const Overlay = () => {
 			case "game:initialized":
 				setClockRunning(false);
 				// only trigger transition if not already on game view
-				if (viewState !== "live") {
+				if (viewStateRef.current !== "live") {
 					triggerTransition(
 						activeConfigRef.current.general.hasOwnProperty("transition") && activeConfigRef.current.general.transition ? activeConfigRef.current.general.transition : transitionDefault.name,
 						"GO!",
@@ -695,9 +702,9 @@ const Overlay = () => {
 				if (data.hasOwnProperty("game")) {
 					expirePlayerEvents();
 					setGameData(data.game);
-					if (viewState !== "postgame" && data.game.time_milliseconds % 1 !== 0) {
+					if (viewStateRef.current !== "postgame" && data.game.time_milliseconds % 1 !== 0) {
 						applyViewState("live");
-					} else if (viewState === "") {
+					} else if (viewStateRef.current === "") {
 						applyViewState("matchup");
 					}
 					if (data.game.arena === "ShatterShot_P") {
@@ -868,7 +875,7 @@ const Overlay = () => {
 			}}
 		>
 
-			{viewState === "postgame" ? (
+			{viewStateRef.current === "postgame" ? (
 				<Postgame
 					config={activeConfig}
 					gameData={endGameData.gameData}
@@ -878,7 +885,7 @@ const Overlay = () => {
 					seriesGame={seriesScore[0] + seriesScore[1]}
 					teamColorsDefault={teamColorsDefault}
 				/>
-			) : viewState ==="matchup" ? (
+			) : viewStateRef.current ==="matchup" ? (
 				<Matchup
 					config={activeConfig}
 					gameData={gameData}
@@ -886,7 +893,7 @@ const Overlay = () => {
 					seriesGame={seriesScore[0] + seriesScore[1] + 1}
 					teamColorsDefault={teamColorsDefault}
 				/>
-			) : viewState ==="schedule" ? (
+			) : viewStateRef.current ==="schedule" ? (
 				<MatchdaySchedule
 					config={activeConfig}
 					schedule={scheduleListRef.current}
@@ -894,14 +901,14 @@ const Overlay = () => {
 					tierList={tierListRef.current}
 					viewOptions={["scores", "streams", "times", "today"]}
 				/>
-			) : viewState ==="standings" ? (
+			) : viewStateRef.current ==="standings" ? (
 				<Standings
 					config={activeConfig}
 					schedule={scheduleListRef.current}
 					teamList={teamListRef.current}
 					tierList={tierListRef.current}
 				/>
-			) : viewState ==="teamStats" ? (
+			) : viewStateRef.current ==="teamStats" ? (
 				<TeamStats
 					config={activeConfig}
 					gameData={gameData}
@@ -910,7 +917,7 @@ const Overlay = () => {
 					seriesGame={seriesScore[0] + seriesScore[1] + 1}
 					teamColorsDefault={teamColorsDefault}
 				/>
-			) : viewState ==="playerStats0" ? (
+			) : viewStateRef.current ==="playerStats0" ? (
 				<PlayerStats
 					config={activeConfig}
 					gameData={gameData}
@@ -920,7 +927,7 @@ const Overlay = () => {
 					team={0}
 					teamColorsDefault={teamColorsDefault}
 				/>
-			) : viewState ==="playerStats1" ? (
+			) : viewStateRef.current ==="playerStats1" ? (
 				<PlayerStats
 					config={activeConfig}
 					gameData={gameData}
@@ -930,11 +937,11 @@ const Overlay = () => {
 					team={1}
 					teamColorsDefault={teamColorsDefault}
 				/>
-			) : viewState === "interview" ? (
+			) : viewStateRef.current === "interview" ? (
 				<Interview
 					config={activeConfig}
-					name={interview.name}
-					team={interview.team}
+					name={interviewRef.current.name}
+					team={interviewRef.current.team}
 				/>
 			) : (
 				<Live

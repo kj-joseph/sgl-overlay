@@ -42,9 +42,12 @@ const Interview = ({ config, name, team}) => {
 				<div className="teamLogo">
 					<TeamLogo
 						team={0}
-						logo={team.hasOwnProperty("logo") && team.logo ? team.logo : null}
+						logo={team.hasOwnProperty("logo") && team.logo ? team.logo
+							: config.general.brandLogo ? imageLocation(config.general.brandLogo, "images/logos")
+							: null}
 						bgColor={team.bgColor}
 					/>
+					{imageLocation(config.general.brandLogo, "images/logos").substr(0,8)}
 				</div>
 
 				{team.code !== "SGL" ?
