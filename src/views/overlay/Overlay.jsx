@@ -46,11 +46,6 @@ const Overlay = () => {
 
 	const teamColorsDefault = ["206cff", "f88521"];
 
-	const splashDefault = {
-		show: false,
-		count: 0,
-	};
-
 	const [activeConfig, _setActiveConfig] = useState(defaultConfig);
 	const [clientId, _setClientId] = useState("");
 	const [clockRunning, _setClockRunning] = useState(false);
@@ -68,7 +63,6 @@ const Overlay = () => {
     const [seriesScore, _setSeriesScore] = useState([0,0]);
 	const [scheduleList, _setScheduleList] = useState([]);
 	const [showGoalTeam, setShowGoalTeam] = useState(false);
-	const [splash, _setSplash] = useState(splashDefault);
 	const [teamList, _setTeamList] = useState([]);
 	const [tierList, _setTierList] = useState([]);
 	const [teamDataSent, setTeamDataSent] = useState(false);
@@ -147,12 +141,6 @@ const Overlay = () => {
         _setScheduleList(data);
     }
 
-	const splashRef = useRef(splash);
-    const setSplash = (data) => {
-        splashRef.current = data;
-        _setSplash(data);
-    }
-
 	const teamListRef = useRef(teamList);
     const setTeamList = (data) => {
         teamListRef.current = data;
@@ -214,12 +202,6 @@ const Overlay = () => {
 			}
 		}
 
-		if (localStorage.hasOwnProperty("splash")) {
-			setSplash(JSON.parse(localStorage.getItem("splash")));
-		} else {
-			localStorage.setItem("splash", JSON.stringify(splash));
-		}
-
 		if (localStorage.hasOwnProperty("teamList")) {
 			setTeamList(JSON.parse(localStorage.getItem("teamList")));
 		} else {
@@ -264,7 +246,6 @@ const Overlay = () => {
 					playerEvents: playerEventsRef.current,
 					pregameStats: pregameStatsRef.current,
 					seriesScore: seriesScoreRef.current,
-					splash: splashRef.current,
 				}
 			});
 
@@ -340,15 +321,6 @@ const Overlay = () => {
 					} else {
 						setSeriesScore([0,0]);
 						localStorage.setItem("seriesScore", JSON.stringify([0,0]));
-					}
-					break;
-
-				case "splash":
-					if(event.newValue !== null) {
-						setSplash(JSON.parse(event.newValue));
-					} else {
-						setSplash(splashDefault);
-						localStorage.setItem("splash", JSON.stringify(splashDefault));
 					}
 					break;
 
@@ -955,7 +927,6 @@ const Overlay = () => {
 					seriesScore={seriesScore}
 					seriesGame={seriesScore[0] + seriesScore[1] + 1}
 					showGoalTeam={showGoalTeam}
-					splash={splash}
 					teamColorsDefault={teamColorsDefault}
 				/>
 			)}

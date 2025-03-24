@@ -43,7 +43,6 @@ const Statboard = () => {
 	const [playerEvents, setPlayerEvents] = useState([]);
 	const [pregameStats, setPregameStats] = useState([]);
 	const [seriesScore, setSeriesScore] = useState([0,0]);
-	const [splash, setSplash] = useState({});
 
 	const [statboardView, setStatboardView] = useState("live");
 
@@ -111,7 +110,6 @@ const Statboard = () => {
 				if (data.hasOwnProperty("playerData")) {
 					setPlayerData(data.playerData);
 				}
-				// TODO: Not currently used
 				if (data.hasOwnProperty("playerEvents")) {
 					setPlayerEvents(data.playerEvents);
 				}
@@ -120,9 +118,6 @@ const Statboard = () => {
 				}
 				if (data.hasOwnProperty("seriesScore")) {
 					setSeriesScore(data.seriesScore);
-				}
-				if (data.hasOwnProperty("splash")) {
-					setSplash(data.splash);
 				}
 			break;
 
@@ -216,7 +211,6 @@ const Statboard = () => {
 								gameMode={gameMode}
 								playerData={endGameData.hasOwnProperty("playerData") ? endGameData.playerData : playerData}
 								seriesScore={seriesScore}
-								splash={splash}
 								teamColors={[teamColor(0), teamColor(1)]}
 							/>
 

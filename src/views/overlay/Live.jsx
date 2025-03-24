@@ -5,8 +5,6 @@ import Clock from "@/components/Clock";
 import SeriesInfo from "@/components/SeriesInfo";
 import Header from "@/components/Header";
 import Replay from "@/components/Replay";
-// import SocialMedia from "@/components/SocialMedia";
-// import Splash from "@/components/Splash";
 import TeamLogo from "@/components/TeamLogo";
 import TeamName from "@/components/TeamName";
 import TeamPlayerBoxes from "@/components/TeamPlayerBoxes";

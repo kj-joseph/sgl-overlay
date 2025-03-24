@@ -54,20 +54,6 @@ let panelTheme = createTheme({
 	},
 });
 
-panelTheme = createTheme(panelTheme, {
-	palette: {
-		splash: panelTheme.palette.augmentColor({
-			color: {
-				main: "#49dcee",
-				secondary: "#199ade",
-				dark: "#199ade",
-				contrastText: "#e90000",
-			},
-			name: "splash",
-		}),
-	}
-})
-
 const Item = styled("div")(({ theme }) => ({
 	background: "transparent",
 	padding: theme.spacing(2),

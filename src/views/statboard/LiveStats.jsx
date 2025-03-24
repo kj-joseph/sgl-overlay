@@ -73,10 +73,6 @@ const LiveStats = (props) => {
 				))}
 			</table>
 
-			{props.splash && props.splash.show ?
-				<div className="splashCount">Splash Count: {props.splash.count}</div>
-			: null }
-
 		</div>
 	)
 
