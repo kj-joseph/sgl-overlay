@@ -49,7 +49,6 @@ const Overlay = () => {
 	const [activeConfig, _setActiveConfig] = useState(defaultConfig);
 	const [clientId, _setClientId] = useState("");
 	const [clockRunning, _setClockRunning] = useState(false);
-	const [endGameData, _setEndGameData] = useState({});
     const [gameData, _setGameData] = useState({
 		teams: [{name: ""}, {name: ""}],
 		time_seconds: 0,
@@ -59,6 +58,7 @@ const Overlay = () => {
 	const [lastGoal, setLastGoal] = useState({});
     const [playerData, _setPlayerData] = useState({});
     const [playerEvents, _setPlayerEvents] = useState([]);
+	const [playerStats, _setPlayerStats] = useState({});
     const [pregameStats, _setPregameStats] = useState({});
     const [seriesScore, _setSeriesScore] = useState([0,0]);
 	const [scheduleList, _setScheduleList] = useState([]);
@@ -85,12 +85,6 @@ const Overlay = () => {
     const setClockRunning = (data) => {
         clockRunningRef.current = data;
         _setClockRunning(data);
-    }
-
-	const endGameDataRef = useRef(endGameData);
-    const setEndGameData = (data) => {
-        endGameDataRef.current = data;
-        _setEndGameData(data);
     }
 
     const gameDataRef = useRef(gameData);
@@ -122,6 +116,13 @@ const Overlay = () => {
         playerEventsRef.current = data;
         _setPlayerEvents(data);
     }
+
+	const playerStatsRef = useRef(playerStats);
+    const setPlayerStats = (data) => {
+        playerStatsRef.current = data;
+        _setPlayerStats(data);
+    }
+
 
 	const pregameStatsRef = useRef(pregameStats);
     const setPregameStats = (data) => {
@@ -160,8 +161,7 @@ const Overlay = () => {
     }
 
 	useEffect(() => {
-
-		// on start, check for existing items in localstorage; if not, send default
+		// on load, check for existing items in localstorage; if not, send default
 
 		if (localStorage.hasOwnProperty("clientId")) {
 			setClientId(localStorage.getItem("clientId"));
@@ -215,7 +215,7 @@ const Overlay = () => {
 		}
 
 		if (localStorage.hasOwnProperty("viewstate")) {
-			if(localStorage.getItem("viewstate") === "postgame" && !endGameData.hasOwnProperty("teams")) {
+			if(localStorage.getItem("viewstate") === "postgame" && Object.keys(playerStatsRef.current).length === 0) {
 				applyViewState("");
 			} else {
 				applyViewState(localStorage.getItem("viewstate"));
@@ -239,10 +239,9 @@ const Overlay = () => {
 				data: {
 					clockRunning: clockRunningRef.current,
 					config: configToSend,
-					endGameData: endGameDataRef.current,
 					gameData: gameDataRef.current,
 					gameMode: gameModeRef.current,
-					playerData: playerDataRef.current,
+					playerStats: playerStatsRef.current,
 					playerEvents: playerEventsRef.current,
 					pregameStats: pregameStatsRef.current,
 					seriesScore: seriesScoreRef.current,
@@ -272,7 +271,6 @@ const Overlay = () => {
 					break;
 
 				case "interview":
-					console.log("change", viewStateRef.current, event.newValue);
 					if(event.newValue !== null) {
 						const newInterview = JSON.parse(event.newValue);
 						if (viewStateRef.current === "interview" && newInterview.hasOwnProperty("team")) {
@@ -569,9 +567,11 @@ const Overlay = () => {
 						0,
 					);
 					setTimeout(() => {
-						setEndGameData({});
+						setPlayerStats({});
 						applyViewState("live");
 					}, 750);
+				} else {
+					setPlayerStats({});
 				}
 				break;
 
@@ -598,10 +598,6 @@ const Overlay = () => {
 			case "game:match_ended":
 				setClockRunning(false);
 				const winningTeam = gameData.teams[0].score > gameData.teams[1].score ? 0 : 1;
-				setEndGameData({
-					gameData,
-					playerData,
-				});
 				setTimeout(() => {
 					triggerTransition(
 						activeConfigRef.current.general.hasOwnProperty("transition") && activeConfigRef.current.general.transition ? activeConfigRef.current.general.transition : transitionDefault.name,
@@ -669,7 +665,7 @@ const Overlay = () => {
 
 			case "game:update_state":
 				if (data.hasOwnProperty("players")) {
-					setPlayerData(data.players);
+					updatePlayerData(data.players);
 				}
 				if (data.hasOwnProperty("game")) {
 					expirePlayerEvents();
@@ -787,7 +783,27 @@ const Overlay = () => {
 							: teamColorsDefault[teamnum]
 		: "";
 
-	//TODO: There's got to be some better way to get the alpha channel values into CSS without generating them all individually here
+	const updatePlayerData = (data) => {
+		setPlayerData(data);
+		const currentPlayerStats = {};
+
+		for (const [key, value] of Object.entries(playerStatsRef.current)) {
+			currentPlayerStats[key] =  Object.assign({}, JSON.parse(JSON.stringify({
+				...value,
+				inGame: false,
+			})));
+		}
+
+		for (const [key, value] of Object.entries(data)) {
+			currentPlayerStats[value.name] = {
+				...value,
+				inGame: true,
+			};
+		}
+
+		setPlayerStats(currentPlayerStats);
+
+	}
 
 	return (
 		activeConfigRef.current.hasOwnProperty("teams") ?
@@ -795,6 +811,7 @@ const Overlay = () => {
 		<div
 			className={`App ${activeConfig?.general?.theme || "default"}`}
 			id="Overlay"
+			/* TODO: There's got to be some better way to get the alpha channel values into CSS without generating them all individually here */
 			style={{
 				"--team0": hexToRgba(
 					activeConfigRef.current.teams[0].color ? activeConfigRef.current.teams[0].color
@@ -849,25 +866,25 @@ const Overlay = () => {
 
 			{viewStateRef.current === "postgame" ? (
 				<Postgame
-					config={activeConfig}
-					gameData={endGameData.gameData}
+					config={activeConfigRef.current}
+					gameData={gameDataRef.current}
 					gameMode={gameMode}
-					players={endGameData.playerData}
-					seriesScore={seriesScore}
+					players={playerStatsRef.current}
+					seriesScore={seriesScoreRef.current}
 					seriesGame={seriesScore[0] + seriesScore[1]}
 					teamColorsDefault={teamColorsDefault}
 				/>
 			) : viewStateRef.current ==="matchup" ? (
 				<Matchup
-					config={activeConfig}
-					gameData={gameData}
-					seriesScore={seriesScore}
+					config={activeConfigRef.current}
+					gameData={gameDataRef.current}
+					seriesScore={seriesScoreRef.current}
 					seriesGame={seriesScore[0] + seriesScore[1] + 1}
 					teamColorsDefault={teamColorsDefault}
 				/>
 			) : viewStateRef.current ==="schedule" ? (
 				<MatchdaySchedule
-					config={activeConfig}
+					config={activeConfigRef.current}
 					schedule={scheduleListRef.current}
 					teamList={teamListRef.current}
 					tierList={tierListRef.current}
@@ -875,56 +892,52 @@ const Overlay = () => {
 				/>
 			) : viewStateRef.current ==="standings" ? (
 				<Standings
-					config={activeConfig}
+					config={activeConfigRef.current}
 					schedule={scheduleListRef.current}
 					teamList={teamListRef.current}
 					tierList={tierListRef.current}
 				/>
 			) : viewStateRef.current ==="teamStats" ? (
 				<TeamStats
-					config={activeConfig}
-					gameData={gameData}
-					pregameStats={pregameStats}
-					seriesScore={seriesScore}
+					config={activeConfigRef.current}
+					gameData={gameDataRef.current}
+					pregameStats={pregameStatsRef.current}
+					seriesScore={seriesScoreRef.current}
 					seriesGame={seriesScore[0] + seriesScore[1] + 1}
 					teamColorsDefault={teamColorsDefault}
 				/>
 			) : viewStateRef.current ==="playerStats0" ? (
 				<PlayerStats
-					config={activeConfig}
-					gameData={gameData}
-					pregameStats={pregameStats}
-					seriesScore={seriesScore}
-					seriesGame={seriesScore[0] + seriesScore[1] + 1}
+					config={activeConfigRef.current}
+					gameData={gameDataRef.current}
+					pregameStats={pregameStatsRef.current}
 					team={0}
 					teamColorsDefault={teamColorsDefault}
 				/>
 			) : viewStateRef.current ==="playerStats1" ? (
 				<PlayerStats
-					config={activeConfig}
-					gameData={gameData}
-					pregameStats={pregameStats}
-					seriesScore={seriesScore}
-					seriesGame={seriesScore[0] + seriesScore[1] + 1}
+					config={activeConfigRef.current}
+					gameData={gameDataRef.current}
+					pregameStats={pregameStatsRef.current}
 					team={1}
 					teamColorsDefault={teamColorsDefault}
 				/>
 			) : viewStateRef.current === "interview" ? (
 				<Interview
-					config={activeConfig}
+					config={activeConfigRef.current}
 					name={interviewRef.current.name}
 					team={interviewRef.current.team}
 				/>
 			) : (
 				<Live
 					clockRunning={clockRunning}
-					config={activeConfig}
-					gameData={gameData}
-					gameMode={gameMode}
+					config={activeConfigRef.current}
+					gameData={gameDataRef.current}
+					gameMode={gameModeRef.current}
 					lastGoal={lastGoal}
-					playerData={playerData}
+					playerData={playerDataRef.current}
 					playerEvents={playerEvents}
-					seriesScore={seriesScore}
+					seriesScore={seriesScoreRef.current}
 					seriesGame={seriesScore[0] + seriesScore[1] + 1}
 					showGoalTeam={showGoalTeam}
 					teamColorsDefault={teamColorsDefault}
