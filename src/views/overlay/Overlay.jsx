@@ -555,7 +555,7 @@ const Overlay = () => {
 			case "game:initialized":
 				setClockRunning(false);
 				// only trigger transition if not already on game view
-				if (viewStateRef.current !== "live") {
+				if (viewStateRef.current != "" && viewStateRef.current !== "live") {
 					triggerTransition(
 						activeConfigRef.current.general.hasOwnProperty("transition") && activeConfigRef.current.general.transition ? activeConfigRef.current.general.transition : transitionDefault.name,
 						"GO!",
@@ -665,7 +665,12 @@ const Overlay = () => {
 
 			case "game:update_state":
 				if (data.hasOwnProperty("players")) {
-					updatePlayerData(data.players);
+					setPlayerData(data.players);
+					// console.log(data);
+
+					if (viewStateRef.current !== "postgame" && data.hasOwnProperty("game") && data.hasGame && !data.game.hasWinner) {
+						updatePlayerStats(data.players);
+					}
 				}
 				if (data.hasOwnProperty("game")) {
 					expirePlayerEvents();
@@ -783,8 +788,7 @@ const Overlay = () => {
 							: teamColorsDefault[teamnum]
 		: "";
 
-	const updatePlayerData = (data) => {
-		setPlayerData(data);
+	const updatePlayerStats = (stats) => {
 		const currentPlayerStats = {};
 
 		for (const [key, value] of Object.entries(playerStatsRef.current)) {
@@ -794,7 +798,7 @@ const Overlay = () => {
 			})));
 		}
 
-		for (const [key, value] of Object.entries(data)) {
+		for (const [key, value] of Object.entries(stats)) {
 			currentPlayerStats[value.name] = {
 				...value,
 				inGame: true,
