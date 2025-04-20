@@ -674,7 +674,9 @@ const Overlay = () => {
 				}
 				if (data.hasOwnProperty("game")) {
 					expirePlayerEvents();
-					setGameData(data.game);
+					if (viewStateRef.current !== "postgame") {
+						setGameData(data.game);
+					}
 					if (viewStateRef.current !== "postgame" && data.game.time_milliseconds % 1 !== 0) {
 						applyViewState("live");
 					} else if (viewStateRef.current === "") {
