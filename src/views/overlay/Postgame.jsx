@@ -158,7 +158,12 @@ const Postgame = (props) => {
 
             <div className="title">Game Stats</div>
 
-            <table className="statTable">
+            <table className="statTable"
+				style={{
+					"--playerCount0": teams[0].length,
+					"--playerCount1": teams[1].length,
+				}}
+			>
                 <thead>
                     <tr>
                         {teams[0].map((player, playerIndex) => (

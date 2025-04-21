@@ -119,10 +119,15 @@ $postGameTableWidth: calc(variables.$windowWidth - 300px);
 	}
 
 	.statTable {
+		--statTableWidth: 1800px;
+		--statLabelWidth: 188px;
+		--playerCellWidth0: calc(((var(--statTableWidth) - var(--statLabelWidth)) * .5 - #{variables.$borderSize} * var(--playerCount0)) * (1 / var(--playerCount0)));
+		--playerCellWidth1: calc(((var(--statTableWidth) - var(--statLabelWidth)) * .5 - #{variables.$borderSize} * var(--playerCount1)) * (1 / var(--playerCount1)));
+
 		position: absolute;
 		left: 50%;
 		top: 320px;
-		width: 1800px;
+		width: var(--statTableWidth);
 		transform: translateX(-50%);
 		text-transform: uppercase;
 		margin: 0 auto;
@@ -131,14 +136,21 @@ $postGameTableWidth: calc(variables.$windowWidth - 300px);
 		background-color: variables.$backgroundTranslucent;
 
 		th, td {
-			width: 255px;
 			text-align: center;
 			padding: calc(variables.$borderSize * 2) variables.$borderSize;
 			border: variables.$borderSize solid variables.$backgroundColor;
 
 			&.centerColumn {
 				background: variables.$backgroundColor;
-				width: 188px;
+				width: var(--statLabelWidth);
+			}
+
+			&.team0 {
+				width: var(--playerCellWidth0);
+			}
+
+			&.team1 {
+				width: var(--playerCellWidth1);
 			}
 
 		}
@@ -146,7 +158,6 @@ $postGameTableWidth: calc(variables.$windowWidth - 300px);
 		thead {
 
 			th {
-				width: 255px;
 				border-top: none;
 				padding: 0;
 				background: variables.$backgroundColor;
@@ -154,7 +165,6 @@ $postGameTableWidth: calc(variables.$windowWidth - 300px);
 				span {
 					color: var(--playerBoxColor);
 					display: block;
-					width: 255px;
 					overflow: hidden;
 					text-overflow: ellipsis;
 					font-family: var(--fontHexagle);
@@ -199,12 +209,24 @@ $postGameTableWidth: calc(variables.$windowWidth - 300px);
 					--playerBoxColorFade: var(--team0fade);
 					--playerBoxColorDirection: 160deg;
 
+					width: var(--playerCellWidth0);
+
+					span {
+						width: var(--playerCellWidth0);
+					}
+
 				}
 
 				&.team1 {
 					--playerBoxColor: var(--team1);
 					--playerBoxColorFade: var(--team1fade);
 					--playerBoxColorDirection: 200deg;
+
+					width: var(--playerCellWidth1);
+
+					span {
+						width: var(--playerCellWidth1);
+					}
 
 				}
 
