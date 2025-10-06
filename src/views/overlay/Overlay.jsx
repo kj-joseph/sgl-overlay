@@ -21,7 +21,7 @@ const expireEventsInMs = 7000;
 const gameSocketUrl = "ws://localhost:49122";
 
 const socketServerUrl = "wss://rl.kdoughboy.com/ws/"; // prod
-// const socketServerUrl = "ws://localhost:8321"; // local testing
+//const socketServerUrl = "ws://localhost:8321"; // local testing
 
 const Overlay = () => {
 
