@@ -55,7 +55,7 @@
 
 	.tier {
 		position: absolute;
-		top: 200px;
+		top: 150px;
 		width: 650px;
 
 		.tierName {
@@ -76,10 +76,6 @@
 				letter-spacing: .1em;
 			}
 
-		}
-
-		.tierMatches {
-			height: 100vh;
 		}
 
 		&:nth-child(1) {
