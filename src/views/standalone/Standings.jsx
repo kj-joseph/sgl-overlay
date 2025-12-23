@@ -6,7 +6,7 @@ import { getSchedule } from "@/services/scheduleService";
 import { getTeamList } from "@/services/teamService";
 import { getTierList } from "@/services/tierService";
 
-const currentSeason = 9; // TODO: set on new season
+const currentSeason = 10; // TODO: set on new season
 
 const StandaloneStandings = () => {
 
@@ -15,7 +15,7 @@ const StandaloneStandings = () => {
 	const [teamList, setTeamList] = useState([]);
 	const [tierList, setTierList] = useState([]);
 
-	const currentSeason = 9; // TODO: set on new season
+	const currentSeason = 10; // TODO: set on new season
 
 
 	const config = {
