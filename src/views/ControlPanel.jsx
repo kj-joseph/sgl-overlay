@@ -42,7 +42,7 @@ const defaultTeamData = [
 ];
 
 const defaultSeriesScore = [0, 0];
-const currentSeason = 9;
+const currentSeason = 10.5;
 
 let panelTheme = createTheme({
 	palette: {
