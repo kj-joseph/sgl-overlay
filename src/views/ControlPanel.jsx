@@ -42,7 +42,7 @@ const defaultTeamData = [
 ];
 
 const defaultSeriesScore = [0, 0];
-const currentSeason = 9;
+const currentSeason = 10.5;
 
 let panelTheme = createTheme({
 	palette: {
@@ -238,7 +238,7 @@ const ControlPanel = () => {
 			if (streamTypeField !== config.general.streamType) {
 				tempFieldsWithChanges.push("streamTypeField");
 			}
-			if (Number(seasonNumberField) !== Number(config.general.season)) {
+			if (seasonNumberField !== config.general.season) {
 				tempFieldsWithChanges.push("seasonNumberField");
 			}
 			if (Number(matchdayNumberField) !== Number(config.general.matchday)) {
@@ -652,7 +652,7 @@ const ControlPanel = () => {
 				return;
 			}
 
-			if (seasonNumberField === "" || seasonNumberField < 1) {
+			if (seasonNumberField === "") {
 				openSnackbar("Season number must be set.");
 				return;
 			}
@@ -976,16 +976,12 @@ const ControlPanel = () => {
 													<TextField
 														fullWidth
 														required
-														inputProps={{
-															min: 1,
-															step: 1,
-														}}
 														id="seasonNumber"
-														type="number"
+														type="text"
 														size="small"
 														label="Season"
 														value={seasonNumberField}
-														onKeyDown={(e) => ["e", "E", "+", "-", "."].includes(e.key) && e.preventDefault()}
+														// onKeyDown={(e) => ["e", "E", "+", "-", "."].includes(e.key) && e.preventDefault()}
 														onChange={(e) => changeSeasonNumberField(e.target.value)}
 														className={`${fieldHasChanges("seasonNumberField") ? "changedField" : ""} ${seasonNumberField === "" || seasonNumberField < 1 ? "errorField" : ""}`}
 													/>
@@ -999,17 +995,13 @@ const ControlPanel = () => {
 														<TextField
 															fullWidth
 															required
-															inputProps={{
-																min: 1,
-																step: 1,
-															}}
 															id="matchdayNumberField"
-															type="number"
+															type="text"
 															size="small"
 															label="Matchday"
 															value={matchdayNumberField}
 															disabled={streamTypeField === "SGL-playoffs"}
-															onKeyDown={(e) => ["e", "E", "+", "-", "."].includes(e.key) && e.preventDefault()}
+															// onKeyDown={(e) => ["e", "E", "+", "-", "."].includes(e.key) && e.preventDefault()}
 															onChange={(e) => changeMatchdayNumberField(e.target.value)}
 															className={`${fieldHasChanges("matchdayNumberField") ? "changedField" : ""} ${streamTypeField === "SGL-regular" && (matchdayNumberField === "" || matchdayNumberField < 1) ? "errorField" : ""}`}
 														/>
