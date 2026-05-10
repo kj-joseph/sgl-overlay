@@ -677,11 +677,6 @@ const Overlay = () => {
 					if (viewStateRef.current !== "postgame") {
 						setGameData(data.game);
 					}
-					if (viewStateRef.current !== "postgame" && data.game.time_milliseconds % 1 !== 0) {
-						applyViewState("live");
-					} else if (viewStateRef.current === "") {
-						applyViewState("matchup");
-					}
 					if (data.game.arena === "ShatterShot_P") {
 						setGameMode("dropshot");
 					} else {
